@@ -1,0 +1,1 @@
+Queue Management System using React, Nodejs , Typescript and MySQL
