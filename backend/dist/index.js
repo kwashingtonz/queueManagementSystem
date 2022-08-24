@@ -10,5 +10,6 @@ app.get("/", (req, res) => {
     res.json({ message: message });
 });
 app.listen("3001", () => {
-    console.log("Srver Running...");
+    console.log("Server Running...");
 });
+//# sourceMappingURL=index.js.map
