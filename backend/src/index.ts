@@ -13,6 +13,10 @@ import counterUserRouter from "./routes/counterUserRoutes"
 import normalUserRouter from "./routes/normalUserRoutes"
 import { TokenValidation } from "./middleware/verifyJWT";
 import { Server } from 'socket.io'
+/* import {getcurruntnext2} from './controllers/issuecontroller'
+import {getcurruntnext3} from './controllers/issuecontroller'
+import {getcurruntnext4} from './controllers/issuecontroller' */
+
 
 dotenv.config()
 
