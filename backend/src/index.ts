@@ -34,6 +34,7 @@ export const AppDataSource = new DataSource({
  app.use(Cors())
 
 
+ //routes
  app.get("/", (req,res): void =>{
     const message: string = "Hello World"
 
