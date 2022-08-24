@@ -8,7 +8,11 @@ import { User } from "./models/User"
 import { Notification } from "./models/Notification" 
 import { Issue } from "./models/Issue"
 import { Counter } from "./models/Counter"
-import { Server, Socket } from 'socket.io'
+import loginRouter from "./routes/loginRoute"
+import counterUserRouter from "./routes/counterUserRoutes"
+import normalUserRouter from "./routes/normalUserRoutes"
+import { TokenValidation } from "./middleware/verifyJWT";
+import { Server } from 'socket.io'
 
 dotenv.config()
 
@@ -37,21 +41,84 @@ export const AppDataSource = new DataSource({
 
 
  //routes
- app.get("/", (req,res): void =>{
-    const message: string = "Hello World"
 
-    res.json({ message: message })
-})
+//login router
+app.use('/login', loginRouter)
+//counteruser routes
+app.use('/cuser',TokenValidation,counterUserRouter)
+//normaluser routes
+app.use('/nuser',TokenValidation,normalUserRouter)
 
 
  //initialize
 AppDataSource.initialize()
 .then(() => {
-  console.log('db connected')
-  
+  console.log('db connected and synched')
 })
-
 .catch((error) => console.log(error))
+
+//socket.io
+export const io = new Server(server,{cors: {origin:"http://localhost:3000"}})
+
+let onlineUsers:any = []
+
+const addNewUser = (username:any, socketId:any) => {
+  !onlineUsers.some((user:any) => user.username === username) &&
+    onlineUsers.push({ username, socketId })
+}
+
+const getUser = (username:any) => {
+ return onlineUsers.find((user:any) => user.username === username);
+}
+
+    io.on("connection",(socket)=>{
+     
+        //add new user
+        socket.on("newUser", (username) => {
+            addNewUser(username, socket.id)
+        })
+        console.log('online users',onlineUsers)
+
+
+        //remove user
+        const removeUser = (socketId:any) => {
+        onlineUsers = onlineUsers.filter((user:any) => user.socketId !== socketId)
+        }
+
+        //send notifications
+        socket.on("sendNotification", ({ receiverName, type,id }) => {
+            const receiver = getUser(receiverName);
+            console.log(getUser(receiverName))
+      
+            io.to(receiver.socketId).emit("getNotification", {
+                id,
+                type
+            })
+        })
+
+
+        //setInterval
+        /* setInterval(function(){
+      
+            getcurruntnext2().then((Counter) => {
+                io.emit('getqueuenum1', Counter)            
+            })
+  
+            getcurruntnext3().then((Counter) => {
+                io.emit('getqueuenum2', Counter)            
+            })
+  
+            getcurruntnext4().then((Counter) => {
+                io.emit('getqueuenum3', Counter)           
+            })
+            
+        }, 1000)
+        
+        socket.on('disconnect',()=>{
+            removeUser(socket.id);
+        }) */
+
+    })
 
 
 //running server
