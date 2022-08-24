@@ -16,6 +16,8 @@ const app = express()
 
 const server = http.createServer(app)
 
+
+//typeorm db config
 export const AppDataSource = new DataSource({
     type: "mysql",
     host: "localhost",
@@ -52,6 +54,7 @@ AppDataSource.initialize()
 .catch((error) => console.log(error))
 
 
+//running server
 server.listen(8000, ()=>{
     console.log('app runing on server 8000')
 })
