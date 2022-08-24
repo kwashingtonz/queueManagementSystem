@@ -1,14 +1,14 @@
+import http from 'http'
 import express from "express"
 import Cors from 'cors'
 import dotenv from 'dotenv'
-import http from 'http'
-import { Server, Socket } from 'socket.io'
 import { DataSource } from "typeorm"
 import { Role } from "./models/Role"
 import { User } from "./models/User"
 import { Notification } from "./models/Notification" 
 import { Issue } from "./models/Issue"
 import { Counter } from "./models/Counter"
+import { Server, Socket } from 'socket.io'
 
 dotenv.config()
 
