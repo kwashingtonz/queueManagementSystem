@@ -5,7 +5,7 @@ interface IPayload {
     id: string;
 }
 
-export const TokenValidation =(req:Request,res:Response,next:NextFunction) =>{
+export const ValidateToken =(req:Request,res:Response,next:NextFunction) =>{
 
     const authHeader =req.headers['authorization']
     const token =authHeader && authHeader.split(' ')[1]

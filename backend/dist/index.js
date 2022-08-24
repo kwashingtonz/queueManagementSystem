@@ -36,8 +36,8 @@ exports.AppDataSource = new typeorm_1.DataSource({
 app.use(express_1.default.json());
 app.use((0, cors_1.default)());
 app.use('/login', loginRoute_1.default);
-app.use('/cuser', verifyJWT_1.TokenValidation, counterUserRoutes_1.default);
-app.use('/nuser', verifyJWT_1.TokenValidation, normalUserRoutes_1.default);
+app.use('/cuser', verifyJWT_1.ValidateToken, counterUserRoutes_1.default);
+app.use('/nuser', verifyJWT_1.ValidateToken, normalUserRoutes_1.default);
 exports.AppDataSource.initialize()
     .then(() => {
     console.log('db connected and synched');

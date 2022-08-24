@@ -11,7 +11,7 @@ import { Counter } from "./models/Counter"
 import loginRouter from "./routes/loginRoute"
 import counterUserRouter from "./routes/counterUserRoutes"
 import normalUserRouter from "./routes/normalUserRoutes"
-import { TokenValidation } from "./middleware/verifyJWT";
+import { ValidateToken } from "./middleware/verifyJWT";
 import { Server } from 'socket.io'
 /* import {getcurruntnext2} from './controllers/issuecontroller'
 import {getcurruntnext3} from './controllers/issuecontroller'
@@ -49,9 +49,9 @@ export const AppDataSource = new DataSource({
 //login router
 app.use('/login', loginRouter)
 //counteruser routes
-app.use('/cuser',TokenValidation,counterUserRouter)
+app.use('/cuser',ValidateToken,counterUserRouter)
 //normaluser routes
-app.use('/nuser',TokenValidation,normalUserRouter)
+app.use('/nuser',ValidateToken,normalUserRouter)
 
 
  //initialize
