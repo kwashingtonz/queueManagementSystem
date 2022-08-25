@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.io = exports.AppDataSource = void 0;
+require("reflect-metadata");
 const http_1 = __importDefault(require("http"));
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
@@ -33,9 +34,10 @@ exports.AppDataSource = new typeorm_1.DataSource({
     synchronize: true,
     logging: false,
 });
-app.use(express_1.default.json());
 app.use((0, cors_1.default)());
-app.use('/login', loginRoute_1.default);
+app.use(express_1.default.json());
+app.use(express_1.default.urlencoded({ extended: true }));
+app.use('/', loginRoute_1.default);
 app.use('/cuser', verifyJWT_1.ValidateToken, counterUserRoutes_1.default);
 app.use('/nuser', verifyJWT_1.ValidateToken, normalUserRoutes_1.default);
 exports.AppDataSource.initialize()

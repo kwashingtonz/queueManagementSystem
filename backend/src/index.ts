@@ -1,3 +1,4 @@
+import "reflect-metadata"
 import http from 'http'
 import express from "express"
 import Cors from 'cors'
@@ -40,14 +41,14 @@ export const AppDataSource = new DataSource({
 
 
  //middleware
- app.use(express.json())
  app.use(Cors())
-
+ app.use(express.json())
+ app.use(express.urlencoded({extended: true}))
 
  //routes
 
 //login router
-app.use('/login', loginRouter)
+app.use('/', loginRouter)
 //counteruser routes
 app.use('/cuser',ValidateToken,counterUserRouter)
 //normaluser routes
