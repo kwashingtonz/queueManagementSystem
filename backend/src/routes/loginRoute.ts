@@ -6,7 +6,7 @@ const router = Router();
 
 
 router.get('/',(req,res) =>{
-        res.json({success: "Login Page loaded", status: 200})
+        res.status(200).json({success: "Login Page loaded"})
     })
  
 router.post('/',loginUser)
