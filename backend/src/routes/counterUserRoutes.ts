@@ -2,6 +2,7 @@ import {Router}  from "express";
 
 const router = Router();
 
+
 // router.get('/issue/:id',getsingleissue);
 
 // router.post('/getcounterissues',getcounterissues);
@@ -15,7 +16,6 @@ const router = Router();
 // router.put('/getnextissue/:id',getnextissue);
 
 // router.put('/counterclose',counterclose);
-
 
 
 export default router;        
