@@ -18,7 +18,7 @@ const counterclose = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             .createQueryBuilder("counter")
             .update(Counter_1.Counter)
             .set({ isOnline: false })
-            .where("counter.user = :user", { cuser: req.body.userId })
+            .where("counter.user = :user", { user: req.body.userId })
             .execute();
         res.json({ message: "Counter closed" });
     }

@@ -14,7 +14,7 @@ export const counterclose =async (req:Request,res:Response) =>{
         .createQueryBuilder("counter")
         .update(Counter)
         .set({ isOnline: false })
-        .where("counter.user = :user", { cuser: req.body.userId })
+        .where("counter.user = :user", { user: req.body.userId })
         .execute();
  
                
@@ -26,5 +26,5 @@ export const counterclose =async (req:Request,res:Response) =>{
             res.status(500).json({message:error.message})
 
         }
-        
+
  }
