@@ -46,10 +46,9 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 .getRawOne();
             console.log(issue);
             if (issue) {
-                const counter = issue.issue_counterId;
-                const queue_num = issue.issue_counterid;
+                const queue_num = issue.issue_counterId;
                 console.log(queue_num);
-                return res.json({ 'accessToken': token, 'counter': issue.issue_counterId, 'queue_num': issue.issue_queue_num });
+                return res.json({ 'accessToken': token, 'counter': issue.issue_counterId, 'queue_num': issue.issue_queueNo });
             }
             return res.json({ 'accessToken': token });
         }

@@ -20,6 +20,7 @@ const counterUserRoutes_1 = __importDefault(require("./routes/counterUserRoutes"
 const normalUserRoutes_1 = __importDefault(require("./routes/normalUserRoutes"));
 const verifyJWT_1 = require("./middleware/verifyJWT");
 const socket_io_1 = require("socket.io");
+const counterUserController_1 = require("./controllers/counterUserController");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const server = http_1.default.createServer(app);
@@ -69,6 +70,20 @@ exports.io.on("connection", (socket) => {
             id,
             type
         });
+    });
+    setInterval(function () {
+        (0, counterUserController_1.getcurrentnext2)().then((Counter) => {
+            exports.io.emit('getqueuenum1', Counter);
+        });
+        (0, counterUserController_1.getcurrentnext3)().then((Counter) => {
+            exports.io.emit('getqueuenum2', Counter);
+        });
+        (0, counterUserController_1.getcurrentnext4)().then((Counter) => {
+            exports.io.emit('getqueuenum3', Counter);
+        });
+    }, 1000);
+    socket.on('disconnect', () => {
+        removeUser(socket.id);
     });
 });
 server.listen(8000, () => {

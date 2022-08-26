@@ -14,9 +14,8 @@ import counterUserRouter from "./routes/counterUserRoutes"
 import normalUserRouter from "./routes/normalUserRoutes"
 import { ValidateToken } from "./middleware/verifyJWT";
 import { Server } from 'socket.io'
-/* import {getcurruntnext2} from './controllers/issuecontroller'
-import {getcurruntnext3} from './controllers/issuecontroller'
-import {getcurruntnext4} from './controllers/issuecontroller' */
+import {getcurrentnext2,getcurrentnext3,getcurrentnext4} from './controllers/counterUserController'
+
 
 
 dotenv.config()
@@ -103,25 +102,25 @@ const getUser = (username:any) => {
 
 
         //setInterval
-        /* setInterval(function(){
+        setInterval(function(){
       
-            getcurruntnext2().then((Counter) => {
+            getcurrentnext2().then((Counter) => {
                 io.emit('getqueuenum1', Counter)            
             })
   
-            getcurruntnext3().then((Counter) => {
+            getcurrentnext3().then((Counter) => {
                 io.emit('getqueuenum2', Counter)            
             })
   
-            getcurruntnext4().then((Counter) => {
+            getcurrentnext4().then((Counter) => {
                 io.emit('getqueuenum3', Counter)           
             })
             
-        }, 1000)
+        }, 1000) 
         
         socket.on('disconnect',()=>{
             removeUser(socket.id);
-        }) */
+        })
 
     })
 

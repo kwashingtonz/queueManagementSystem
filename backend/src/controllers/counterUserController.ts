@@ -1,8 +1,7 @@
 import { Request,Response } from "express";
 import { AppDataSource } from "../index"
-import { Issue } from "../models/Issue";
 import { Counter } from "../models/Counter";
-import { User } from "../models/User";
+
 
 export const counterclose =async (req:Request,res:Response) =>{
     
@@ -27,4 +26,67 @@ export const counterclose =async (req:Request,res:Response) =>{
 
         }
 
- }
+}
+
+
+
+export const getcurrentnext2 =async (): Promise<Counter[]> =>{
+    
+    try {
+        const issueRepository = await AppDataSource.getRepository(Counter) 
+    
+        .createQueryBuilder("counter")
+        .where("counter.id = :id", { id: 2 })
+        .getRawOne();
+        
+        return(issueRepository)
+
+    } catch (error) {
+
+        return[]
+
+    }
+  
+}
+
+
+
+export const getcurrentnext3 =async (): Promise<Counter[]> =>{
+    
+    try {
+        const issueRepository = await AppDataSource.getRepository(Counter) 
+    
+        .createQueryBuilder("counter")
+        .where("counter.id = :id", { id: 3 })
+        .getRawOne();
+        
+        return(issueRepository)
+
+    } catch (error) {
+
+      return[]
+
+    }
+
+}
+
+
+
+export const getcurrentnext4 =async (): Promise<Counter[]> =>{
+    
+    try {
+        const issueRepository = await AppDataSource.getRepository(Counter) 
+    
+        .createQueryBuilder("counter")
+        .where("counter.id = :id", { id: 4 })
+        .getRawOne();
+        
+        return(issueRepository)
+
+    } catch (error) {
+
+      return[]
+
+    }
+    
+}

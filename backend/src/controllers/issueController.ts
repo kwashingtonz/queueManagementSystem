@@ -2,7 +2,6 @@ import { Request,Response } from "express";
 import { AppDataSource } from "../index"
 import { Issue } from "../models/Issue";
 import { Counter } from "../models/Counter";
-import { User } from "../models/User";
 
 
 export const createissue =async (req:Request,res:Response) =>{

@@ -48,11 +48,10 @@ export const loginUser =async (req:Request,res:Response) =>{
 
             console.log(issue)
             if(issue){
-                const counter=issue.issue_counterId
-                const queue_num=issue.issue_counterid
-                
+                const queue_num=issue.issue_counterId
                 console.log(queue_num)
-                return res.json({'accessToken':token,'counter':issue.issue_counterId,'queue_num':issue.issue_queue_num});
+                
+                return res.json({'accessToken':token,'counter':issue.issue_counterId,'queue_num':issue.issue_queueNo});
             }
 
             return res.json({'accessToken':token});
