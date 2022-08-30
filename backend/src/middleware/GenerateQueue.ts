@@ -12,88 +12,73 @@ export const GenarateQueueNum = async (req:Request,res:Response,next:NextFunctio
 
         const countissue:number[]=[];
    
-        for (let i = 0; i < 3; i++) {
+        for (let i = 1; i <=3 ; i++) {
             
-           let j=i+2
            const checkcounter = await AppDataSource.getRepository(Counter) 
-         
            .createQueryBuilder("counter")
-           .where("counter.id = :id", { id: j })
+           .where("counterNum = :num", { num: i })
            .getRawOne();
     
-            let conline:boolean=checkcounter.counter_isOnline==1
-              console.log(conline)
+            let conline : boolean = checkcounter.isOnline
+            console.log(conline)
 
-                if(conline){
+            if(conline){
             
                 const checkissues = await AppDataSource.getRepository(Issue) 
                 .createQueryBuilder("issue")
                 .select("COUNT(issue.id)","count")
-                .where("issue.counter = :counter", { counter: j })
+                .where("issue.counter = :counter", { counter: i })
                 .andWhere("issue.isDone = :isDone", { isDone: false })
                 .getRawOne();
-                countissue[i]=checkissues.count 
-                }
-                else{
-                    countissue[i]=Infinity
-                }
-         }
 
-             if((countissue[0]==Infinity && countissue[1]==Infinity && countissue[2]==Infinity))
-             {
+                    countissue[i-1]=checkissues.count 
+            }else{
+                    countissue[i-1]=Infinity
+            }
+        }
+
+        if((countissue[0]==Infinity && countissue[1]==Infinity && countissue[2]==Infinity)){
               return  res.status(500).json({message:'No counter available'})
-          
-             }
+        }
     
         let freequeue:number=0;
-            console.log(countissue[0])
-            console.log(countissue[1])
-            console.log(countissue[2])
-            let a:number=countissue[0]
-            let b=countissue[1]
-            console.log(a<b)
-        
-             if(countissue[0]<countissue[1] && countissue[0]<countissue[2])
-            {
-    
-                   freequeue=2
-            }
-            
-           else if(countissue[1]<countissue[2] )
-            {
-    
-                   freequeue=3
-            }
-    
-           else
-            {
-    
-                   freequeue=4
-            } 
-           
 
-          
+        console.log(countissue[0])
+        console.log(countissue[1])
+        console.log(countissue[2])
+
+        let a: number = countissue[0]
+        let b: number = countissue[1]
+        let c: number = countissue[2] 
+            
+        console.log(a<b)
         
+        if(a<b && a<c)
+        {    
+            freequeue=1
+        }else if(b<c){
+            freequeue=2
+        }else{
+            freequeue=3
+        } 
         
-         //console.log(freequeue)
+        //console.log(freequeue)
     
         const issueRepository = await AppDataSource.getRepository(Issue) 
-         
         .createQueryBuilder("issue")
-        .select("MAX(issue.queue_num)","max")
+        .select("MAX(issue.queueNo)","max")
         .where("issue.counter = :counter", { counter: freequeue })
         .getRawOne();
     
-         if(issueRepository.max==null)
-         {
+
+        if(issueRepository.max==null){
             issueRepository.max =1
-         }
-         else {
-             issueRepository.max+=1;
-         }
+        }else{
+            issueRepository.max+=1;
+        }
     
         //res.json(issueRepository.max)
-        req.body.queue_num=issueRepository.max
+        req.body.queueNo=issueRepository.max
         req.body.counter= freequeue
     
         return next();
@@ -101,6 +86,5 @@ export const GenarateQueueNum = async (req:Request,res:Response,next:NextFunctio
     } catch (error) {
         res.status(500).json({message:error.message})
     }
-
    
 }
