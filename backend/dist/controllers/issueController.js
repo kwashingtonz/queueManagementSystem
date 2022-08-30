@@ -15,15 +15,15 @@ const Issue_1 = require("../models/Issue");
 const Counter_1 = require("../models/Counter");
 const createissue = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        let { name, telephone, email, issue, counter } = req.body;
+        let { name, telephone, email, issue, counter, userId, queueNo } = req.body;
         const issues = new Issue_1.Issue();
         issues.name = name;
         issues.telephone = telephone;
         issues.email = email;
         issues.issue = issue;
-        issues.user = req.body.userId;
+        issues.user = userId;
         issues.counter = counter;
-        issues.queueNo = req.body.queueNum;
+        issues.queueNo = queueNo;
         const savedissue = yield issues.save();
         res.json(savedissue);
     }

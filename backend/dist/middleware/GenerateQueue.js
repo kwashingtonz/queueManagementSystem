@@ -16,29 +16,25 @@ const Counter_1 = require("../models/Counter");
 const GenarateQueueNum = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const countissue = [];
-        for (let i = 0; i < 3; i++) {
-            let j = i + 2;
+        for (let i = 1; i <= 3; i++) {
             const checkcounter = yield index_1.AppDataSource.getRepository(Counter_1.Counter)
                 .createQueryBuilder("counter")
-                .where("counter.id = :id", { id: j })
+                .where("id = :id", { id: i })
                 .getRawOne();
-            let conline = checkcounter.counter_isOnline == 1;
+            let conline = checkcounter.isOnline;
             console.log(conline);
             if (conline) {
                 const checkissues = yield index_1.AppDataSource.getRepository(Issue_1.Issue)
                     .createQueryBuilder("issue")
                     .select("COUNT(issue.id)", "count")
-                    .where("issue.counter = :counter", { counter: j })
+                    .where("issue.counter = :counter", { counter: i })
                     .andWhere("issue.isDone = :isDone", { isDone: false })
                     .getRawOne();
-                countissue[i] = checkissues.count;
+                countissue[i - 1] = checkissues.count;
             }
             else {
-                countissue[i] = Infinity;
+                countissue[i - 1] = Infinity;
             }
-        }
-        if ((countissue[0] == Infinity && countissue[1] == Infinity && countissue[2] == Infinity)) {
-            return res.status(500).json({ message: 'No counter available' });
         }
         let freequeue = 0;
         console.log(countissue[0]);
@@ -46,19 +42,23 @@ const GenarateQueueNum = (req, res, next) => __awaiter(void 0, void 0, void 0, f
         console.log(countissue[2]);
         let a = countissue[0];
         let b = countissue[1];
+        let c = countissue[2];
         console.log(a < b);
-        if (countissue[0] < countissue[1] && countissue[0] < countissue[2]) {
+        if ((a == Infinity && b == Infinity && c == Infinity)) {
+            return res.status(500).json({ message: 'No counter available' });
+        }
+        if (a < b && a < c) {
+            freequeue = 1;
+        }
+        else if (b < c) {
             freequeue = 2;
         }
-        else if (countissue[1] < countissue[2]) {
-            freequeue = 3;
-        }
         else {
-            freequeue = 4;
+            freequeue = 3;
         }
         const issueRepository = yield index_1.AppDataSource.getRepository(Issue_1.Issue)
             .createQueryBuilder("issue")
-            .select("MAX(issue.queue_num)", "max")
+            .select("MAX(issue.queueNo)", "max")
             .where("issue.counter = :counter", { counter: freequeue })
             .getRawOne();
         if (issueRepository.max == null) {
@@ -67,7 +67,7 @@ const GenarateQueueNum = (req, res, next) => __awaiter(void 0, void 0, void 0, f
         else {
             issueRepository.max += 1;
         }
-        req.body.queue_num = issueRepository.max;
+        req.body.queueNo = issueRepository.max;
         req.body.counter = freequeue;
         return next();
     }

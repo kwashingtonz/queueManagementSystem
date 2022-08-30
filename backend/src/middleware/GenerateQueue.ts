@@ -16,7 +16,7 @@ export const GenarateQueueNum = async (req:Request,res:Response,next:NextFunctio
             
            const checkcounter = await AppDataSource.getRepository(Counter) 
            .createQueryBuilder("counter")
-           .where("counterNum = :num", { num: i })
+           .where("id = :id", { id: i })
            .getRawOne();
     
             let conline : boolean = checkcounter.isOnline
