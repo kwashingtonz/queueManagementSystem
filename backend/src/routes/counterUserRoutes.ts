@@ -1,4 +1,4 @@
-import {Router}  from "express";
+import {Router}  from "express"
 import {getcounterissues, getsingleissue, issuecalled, issuedone, getnextissue, nextissuecalled} from "../controllers/issueController"
 import {counterclose} from "../controllers/counterUserController"
 
@@ -18,7 +18,7 @@ router.put('/nextissuecalled/:id',nextissuecalled)//
 
 router.put('/getnextissue/:id',getnextissue)//
 
-router.get('/counterclose',counterclose)
+router.get('/counterclose',counterclose)//
 
 
 export default router;        

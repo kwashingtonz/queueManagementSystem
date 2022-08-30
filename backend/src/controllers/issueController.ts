@@ -1,7 +1,7 @@
-import { Request,Response } from "express";
+import { Request,Response } from "express"
 import { AppDataSource } from "../index"
-import { Issue } from "../models/Issue";
-import { Counter } from "../models/Counter";
+import { Issue } from "../models/Issue"
+import { Counter } from "../models/Counter"
 
 
 export const createissue =async (req:Request,res:Response) =>{
@@ -10,14 +10,14 @@ export const createissue =async (req:Request,res:Response) =>{
  
         let{name,telephone,email,issue,counter,userId,queueNo} =req.body
     
-        const issues = new Issue();
+        const issues = new Issue()
         issues.name = name
         issues.telephone = telephone
         issues.email = email
         issues.issue = issue
         issues.user = userId
-        issues.counter = counter;
-        issues.queueNo = queueNo;  
+        issues.counter = counter
+        issues.queueNo = queueNo  
     
         const savedissue = await issues.save()
  
@@ -26,7 +26,7 @@ export const createissue =async (req:Request,res:Response) =>{
                     .update(User)
                     .set({ havingissue: true })
                     .where("id = :id", { id: req.body.userId })
-                    .execute(); */
+                    .execute() */
  
         res.json(savedissue)
  
@@ -52,7 +52,7 @@ export const createissue =async (req:Request,res:Response) =>{
         .createQueryBuilder("issue")
         .where("issue.user = :user", { nuser: req.body.userId })
         .andWhere("issue.isDone = :isDone", { isDone: false })
-        .getMany();
+        .getMany()
 
         res.json(issueRepository.length)
 
@@ -74,11 +74,11 @@ export const createissue =async (req:Request,res:Response) =>{
         const result = await Issue.delete({user: req.body.userId})
 
         if(result.affected ===0){
-            return res.status(404).json({ message: "user does not exists"});
+            return res.status(404).json({ message: "user does not exists"})
         } 
 
    
-       return  res.json({message:"successfully deleted"});
+       return  res.json({message:"successfully deleted"})
     
  
     } catch (error) {
@@ -96,7 +96,7 @@ export const createissue =async (req:Request,res:Response) =>{
 export const getcounterissues =async (req:Request,res:Response) =>{
     
     const page: number = parseInt(req.query.page as any) || 1
-    const perPage = 5;
+    const perPage = 5
     const skip = (page-1) * perPage
 
     try{
@@ -105,7 +105,7 @@ export const getcounterissues =async (req:Request,res:Response) =>{
      
         .createQueryBuilder("counter")
         .where("counter.user = :user", { user: req.body.userId })
-        .getRawOne();
+        .getRawOne()
           
         const issueRepository = await AppDataSource.getRepository(Issue)
         .createQueryBuilder("issue")
@@ -144,7 +144,7 @@ export const getsingleissue =async (req:Request,res:Response) =>{
      
         .createQueryBuilder("issue")
         .where("issue.id = :id", { id: parseInt(id) })
-        .getOne();
+        .getOne()
  
         res.json(issueRepository)
  
@@ -166,16 +166,16 @@ export const issuecalled =async (req:Request,res:Response) =>{
         //req.body.isCalled="true";
         const user = await Issue.findOneBy({id: parseInt(req.params.id)})
 
-        if(!user)  return res.status(404).json({ message: "issue does not exists"});
+        if(!user)  return res.status(404).json({ message: "issue does not exists"})
 
         const issueRepository = await AppDataSource.getRepository(Issue)
         .createQueryBuilder()
         .update(Issue)
         .set({ isCalled: true })
         .where("id = :id", { id: id })
-        .execute();
+        .execute()
 
-        return res.json({message:"successfully updated"});
+        return res.json({message:"successfully updated"})
 
      } catch (error) {
  
@@ -191,11 +191,11 @@ export const issuedone =async (req:Request,res:Response) =>{
     
     try {
     
-        const {id}= req.params;
+        const {id}= req.params
         //req.body.isCalled="true";
         const user = await Issue.findOneBy({id: parseInt(req.params.id)})
 
-        if(!user)  return res.status(404).json({ message: "issue does not exists"});
+        if(!user)  return res.status(404).json({ message: "issue does not exists"})
 
         
         const issueRepository = await AppDataSource.getRepository(Issue)
@@ -203,9 +203,9 @@ export const issuedone =async (req:Request,res:Response) =>{
         .update(Issue)
         .set({ isDone: true })
         .where("id = :id", { id: id })
-        .execute();
+        .execute()
 
-        return res.json({message:"successfully updated"});
+        return res.json({message:"successfully updated"})
 
     } catch (error) {
  
@@ -222,7 +222,7 @@ export const getnextissue =async (req:Request,res:Response) =>{
     try {
  
         const {id}= req.params;
-        //req.body.isCalled="true";
+        //req.body.isCalled="true"
  
          
         const issueRepository = await AppDataSource.getRepository(Issue)
@@ -231,7 +231,7 @@ export const getnextissue =async (req:Request,res:Response) =>{
         .update(Issue)
         .set({ isDone: true })
         .where("id = :id", { id: id })
-        .execute();
+        .execute()
  
         console.log(id)
         console.log(req.body.userId)
@@ -240,7 +240,7 @@ export const getnextissue =async (req:Request,res:Response) =>{
                 
         .createQueryBuilder("counter")
         .where("counter.user = :user", { user: req.body.userId })       
-        .getRawOne();
+        .getRawOne()
                 
         console.log(counterRepository.counter_next_num)
         //res.json(counterRepository.counter_id)
@@ -252,7 +252,7 @@ export const getnextissue =async (req:Request,res:Response) =>{
         .set({ isCalled: true })
         .where("queueNo = :queueNo", { queueNo: counterRepository.counter_nextNum})
         .andWhere("counter = :counter", { counter:counterRepository.counter_id })
-        .execute();
+        .execute()
         
         console.log(doiscalled)
         
@@ -261,7 +261,7 @@ export const getnextissue =async (req:Request,res:Response) =>{
         .createQueryBuilder("issue")
         .where("issue.queueNo = :queueNo", { queueNo:counterRepository.counter_nextNum })
         .andWhere("issue.counter = :counter", { counter:counterRepository.counter_id })
-        .getOne();
+        .getOne()
                 
         console.log(nextissue)
  
@@ -273,7 +273,7 @@ export const getnextissue =async (req:Request,res:Response) =>{
         .where("issue.counter = :counter", { counter:counterRepository.counter_id })
         .andWhere("issue.isCalled = :isCalled", { isCalled: false })
         .andWhere("issue.isDone = :isDone", { isDone: false }) 
-        .getRawOne();
+        .getRawOne()
                 
         let nextnum1=nextnum.min
         const current =counterRepository.counter_next_num
@@ -291,7 +291,7 @@ export const getnextissue =async (req:Request,res:Response) =>{
         .update(Counter)
         .set({ currentNum:current, nextNum:nextnum1})
         .where("counter.id = :id", { id: counterRepository.counter_id })
-        .execute();
+        .execute()
                 
         console.log(counterassign)
              
@@ -314,7 +314,7 @@ export const nextissuecalled =async (req:Request,res:Response) =>{
         const counterRepository = await AppDataSource.getRepository(Counter) 
         .createQueryBuilder("counter")
         .where("counter.cuser = :cuser", { cuser: req.body.userId })
-        .getRawOne();
+        .getRawOne()
         console.log(counterRepository.counter_id)
         //res.json(counterRepository.counter_id)
         
@@ -324,7 +324,7 @@ export const nextissuecalled =async (req:Request,res:Response) =>{
         .where("issue.counter = :counter", { counter:counterRepository.counter_id })
         .andWhere("issue.isCalled = :isCalled", { isCalled: false })
         .andWhere("issue.isDone = :isDone", { isDone: false }) 
-        .getRawOne();
+        .getRawOne()
         let nextnum1=nextnum.min
         const current =parseInt(req.params.id)
 
@@ -337,7 +337,7 @@ export const nextissuecalled =async (req:Request,res:Response) =>{
         .update(Counter)
         .set({ currentNum:current, nextNum:nextnum1})
         .where("counter.id = :id", { id: counterRepository.counter_id })
-        .execute();
+        .execute()
 
         res.json(counterassign)
 

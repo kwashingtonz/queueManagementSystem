@@ -1,6 +1,6 @@
-import { Request,Response } from "express";
+import { Request,Response } from "express"
 import { AppDataSource } from "../index"
-import { Issue } from "../models/Issue";
+import { Issue } from "../models/Issue"
 
 
 export const havingissue =async (req:Request,res:Response) =>{
@@ -13,12 +13,12 @@ export const havingissue =async (req:Request,res:Response) =>{
       
      .createQueryBuilder("User")
      .where("userId = :id", { id: req.body.userId })
-     .getRawOne();
+     .getRawOne()
      
     if(havingissue){
-        haveIssue = true;
+        haveIssue = true
     }else{
-        haveIssue = false;
+        haveIssue = false
     }
 
      res.json({'havingIssue': haveIssue})  

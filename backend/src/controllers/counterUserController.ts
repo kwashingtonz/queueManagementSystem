@@ -1,6 +1,6 @@
-import { Request,Response } from "express";
+import { Request,Response } from "express"
 import { AppDataSource } from "../index"
-import { Counter } from "../models/Counter";
+import { Counter } from "../models/Counter"
 
 
 export const counterclose =async (req:Request,res:Response) =>{
@@ -14,10 +14,10 @@ export const counterclose =async (req:Request,res:Response) =>{
         .update(Counter)
         .set({ isOnline: false })
         .where("counter.userId = :user", { user: req.body.userId })
-        .execute();
+        .execute()
  
                
-        res.json({message:"Counter closed"});
+        res.json({message:"Counter closed"})
      
     
         } catch (error) {
@@ -79,7 +79,7 @@ export const getcurrentnext4 =async (): Promise<Counter[]> =>{
     
         .createQueryBuilder("counter")
         .where("counter.id = :id", { id: 4 })
-        .getRawOne();
+        .getRawOne()
         
         return(issueRepository)
 

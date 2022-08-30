@@ -1,8 +1,8 @@
 
-import { Issue } from '../models/Issue';
+import { Issue } from '../models/Issue'
 import {Request,Response,NextFunction} from 'express'
 import { AppDataSource } from "../index"
-import { Counter } from '../models/Counter';
+import { Counter } from '../models/Counter'
 
 
 
@@ -17,7 +17,7 @@ export const GenarateQueueNum = async (req:Request,res:Response,next:NextFunctio
            const checkcounter = await AppDataSource.getRepository(Counter) 
            .createQueryBuilder("counter")
            .where("id = :id", { id: i })
-           .getRawOne();
+           .getRawOne()
     
             let conline : boolean = checkcounter.isOnline
             console.log(conline)
@@ -29,7 +29,7 @@ export const GenarateQueueNum = async (req:Request,res:Response,next:NextFunctio
                 .select("COUNT(issue.id)","count")
                 .where("issue.counter = :counter", { counter: i })
                 .andWhere("issue.isDone = :isDone", { isDone: false })
-                .getRawOne();
+                .getRawOne()
 
                     countissue[i-1]=checkissues.count 
             }else{
@@ -68,7 +68,7 @@ export const GenarateQueueNum = async (req:Request,res:Response,next:NextFunctio
         .createQueryBuilder("issue")
         .select("MAX(issue.queueNo)","max")
         .where("issue.counter = :counter", { counter: freequeue })
-        .getRawOne();
+        .getRawOne()
     
 
         if(issueRepository.max==null){
@@ -81,7 +81,7 @@ export const GenarateQueueNum = async (req:Request,res:Response,next:NextFunctio
         req.body.queueNo=issueRepository.max
         req.body.counter= freequeue
     
-        return next();
+        return next()
         
     } catch (error) {
         res.status(500).json({message:error.message})

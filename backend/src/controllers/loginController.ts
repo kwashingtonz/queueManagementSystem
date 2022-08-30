@@ -1,8 +1,8 @@
-import { Request,response,Response } from "express";
-import { User } from "../models/User";
-import jwt from "jsonwebtoken";
-import { Counter } from "../models/Counter";
-import { Issue } from "../models/Issue";
+import { Request,response,Response } from "express"
+import { User } from "../models/User"
+import jwt from "jsonwebtoken"
+import { Counter } from "../models/Counter"
+import { Issue } from "../models/Issue"
 import { AppDataSource } from "../index"
 
 
@@ -12,11 +12,11 @@ export const loginUser =async (req:Request,res:Response) =>{
     try {
        const{username,password} = await req.body
 
-       const user = await User.findOne({where:{username:username},relations:['role']});
+       const user = await User.findOne({where:{username:username},relations:['role']})
        if(!user) return res.status(400).json('username or password is wrong')
  
        const correctPassword: boolean =await user.validatePassword(password)
-       if(!correctPassword) return res.status(400).json('invalid password');
+       if(!correctPassword) return res.status(400).json('invalid password')
     
        const role = user.role.id
   
@@ -26,7 +26,7 @@ export const loginUser =async (req:Request,res:Response) =>{
             .createQueryBuilder("counter")
             .where("counter.user = :user", { user: user.id })
             .andWhere("counter.isOnline = :online", { online: 0 })
-            .getOne();
+            .getOne()
             
 
             if(!counterinfo){
@@ -34,7 +34,7 @@ export const loginUser =async (req:Request,res:Response) =>{
                 const newcounter = await AppDataSource.getRepository(Counter) 
                 .createQueryBuilder("counter")
                 .where("counter.isOnline = :online", { online: 0 })
-                .getOne();
+                .getOne()
 
                 if(!newcounter) return res.json({'message': 'no counters available'})
 
@@ -50,9 +50,9 @@ export const loginUser =async (req:Request,res:Response) =>{
  
                 newcounter.isOnline=true
 
-                const token= jwt.sign({id :user.id }, process.env.TOKEN_SECRET|| 'tokentest');
+                const token= jwt.sign({id :user.id }, process.env.TOKEN_SECRET|| 'tokentest')
 
-                return res.json({'accessToken':token,'counterinfo':newcounter});
+                return res.json({'accessToken':token,'counterinfo':newcounter})
 
             }else{
 
@@ -68,16 +68,18 @@ export const loginUser =async (req:Request,res:Response) =>{
 
                 counterinfo.isOnline=true
  
-                const token= jwt.sign({id :user.id }, process.env.TOKEN_SECRET|| 'tokentest');
+                const token= jwt.sign({id :user.id }, process.env.TOKEN_SECRET|| 'tokentest')
 
-                return res.json({'accessToken':token,'counterinfo':counterinfo});
+                req.body.counterId = counterinfo.id
+
+                return res.json({'accessToken':token,'counterinfo':counterinfo})
             
             }
         
         }else{
             
             //token
-            const token= jwt.sign({id :user.id }, process.env.TOKEN_SECRECT|| 'tokentest');
+            const token= jwt.sign({id :user.id }, process.env.TOKEN_SECRECT|| 'tokentest')
        
             //issue info
             const issue = await AppDataSource.getRepository(Issue) 
@@ -85,17 +87,17 @@ export const loginUser =async (req:Request,res:Response) =>{
             .createQueryBuilder("issue")
             .where("issue.user = :user", { user: user.id })
             .andWhere("issue.isDone = :isDone", { isDone: false })
-            .getRawOne();
+            .getRawOne()
 
             console.log(issue)
             if(issue){
                 const queue_num=issue.issue_counterId
                 console.log(queue_num)
                 
-                return res.json({'accessToken':token,'counter':issue.issue_counterId,'queue_num':issue.issue_queueNo});
+                return res.json({'accessToken':token,'counter':issue.issue_counterId,'queue_num':issue.issue_queueNo})
             }
 
-            return res.json({'accessToken':token});
+            return res.json({'accessToken':token})
    
         }    
  

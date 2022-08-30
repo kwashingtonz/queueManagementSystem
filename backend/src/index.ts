@@ -12,7 +12,7 @@ import { Counter } from "./models/Counter"
 import loginRouter from "./routes/loginRoute"
 import counterUserRouter from "./routes/counterUserRoutes"
 import normalUserRouter from "./routes/normalUserRoutes"
-import { ValidateToken } from "./middleware/verifyJWT";
+import { ValidateToken } from "./middleware/verifyJWT"
 import { Server } from 'socket.io'
 import {getcurrentnext2,getcurrentnext3,getcurrentnext4} from './controllers/counterUserController'
 
@@ -72,7 +72,7 @@ const addNewUser = (username:any, socketId:any) => {
 }
 
 const getUser = (username:any) => {
- return onlineUsers.find((user:any) => user.username === username);
+ return onlineUsers.find((user:any) => user.username === username)
 }
 
     io.on("connection",(socket)=>{
@@ -91,7 +91,7 @@ const getUser = (username:any) => {
 
         //send notifications
         socket.on("sendNotification", ({ receiverName, type,id }) => {
-            const receiver = getUser(receiverName);
+            const receiver = getUser(receiverName)
             console.log(getUser(receiverName))
       
             io.to(receiver.socketId).emit("getNotification", {

@@ -2,7 +2,7 @@ import {Request,Response,NextFunction} from 'express'
 import jwt from 'jsonwebtoken'
 
 interface IPayload {
-    id: string;
+    id: string
 }
 
 export const ValidateToken =(req:Request,res:Response,next:NextFunction) =>{
@@ -11,9 +11,9 @@ export const ValidateToken =(req:Request,res:Response,next:NextFunction) =>{
     const token =authHeader && authHeader.split(' ')[1]
     if(!token) return res.status(401).json('Access denied')
 
-    const payload = jwt.verify(token,process.env.TOKEN_SECRET || 'tokentest') as IPayload;
+    const payload = jwt.verify(token,process.env.TOKEN_SECRET || 'tokentest') as IPayload
    
-    req.body.userId = payload.id;
+    req.body.userId = payload.id
 
-   return next();
+   return next()
 }
