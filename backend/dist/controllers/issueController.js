@@ -65,7 +65,7 @@ const getcounterissues = (req, res) => __awaiter(void 0, void 0, void 0, functio
     try {
         const counterRepository = yield index_1.AppDataSource.getRepository(Counter_1.Counter)
             .createQueryBuilder("counter")
-            .where("counter.user = :user", { cuser: req.body.userId })
+            .where("counter.user = :user", { user: req.body.userId })
             .getRawOne();
         console.log(counterRepository.counter_id);
         const issueRepository = yield index_1.AppDataSource.getRepository(Issue_1.Issue)

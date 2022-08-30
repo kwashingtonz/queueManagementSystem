@@ -6,37 +6,37 @@ import { Notification } from "./Notification"
 @Entity()
 export class Issue extends BaseEntity{
     @PrimaryGeneratedColumn()
-    id!: number
+    id : number
 
     @Column({
         length: 100,
     })
-    name!: string
+    name : string
 
     @Column()
-    telephone!: number
+    telephone : number
 
     @Column()
-    email!: string
+    email : string
 
     @Column("text")
-    issue!: string
+    issue : string
 
     @Column()
-    queueNo!: number
+    queueNo : number
 
     @Column({default:false})
-    isCalled!: Boolean
+    isCalled : Boolean
 
     @Column({default:false})
-    isDone!: Boolean
+    isDone : Boolean
 
     @ManyToOne(() => User, (user) => user.issues)
-    user!: User
+    user : User
 
     @ManyToOne(() => Counter, (counter) => counter.issues)
-    counter!: Counter
+    counter : Counter
 
     @OneToMany(() => Notification, (notification) => notification.issue) 
-    notifications!: Notification[]
+    notifications : Notification[]
 }

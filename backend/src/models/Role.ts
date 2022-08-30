@@ -4,11 +4,11 @@ import { User } from "./User"
 @Entity()
 export class Role extends BaseEntity{
     @PrimaryGeneratedColumn()
-    id!: number
+    id : number
 
     @Column()
-    userType!: string
+    userType : string
 
     @OneToMany(() => User, (user) => user.role)
-    user!: User
+    user : User
 }

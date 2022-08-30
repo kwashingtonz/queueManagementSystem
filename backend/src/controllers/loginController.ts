@@ -1,10 +1,10 @@
-import { Request,Response } from "express";
+import { Request,response,Response } from "express";
 import { User } from "../models/User";
 import jwt from "jsonwebtoken";
 import { Counter } from "../models/Counter";
 import { Issue } from "../models/Issue";
-
 import { AppDataSource } from "../index"
+
 
 
 export const loginUser =async (req:Request,res:Response) =>{
@@ -25,13 +25,54 @@ export const loginUser =async (req:Request,res:Response) =>{
             const counterinfo = await AppDataSource.getRepository(Counter) 
             .createQueryBuilder("counter")
             .where("counter.user = :user", { user: user.id })
-            .getMany();
-            console.log(counterinfo[0].id)
+            .andWhere("counter.isOnline = :online", { online: 0 })
+            .getOne();
             
-            //token
-            const token= jwt.sign({id :user.id }, process.env.TOKEN_SECRET|| 'tokentest');
 
-            return res.json({'accessToken':token,'counterinfo':counterinfo});
+            if(!counterinfo){
+
+                const newcounter = await AppDataSource.getRepository(Counter) 
+                .createQueryBuilder("counter")
+                .where("counter.isOnline = :online", { online: 0 })
+                .getOne();
+
+                if(!newcounter) return res.json({'message': 'no counters available'})
+
+                const updateCounter = await AppDataSource
+                .createQueryBuilder()
+                .update(Counter)
+                .set({
+                    user : user,
+                    isOnline : true
+                    })
+                .where("id = :counter", {counter: newcounter.id})
+                .execute()
+ 
+                newcounter.isOnline=true
+
+                const token= jwt.sign({id :user.id }, process.env.TOKEN_SECRET|| 'tokentest');
+
+                return res.json({'accessToken':token,'counterinfo':newcounter});
+
+            }else{
+
+                 const updateCounter = await AppDataSource
+                .createQueryBuilder()
+                .update(Counter)
+                .set({
+                     user:user,
+                     isOnline : true
+                    })
+                .where("id = :counter", {counter: counterinfo.id})
+                .execute()
+
+                counterinfo.isOnline=true
+ 
+                const token= jwt.sign({id :user.id }, process.env.TOKEN_SECRET|| 'tokentest');
+
+                return res.json({'accessToken':token,'counterinfo':counterinfo});
+            
+            }
         
         }else{
             

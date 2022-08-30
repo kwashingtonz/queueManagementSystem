@@ -9,25 +9,25 @@ import * as bcrypt from 'bcryptjs';
 @Entity()
 export class User extends BaseEntity {
     @PrimaryGeneratedColumn()
-    id!: number
+    id : number
 
     @Column()
-    username!: string
+    username : string
 
     @Column()
-    password!: string
+    password : string
 
     @ManyToOne(() => Role, (role) => role.user)
-    role!: Role
+    role : Role
 
     @OneToMany(() => Counter, (counter) => counter.user)
-    counters!: Counter[]
+    counters : Counter[]
 
     @OneToMany(() => Issue, (issue) => issue.user) 
-    issues!: Issue[]
+    issues : Issue[]
 
     @OneToMany(() => Notification, (notification) => notification.user) 
-    notifications!: Notification[]
+    notifications : Notification[]
 
     async encryptPassword(password: string):Promise<string> {
         const salt = await bcrypt.genSalt(10);

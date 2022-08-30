@@ -5,15 +5,15 @@ import { Issue } from "./Issue"
 @Entity()
 export class Notification extends BaseEntity {
     @PrimaryGeneratedColumn()
-    id!: number
+    id : number
 
     @Column()
-    message!: string
+    message : string
 
     @ManyToOne(() => Issue, (issue) => issue.notifications)
-    issue!: Issue
+    issue : Issue
 
     @ManyToOne(() => User, (user) => user.notifications)
-    user!: User
+    user : User
      
 }

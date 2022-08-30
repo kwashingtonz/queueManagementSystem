@@ -96,16 +96,11 @@ export const createissue =async (req:Request,res:Response) =>{
 export const getcounterissues =async (req:Request,res:Response) =>{
     
     try{
-    
-        /*  console.log(req.body.userId);
-            const issue = await Issue.findOneBy({nuser: req.body.userId})
-            res.json(issue)
-        */
         
         const counterRepository = await AppDataSource.getRepository(Counter) 
      
         .createQueryBuilder("counter")
-        .where("counter.user = :user", { cuser: req.body.userId })
+        .where("counter.user = :user", { user: req.body.userId })
         .getRawOne();
 
         console.log(counterRepository.counter_id)
@@ -117,7 +112,7 @@ export const getcounterissues =async (req:Request,res:Response) =>{
         .andWhere("issue.isDone = :isDone", { isDone: false })
         .orderBy("issue.queueNo", "ASC")
         .getMany();
-           
+        
         res.json(issueRepository)
  
 

@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn,OneToMany,ManyToOne, BaseEntity } from "typeorm"
+import { Entity, Column, PrimaryGeneratedColumn,OneToMany,ManyToOne, BaseEntity, JoinColumn } from "typeorm"
 import { User } from "./User"
 import { Issue } from "./Issue"
 
@@ -6,23 +6,23 @@ import { Issue } from "./Issue"
 @Entity()
 export class Counter extends BaseEntity {
     @PrimaryGeneratedColumn()
-    id!: number
+    id : number
 
     @Column()
-    counterNum!: number
+    counterNum : number
 
     @Column({default:true})
-    isOnline!: boolean
+    isOnline : boolean
 
     @Column()
-    currentNum!: number
+    currentNum : number
 
     @Column()
-    nextNum!: number
+    nextNum : number
 
     @ManyToOne(() => User, (user) => user.counters)
-    user!: User
+    user : User
 
     @OneToMany(() => Issue, (issue) => issue.counter) 
-    issues!: Issue[]
+    issues : Issue[]
 }
