@@ -12,7 +12,7 @@ router.put('/issuecalled/:id',issuecalled)//
 
 router.get('/issue/:id',getsingleissue)
 
-router.get('/issuedone/:id',issuedone)//
+router.get('/issuedone/:id',issuedone)
 
 router.put('/nextissuecalled/:id',nextissuecalled)//
 
