@@ -32,10 +32,42 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             const counterinfo = yield index_1.AppDataSource.getRepository(Counter_1.Counter)
                 .createQueryBuilder("counter")
                 .where("counter.user = :user", { user: user.id })
-                .getMany();
-            console.log(counterinfo[0].id);
-            const token = jsonwebtoken_1.default.sign({ id: user.id }, process.env.TOKEN_SECRET || 'tokentest');
-            return res.json({ 'accessToken': token, 'counterinfo': counterinfo });
+                .andWhere("counter.isOnline = :online", { online: 0 })
+                .getOne();
+            if (!counterinfo) {
+                const newcounter = yield index_1.AppDataSource.getRepository(Counter_1.Counter)
+                    .createQueryBuilder("counter")
+                    .where("counter.isOnline = :online", { online: 0 })
+                    .getOne();
+                if (!newcounter)
+                    return res.json({ 'message': 'no counters available' });
+                const updateCounter = yield index_1.AppDataSource
+                    .createQueryBuilder()
+                    .update(Counter_1.Counter)
+                    .set({
+                    user: user,
+                    isOnline: true
+                })
+                    .where("id = :counter", { counter: newcounter.id })
+                    .execute();
+                newcounter.isOnline = true;
+                const token = jsonwebtoken_1.default.sign({ id: user.id }, process.env.TOKEN_SECRET || 'tokentest');
+                return res.json({ 'accessToken': token, 'counterinfo': newcounter });
+            }
+            else {
+                const updateCounter = yield index_1.AppDataSource
+                    .createQueryBuilder()
+                    .update(Counter_1.Counter)
+                    .set({
+                    user: user,
+                    isOnline: true
+                })
+                    .where("id = :counter", { counter: counterinfo.id })
+                    .execute();
+                counterinfo.isOnline = true;
+                const token = jsonwebtoken_1.default.sign({ id: user.id }, process.env.TOKEN_SECRET || 'tokentest');
+                return res.json({ 'accessToken': token, 'counterinfo': counterinfo });
+            }
         }
         else {
             const token = jsonwebtoken_1.default.sign({ id: user.id }, process.env.TOKEN_SECRECT || 'tokentest');
