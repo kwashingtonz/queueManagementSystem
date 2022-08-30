@@ -36,10 +36,6 @@ export const GenarateQueueNum = async (req:Request,res:Response,next:NextFunctio
                     countissue[i-1]=Infinity
             }
         }
-
-        if((countissue[0]==Infinity && countissue[1]==Infinity && countissue[2]==Infinity)){
-              return  res.status(500).json({message:'No counter available'})
-        }
     
         let freequeue:number=0;
 
@@ -52,7 +48,11 @@ export const GenarateQueueNum = async (req:Request,res:Response,next:NextFunctio
         let c: number = countissue[2] 
             
         console.log(a<b)
-        
+
+        if((a==Infinity && b==Infinity && c==Infinity)){
+            return  res.status(500).json({message:'No counter available'})
+        }
+  
         if(a<b && a<c)
         {    
             freequeue=1
