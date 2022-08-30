@@ -13,7 +13,7 @@ export const counterclose =async (req:Request,res:Response) =>{
         .createQueryBuilder("counter")
         .update(Counter)
         .set({ isOnline: false })
-        .where("counter.user = :user", { user: req.body.userId })
+        .where("counter.userId = :user", { user: req.body.userId })
         .execute();
  
                

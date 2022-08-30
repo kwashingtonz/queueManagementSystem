@@ -106,9 +106,6 @@ export const getcounterissues =async (req:Request,res:Response) =>{
         .createQueryBuilder("counter")
         .where("counter.user = :user", { user: req.body.userId })
         .getRawOne();
-
-        console.log(counterRepository.counter_id)
-        console.log('skip',skip)
           
         const issueRepository = await AppDataSource.getRepository(Issue)
         .createQueryBuilder("issue")
@@ -123,7 +120,7 @@ export const getcounterissues =async (req:Request,res:Response) =>{
         res.json({
             issues:issueRepository[0],
             page: page,
-            total: issueRepository[1],
+            totalIssues: issueRepository[1],
             lastPage: Math.ceil(issueRepository[1]/perPage)
         })
  
@@ -140,11 +137,6 @@ export const getcounterissues =async (req:Request,res:Response) =>{
 export const getsingleissue =async (req:Request,res:Response) =>{
     
     try {
-    
-        /*console.log(req.body.userId);
-        const issue = await Issue.findOneBy({nuser: req.body.userId})
-        res.json(issue)
-        */ 
   
         const {id}= req.params
         

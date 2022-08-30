@@ -70,8 +70,6 @@ const getcounterissues = (req, res) => __awaiter(void 0, void 0, void 0, functio
             .createQueryBuilder("counter")
             .where("counter.user = :user", { user: req.body.userId })
             .getRawOne();
-        console.log(counterRepository.counter_id);
-        console.log('skip', skip);
         const issueRepository = yield index_1.AppDataSource.getRepository(Issue_1.Issue)
             .createQueryBuilder("issue")
             .where("issue.counter = :counter", { counter: counterRepository.counter_id })
@@ -83,7 +81,7 @@ const getcounterissues = (req, res) => __awaiter(void 0, void 0, void 0, functio
         res.json({
             issues: issueRepository[0],
             page: page,
-            total: issueRepository[1],
+            totalIssues: issueRepository[1],
             lastPage: Math.ceil(issueRepository[1] / perPage)
         });
     }
