@@ -62,19 +62,30 @@ const deleteissue = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 });
 exports.deleteissue = deleteissue;
 const getcounterissues = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const page = parseInt(req.query.page) || 1;
+    const perPage = 5;
+    const skip = (page - 1) * perPage;
     try {
         const counterRepository = yield index_1.AppDataSource.getRepository(Counter_1.Counter)
             .createQueryBuilder("counter")
             .where("counter.user = :user", { user: req.body.userId })
             .getRawOne();
         console.log(counterRepository.counter_id);
+        console.log('skip', skip);
         const issueRepository = yield index_1.AppDataSource.getRepository(Issue_1.Issue)
             .createQueryBuilder("issue")
             .where("issue.counter = :counter", { counter: counterRepository.counter_id })
             .andWhere("issue.isDone = :isDone", { isDone: false })
             .orderBy("issue.queueNo", "ASC")
-            .getMany();
-        res.json(issueRepository);
+            .limit(perPage)
+            .offset(skip)
+            .getManyAndCount();
+        res.json({
+            issues: issueRepository[0],
+            page: page,
+            total: issueRepository[1],
+            lastPage: Math.ceil(issueRepository[1] / perPage)
+        });
     }
     catch (error) {
         res.status(500).json({ message: error.message });

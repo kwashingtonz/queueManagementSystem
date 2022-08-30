@@ -95,6 +95,10 @@ export const createissue =async (req:Request,res:Response) =>{
 
 export const getcounterissues =async (req:Request,res:Response) =>{
     
+    const page: number = parseInt(req.query.page as any) || 1
+    const perPage = 5;
+    const skip = (page-1) * perPage
+
     try{
         
         const counterRepository = await AppDataSource.getRepository(Counter) 
@@ -104,16 +108,24 @@ export const getcounterissues =async (req:Request,res:Response) =>{
         .getRawOne();
 
         console.log(counterRepository.counter_id)
-
+        console.log('skip',skip)
           
         const issueRepository = await AppDataSource.getRepository(Issue)
         .createQueryBuilder("issue")
         .where("issue.counter = :counter", { counter: counterRepository.counter_id })
         .andWhere("issue.isDone = :isDone", { isDone: false })
         .orderBy("issue.queueNo", "ASC")
-        .getMany();
+        .limit(perPage)
+        .offset(skip)
+        .getManyAndCount()
         
-        res.json(issueRepository)
+
+        res.json({
+            issues:issueRepository[0],
+            page: page,
+            total: issueRepository[1],
+            lastPage: Math.ceil(issueRepository[1]/perPage)
+        })
  
 
     } catch (error) {
