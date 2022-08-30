@@ -8,18 +8,18 @@ export const createissue =async (req:Request,res:Response) =>{
     
     try {
  
-        let{name,telephone,email,issue,counter} =req.body
+        let{name,telephone,email,issue,counter,userId,queueNo} =req.body
     
         const issues = new Issue();
-        issues.name =name
-        issues.telephone =telephone
-        issues.email =email
-        issues.issue =issue
-        issues.user =req.body.userId
-        issues.counter =counter;
-        issues.queueNo=req.body.queueNum;  
+        issues.name = name
+        issues.telephone = telephone
+        issues.email = email
+        issues.issue = issue
+        issues.user = userId
+        issues.counter = counter;
+        issues.queueNo = queueNo;  
     
-        const savedissue=await issues.save()
+        const savedissue = await issues.save()
  
         /* const havingissue = await AppDataSource.getRepository(User)
                     .createQueryBuilder()
