@@ -8,9 +8,9 @@ const router = Router();
 
 router.post('/getcounterissues',getcounterissues);
 
-router.get('/issue/:id',getsingleissue);
-
 router.put('/issuecalled/:id',issuecalled);
+
+router.get('/issue/:id',getsingleissue);
 
 router.put('/issuedone/:id',issuedone);
 
