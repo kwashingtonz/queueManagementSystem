@@ -78,15 +78,12 @@ export const createissue =async (req:Request,res:Response) =>{
    
     try {
 
-        //const {id}= req.params;
-
         const result = await Issue.delete({user: req.body.userId})
 
         if(result.affected ===0){
             return res.status(404).json({ message: "user does not exists"})
         } 
-
-   
+        
        return  res.json({message:"successfully deleted"})
     
  

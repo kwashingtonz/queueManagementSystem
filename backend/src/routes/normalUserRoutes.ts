@@ -13,7 +13,7 @@ const router = Router();
 
  router.get('/getissue',getissue)
 
- router.delete('/deleteissue',deleteissue)//
+ router.delete('/deleteissue',deleteissue)
 
  
 export default router;        
