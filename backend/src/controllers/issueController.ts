@@ -36,18 +36,34 @@ export const createissue =async (req:Request,res:Response) =>{
     
     try {
     
-        /*console.log(req.body.userId);
-        const issue = await Issue.findOneBy({nuser: req.body.userId})
-        res.json(issue)
-        */
         const issueRepository = await AppDataSource.getRepository(Issue) 
-     
         .createQueryBuilder("issue")
-        .where("issue.user = :user", { nuser: req.body.userId })
+        .loadAllRelationIds()
+        .where("issue.user = :user", { user: req.body.userId })
         .andWhere("issue.isDone = :isDone", { isDone: false })
-        .getMany()
+        .getOne()
 
-        res.json(issueRepository.length)
+        const counterDetails = await AppDataSource.getRepository(Counter)
+        .createQueryBuilder("counter")
+        .where("counter.id = :counter", {counter: issueRepository?.counter})
+        .getOne()
+
+        console.log(counterDetails)
+
+        if(issueRepository?.queueNo == counterDetails?.nextNum)
+        {
+            res.json({
+                counterNo: counterDetails?.id,
+                message: "You're Next"
+            })
+        }else{
+            res.json({
+                counterNo: counterDetails?.id,
+                currentNo: counterDetails?.currentNum,
+                nextNo: counterDetails?.nextNum,
+                myNo: issueRepository?.queueNo
+            })
+        } 
 
     } catch (error) {
  

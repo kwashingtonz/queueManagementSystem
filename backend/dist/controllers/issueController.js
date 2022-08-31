@@ -36,10 +36,29 @@ const getissue = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const issueRepository = yield index_1.AppDataSource.getRepository(Issue_1.Issue)
             .createQueryBuilder("issue")
-            .where("issue.user = :user", { nuser: req.body.userId })
+            .loadAllRelationIds()
+            .where("issue.user = :user", { user: req.body.userId })
             .andWhere("issue.isDone = :isDone", { isDone: false })
-            .getMany();
-        res.json(issueRepository.length);
+            .getOne();
+        const counterDetails = yield index_1.AppDataSource.getRepository(Counter_1.Counter)
+            .createQueryBuilder("counter")
+            .where("counter.id = :counter", { counter: issueRepository === null || issueRepository === void 0 ? void 0 : issueRepository.counter })
+            .getOne();
+        console.log(counterDetails);
+        if ((issueRepository === null || issueRepository === void 0 ? void 0 : issueRepository.queueNo) == (counterDetails === null || counterDetails === void 0 ? void 0 : counterDetails.nextNum)) {
+            res.json({
+                counterNo: counterDetails === null || counterDetails === void 0 ? void 0 : counterDetails.id,
+                message: "You're Next"
+            });
+        }
+        else {
+            res.json({
+                counterNo: counterDetails === null || counterDetails === void 0 ? void 0 : counterDetails.id,
+                currentNo: counterDetails === null || counterDetails === void 0 ? void 0 : counterDetails.currentNum,
+                nextNo: counterDetails === null || counterDetails === void 0 ? void 0 : counterDetails.nextNum,
+                myNo: issueRepository === null || issueRepository === void 0 ? void 0 : issueRepository.queueNo
+            });
+        }
     }
     catch (error) {
         res.status(500).json({ message: error.message });

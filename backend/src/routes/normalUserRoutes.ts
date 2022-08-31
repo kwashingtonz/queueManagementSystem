@@ -7,11 +7,11 @@ import { havingissue } from "../controllers/normalUserController"
 const router = Router();
 
 
- router.post('/createissue',GenarateQueueNum,createissue)
-
  router.get('/havingissue',havingissue)
 
- router.post('/getissue',getissue)//
+ router.post('/createissue',GenarateQueueNum,createissue)
+
+ router.get('/getissue',getissue)
 
  router.delete('/deleteissue',deleteissue)//
 
