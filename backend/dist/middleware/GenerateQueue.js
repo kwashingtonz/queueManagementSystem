@@ -20,8 +20,9 @@ const GenarateQueueNum = (req, res, next) => __awaiter(void 0, void 0, void 0, f
             const checkcounter = yield index_1.AppDataSource.getRepository(Counter_1.Counter)
                 .createQueryBuilder("counter")
                 .where("id = :id", { id: i })
-                .getRawOne();
+                .getOne();
             let conline = checkcounter.isOnline;
+            console.log(i);
             console.log(conline);
             if (conline) {
                 const checkissues = yield index_1.AppDataSource.getRepository(Issue_1.Issue)
@@ -43,7 +44,6 @@ const GenarateQueueNum = (req, res, next) => __awaiter(void 0, void 0, void 0, f
         let a = countissue[0];
         let b = countissue[1];
         let c = countissue[2];
-        console.log(a < b);
         if ((a == Infinity && b == Infinity && c == Infinity)) {
             return res.status(500).json({ message: 'No counter available' });
         }
@@ -72,7 +72,7 @@ const GenarateQueueNum = (req, res, next) => __awaiter(void 0, void 0, void 0, f
         return next();
     }
     catch (error) {
-        res.status(500).json({ message: error.message });
+        return res.status(500).json({ message: error.message });
     }
 });
 exports.GenarateQueueNum = GenarateQueueNum;

@@ -9,7 +9,7 @@ const router = Router();
 
  router.post('/createissue',GenarateQueueNum,createissue)
 
- router.post('/havingissue',havingissue)//
+ router.get('/havingissue',havingissue)
 
  router.post('/getissue',getissue)//
 

@@ -18,9 +18,9 @@ const havingissue = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         console.log(req.body.userId);
         let haveIssue;
         const havingissue = yield index_1.AppDataSource.getRepository(Issue_1.Issue)
-            .createQueryBuilder("User")
+            .createQueryBuilder("issue")
             .where("userId = :id", { id: req.body.userId })
-            .getRawOne();
+            .getOne();
         if (havingissue) {
             haveIssue = true;
         }

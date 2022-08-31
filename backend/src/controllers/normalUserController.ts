@@ -10,10 +10,9 @@ export const havingissue =async (req:Request,res:Response) =>{
      console.log(req.body.userId)
      let haveIssue
      const havingissue = await AppDataSource.getRepository(Issue) 
-      
-     .createQueryBuilder("User")
+     .createQueryBuilder("issue")
      .where("userId = :id", { id: req.body.userId })
-     .getRawOne()
+     .getOne()
      
     if(havingissue){
         haveIssue = true

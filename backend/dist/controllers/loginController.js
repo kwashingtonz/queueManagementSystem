@@ -66,6 +66,7 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                     .execute();
                 counterinfo.isOnline = true;
                 const token = jsonwebtoken_1.default.sign({ id: user.id }, process.env.TOKEN_SECRET || 'tokentest');
+                req.body.counterId = counterinfo.id;
                 return res.json({ 'accessToken': token, 'counterinfo': counterinfo });
             }
         }
