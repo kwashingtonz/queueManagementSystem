@@ -21,13 +21,6 @@ export const createissue =async (req:Request,res:Response) =>{
     
         const savedissue = await issues.save()
  
-        /* const havingissue = await AppDataSource.getRepository(User)
-                    .createQueryBuilder()
-                    .update(User)
-                    .set({ havingissue: true })
-                    .where("id = :id", { id: req.body.userId })
-                    .execute() */
- 
         res.json(savedissue)
  
     } catch(error) {

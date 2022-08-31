@@ -17,9 +17,10 @@ export const GenarateQueueNum = async (req:Request,res:Response,next:NextFunctio
            const checkcounter = await AppDataSource.getRepository(Counter) 
            .createQueryBuilder("counter")
            .where("id = :id", { id: i })
-           .getRawOne()
+           .getOne()
     
-            let conline : boolean = checkcounter.isOnline
+            let conline : boolean = checkcounter!.isOnline
+            console.log(i)
             console.log(conline)
 
             if(conline){
@@ -46,8 +47,6 @@ export const GenarateQueueNum = async (req:Request,res:Response,next:NextFunctio
         let a: number = countissue[0]
         let b: number = countissue[1]
         let c: number = countissue[2] 
-            
-        console.log(a<b)
 
         if((a==Infinity && b==Infinity && c==Infinity)){
             return  res.status(500).json({message:'No counter available'})
@@ -84,7 +83,7 @@ export const GenarateQueueNum = async (req:Request,res:Response,next:NextFunctio
         return next()
         
     } catch (error) {
-        res.status(500).json({message:error.message})
+        return res.status(500).json({message:error.message})
     }
    
 }
