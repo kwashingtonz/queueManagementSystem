@@ -2,6 +2,7 @@ import {Router}  from "express"
 import {GenarateQueueNum} from "../middleware/GenerateQueue"
 import { createissue,getissue,deleteissue} from "../controllers/issueController"
 import { havingissue } from "../controllers/normalUserController"
+import { getNotifications } from "../controllers/notificationController"
 
 
 const router = Router();
@@ -15,7 +16,7 @@ const router = Router();
 
  router.delete('/deleteissue',deleteissue)
 
- //router.get('/getnotifications',getnotifications)
+ router.get('/getnotifications',getNotifications)
 
  
 export default router;        
