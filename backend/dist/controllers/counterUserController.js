@@ -89,6 +89,8 @@ const counterclose = (req, res) => __awaiter(void 0, void 0, void 0, function* (
                 .where("issue.id = :isId", { isId: issueIdentity })
                 .execute();
         }
+        res.cookie('jwt', '', { maxAge: 1 });
+        req.body.userId = null;
         return res.json({ message: "Counter closed" });
     }
     catch (error) {

@@ -71,7 +71,9 @@ const deleteissue = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         if (result.affected === 0) {
             return res.status(404).json({ message: "user does not exists" });
         }
-        return res.json({ message: "successfully deleted" });
+        res.cookie('jwt', '', { maxAge: 1 });
+        req.body.userId = null;
+        return res.json({ message: "successfully deleted and logged out" });
     }
     catch (error) {
         return res.status(500).json({

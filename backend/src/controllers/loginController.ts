@@ -52,6 +52,8 @@ export const loginUser =async (req:Request,res:Response) =>{
 
                 const token= jwt.sign({id :user.id }, process.env.TOKEN_SECRET|| 'tokentest')
 
+                res.cookie('jwt', token, {httpOnly: true, maxAge: 3 * 24 * 60 * 60 * 1000})
+
                 return res.json({'accessToken':token,'counterinfo':newcounter})
 
             }else{

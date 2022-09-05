@@ -84,7 +84,11 @@ export const createissue =async (req:Request,res:Response) =>{
             return res.status(404).json({ message: "user does not exists"})
         } 
         
-       return  res.json({message:"successfully deleted"})
+        res.cookie('jwt','',{ maxAge: 1 })
+
+        req.body.userId = null
+
+       return  res.json({message:"successfully deleted and logged out"})
     
  
     } catch (error) {

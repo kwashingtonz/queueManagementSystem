@@ -52,6 +52,7 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                     .execute();
                 newcounter.isOnline = true;
                 const token = jsonwebtoken_1.default.sign({ id: user.id }, process.env.TOKEN_SECRET || 'tokentest');
+                res.cookie('jwt', token, { httpOnly: true, maxAge: 3 * 24 * 60 * 60 * 1000 });
                 return res.json({ 'accessToken': token, 'counterinfo': newcounter });
             }
             else {

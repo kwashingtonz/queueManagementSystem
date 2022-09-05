@@ -15,8 +15,6 @@ const router = Router();
 
  router.delete('/deleteissue',deleteissue)
 
- //router.get('/logout',logoutuser)
-
  //router.get('/getnotifications',getnotifications)
 
  

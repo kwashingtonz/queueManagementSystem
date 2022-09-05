@@ -106,6 +106,9 @@ export const counterclose =async (req:Request,res:Response) =>{
 
         }
                
+        res.cookie('jwt','',{ maxAge: 1 })
+        req.body.userId = null
+
         return res.json({message:"Counter closed"})
      
     
