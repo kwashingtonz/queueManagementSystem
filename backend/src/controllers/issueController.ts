@@ -2,6 +2,7 @@ import { Request,Response } from "express"
 import { AppDataSource } from "../index"
 import { Issue } from "../models/Issue"
 import { Counter } from "../models/Counter"
+import { Notification } from "../models/Notification"
 
 
 export const createissue =async (req:Request,res:Response) =>{
@@ -181,6 +182,13 @@ export const issuecalled =async (req:Request,res:Response) =>{
 
         if(!issue)  return res.status(404).json({ message: "issue does not exists"})
 
+        const notifycall = new Notification()
+        notifycall.message = "Please proceed to the Counter "+issue.counter+" now"
+        notifycall.issue = issue
+        notifycall.user = issue.user
+    
+        const savedissue = await notifycall.save()
+
         const getNextIssue = await AppDataSource.getRepository(Issue)
         .createQueryBuilder("issue")
         .where("issue.queueNo > :qN", {qN : issue.queueNo})
@@ -197,6 +205,13 @@ export const issuecalled =async (req:Request,res:Response) =>{
             .where("id = :cid",{cid: issue.counter})
             .execute()
         }else{
+            const notifynext = new Notification()
+            notifynext.message = "Please proceed to the Counter "+getNextIssue.counter+" now"
+            notifynext.issue = getNextIssue
+            notifynext.user = getNextIssue.user
+        
+            const savedissue = await notifycall.save()
+
             const updateCounter = await AppDataSource.getRepository(Counter)
             .createQueryBuilder()
             .update(Counter)

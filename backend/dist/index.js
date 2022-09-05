@@ -54,6 +54,9 @@ const addNewUser = (username, socketId) => {
     !onlineUsers.some((user) => user.username === username) &&
         onlineUsers.push({ username, socketId });
 };
+const removeUser = (socketId) => {
+    onlineUsers = onlineUsers.filter((user) => user.socketId !== socketId);
+};
 const getUser = (username) => {
     return onlineUsers.find((user) => user.username === username);
 };
@@ -62,9 +65,6 @@ exports.io.on("connection", (socket) => {
         addNewUser(username, socket.id);
     });
     console.log('online users', onlineUsers);
-    const removeUser = (socketId) => {
-        onlineUsers = onlineUsers.filter((user) => user.socketId !== socketId);
-    };
     socket.on("sendNotification", ({ receiverName, type, id }) => {
         const receiver = getUser(receiverName);
         console.log(getUser(receiverName));

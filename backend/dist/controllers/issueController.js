@@ -13,6 +13,7 @@ exports.getnextissue = exports.issuedone = exports.issuecalled = exports.getsing
 const index_1 = require("../index");
 const Issue_1 = require("../models/Issue");
 const Counter_1 = require("../models/Counter");
+const Notification_1 = require("../models/Notification");
 const createissue = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         let { name, telephone, email, issue, counter, userId, queueNo } = req.body;
@@ -135,6 +136,11 @@ const issuecalled = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             .getOne();
         if (!issue)
             return res.status(404).json({ message: "issue does not exists" });
+        const notifycall = new Notification_1.Notification();
+        notifycall.message = "Please proceed to the Counter " + issue.counter + " now";
+        notifycall.issue = issue;
+        notifycall.user = issue.user;
+        const savedissue = yield notifycall.save();
         const getNextIssue = yield index_1.AppDataSource.getRepository(Issue_1.Issue)
             .createQueryBuilder("issue")
             .where("issue.queueNo > :qN", { qN: issue.queueNo })
@@ -151,6 +157,11 @@ const issuecalled = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
                 .execute();
         }
         else {
+            const notifynext = new Notification_1.Notification();
+            notifynext.message = "Please proceed to the Counter " + getNextIssue.counter + " now";
+            notifynext.issue = getNextIssue;
+            notifynext.user = getNextIssue.user;
+            const savedissue = yield notifycall.save();
             const updateCounter = yield index_1.AppDataSource.getRepository(Counter_1.Counter)
                 .createQueryBuilder()
                 .update(Counter_1.Counter)

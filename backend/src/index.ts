@@ -72,6 +72,11 @@ const addNewUser = (username:any, socketId:any) => {
     onlineUsers.push({ username, socketId })
 }
 
+//remove user
+const removeUser = (socketId:any) => {
+    onlineUsers = onlineUsers.filter((user:any) => user.socketId !== socketId)
+}
+
 const getUser = (username:any) => {
  return onlineUsers.find((user:any) => user.username === username)
 }
@@ -82,16 +87,11 @@ const getUser = (username:any) => {
         socket.on("newUser", (username) => {
             addNewUser(username, socket.id)
         })
+
         console.log('online users',onlineUsers)
 
-
-        //remove user
-        const removeUser = (socketId:any) => {
-        onlineUsers = onlineUsers.filter((user:any) => user.socketId !== socketId)
-        }
-
         //send notifications
-        socket.on("sendNotification", ({ receiverName, type,id }) => {
+        socket.on("sendNotification", ({ receiverName, type, id }) => {
             const receiver = getUser(receiverName)
             console.log(getUser(receiverName))
       
