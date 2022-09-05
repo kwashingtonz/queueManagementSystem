@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getNotifications = void 0;
 const index_1 = require("../index");
 const Issue_1 = require("../models/Issue");
+const Notification_1 = require("../models/Notification");
 const getNotifications = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const currentIssue = yield index_1.AppDataSource.getRepository(Issue_1.Issue)
@@ -19,7 +20,7 @@ const getNotifications = (req, res) => __awaiter(void 0, void 0, void 0, functio
             .where("issue.userId = :user", { user: req.body.userId })
             .andWhere("issue.isDone = :done", { done: 0 })
             .getOne();
-        const notificationRepository = yield index_1.AppDataSource.getRepository(Notification)
+        const notificationRepository = yield index_1.AppDataSource.getRepository(Notification_1.Notification)
             .createQueryBuilder("notification")
             .where("notification.userId = :user", { user: req.body.userId })
             .where("notification.issueId = :issue", { issue: currentIssue === null || currentIssue === void 0 ? void 0 : currentIssue.id })

@@ -1,6 +1,7 @@
 import { Request,Response } from "express"
 import { AppDataSource } from "../index"
 import { Issue } from "../models/Issue"
+import { Notification } from "../models/Notification"
 
 
 export const getNotifications =async (req:Request,res:Response) =>{
