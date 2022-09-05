@@ -14,7 +14,7 @@ import counterUserRouter from "./routes/counterUserRoutes"
 import normalUserRouter from "./routes/normalUserRoutes"
 import { ValidateToken } from "./middleware/verifyJWT"
 import { Server } from 'socket.io'
-import {getcurrentnext2,getcurrentnext3,getcurrentnext4} from './controllers/counterUserController'
+import {getcurrentnext1,getcurrentnext2,getcurrentnext3} from './controllers/counterUserController'
 const cookieParser = require('cookie-parser')
 
 
@@ -105,15 +105,15 @@ const getUser = (username:any) => {
         //setInterval
         setInterval(function(){
       
-            getcurrentnext2().then((Counter) => {
+            getcurrentnext1().then((Counter) => {
                 io.emit('getqueuenum1', Counter)            
             })
   
-            getcurrentnext3().then((Counter) => {
+            getcurrentnext2().then((Counter) => {
                 io.emit('getqueuenum2', Counter)            
             })
   
-            getcurrentnext4().then((Counter) => {
+            getcurrentnext3().then((Counter) => {
                 io.emit('getqueuenum3', Counter)           
             })
             

@@ -74,13 +74,13 @@ exports.io.on("connection", (socket) => {
         });
     });
     setInterval(function () {
-        (0, counterUserController_1.getcurrentnext2)().then((Counter) => {
+        (0, counterUserController_1.getcurrentnext1)().then((Counter) => {
             exports.io.emit('getqueuenum1', Counter);
         });
-        (0, counterUserController_1.getcurrentnext3)().then((Counter) => {
+        (0, counterUserController_1.getcurrentnext2)().then((Counter) => {
             exports.io.emit('getqueuenum2', Counter);
         });
-        (0, counterUserController_1.getcurrentnext4)().then((Counter) => {
+        (0, counterUserController_1.getcurrentnext3)().then((Counter) => {
             exports.io.emit('getqueuenum3', Counter);
         });
     }, 1000);

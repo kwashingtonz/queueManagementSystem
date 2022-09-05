@@ -122,7 +122,7 @@ export const counterclose =async (req:Request,res:Response) =>{
 
 
 
-export const getcurrentnext2 =async (): Promise<Counter[]> =>{
+export const getcurrentnext1 =async (): Promise<Counter[]> =>{
     
     try {
         const issueRepository = await AppDataSource.getRepository(Counter) 
@@ -143,7 +143,7 @@ export const getcurrentnext2 =async (): Promise<Counter[]> =>{
 
 
 
-export const getcurrentnext3 =async (): Promise<Counter[]> =>{
+export const getcurrentnext2 =async (): Promise<Counter[]> =>{
     
     try {
         const issueRepository = await AppDataSource.getRepository(Counter) 
@@ -164,7 +164,7 @@ export const getcurrentnext3 =async (): Promise<Counter[]> =>{
 
 
 
-export const getcurrentnext4 =async (): Promise<Counter[]> =>{
+export const getcurrentnext3 =async (): Promise<Counter[]> =>{
     
     try {
         const issueRepository = await AppDataSource.getRepository(Counter) 

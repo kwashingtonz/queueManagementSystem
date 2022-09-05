@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getcurrentnext4 = exports.getcurrentnext3 = exports.getcurrentnext2 = exports.counterclose = void 0;
+exports.getcurrentnext3 = exports.getcurrentnext2 = exports.getcurrentnext1 = exports.counterclose = void 0;
 const index_1 = require("../index");
 const Counter_1 = require("../models/Counter");
 const Issue_1 = require("../models/Issue");
@@ -98,11 +98,24 @@ const counterclose = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     }
 });
 exports.counterclose = counterclose;
-const getcurrentnext2 = () => __awaiter(void 0, void 0, void 0, function* () {
+const getcurrentnext1 = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const issueRepository = yield index_1.AppDataSource.getRepository(Counter_1.Counter)
             .createQueryBuilder("counter")
             .where("counter.id = :id", { id: 1 })
+            .getRawOne();
+        return (issueRepository);
+    }
+    catch (error) {
+        return [];
+    }
+});
+exports.getcurrentnext1 = getcurrentnext1;
+const getcurrentnext2 = () => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const issueRepository = yield index_1.AppDataSource.getRepository(Counter_1.Counter)
+            .createQueryBuilder("counter")
+            .where("counter.id = :id", { id: 2 })
             .getRawOne();
         return (issueRepository);
     }
@@ -115,19 +128,6 @@ const getcurrentnext3 = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const issueRepository = yield index_1.AppDataSource.getRepository(Counter_1.Counter)
             .createQueryBuilder("counter")
-            .where("counter.id = :id", { id: 2 })
-            .getRawOne();
-        return (issueRepository);
-    }
-    catch (error) {
-        return [];
-    }
-});
-exports.getcurrentnext3 = getcurrentnext3;
-const getcurrentnext4 = () => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const issueRepository = yield index_1.AppDataSource.getRepository(Counter_1.Counter)
-            .createQueryBuilder("counter")
             .where("counter.id = :id", { id: 3 })
             .getRawOne();
         return (issueRepository);
@@ -136,5 +136,5 @@ const getcurrentnext4 = () => __awaiter(void 0, void 0, void 0, function* () {
         return [];
     }
 });
-exports.getcurrentnext4 = getcurrentnext4;
+exports.getcurrentnext3 = getcurrentnext3;
 //# sourceMappingURL=counterUserController.js.map
