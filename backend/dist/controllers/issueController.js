@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.nextissuecalled = exports.getnextissue = exports.issuedone = exports.issuecalled = exports.getsingleissue = exports.getcounterissues = exports.deleteissue = exports.getissue = exports.createissue = void 0;
+exports.getnextissue = exports.issuedone = exports.issuecalled = exports.getsingleissue = exports.getcounterissues = exports.deleteissue = exports.getissue = exports.createissue = void 0;
 const index_1 = require("../index");
 const Issue_1 = require("../models/Issue");
 const Counter_1 = require("../models/Counter");
@@ -128,9 +128,36 @@ exports.getsingleissue = getsingleissue;
 const issuecalled = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
-        const user = yield Issue_1.Issue.findOneBy({ id: parseInt(req.params.id) });
-        if (!user)
+        const issue = yield index_1.AppDataSource.getRepository(Issue_1.Issue)
+            .createQueryBuilder("issue")
+            .loadAllRelationIds()
+            .where("issue.id = :id", { id: parseInt(req.params.id) })
+            .getOne();
+        if (!issue)
             return res.status(404).json({ message: "issue does not exists" });
+        const getNextIssue = yield index_1.AppDataSource.getRepository(Issue_1.Issue)
+            .createQueryBuilder("issue")
+            .where("issue.queueNo > :qN", { qN: issue.queueNo })
+            .andWhere("issue.isCalled = :called", { called: false })
+            .andWhere("issue.isDone = :done", { done: false })
+            .andWhere("issue.counterId = :counter", { counter: issue.counter })
+            .getOne();
+        if (!getNextIssue) {
+            const updateCounter = yield index_1.AppDataSource.getRepository(Counter_1.Counter)
+                .createQueryBuilder()
+                .update(Counter_1.Counter)
+                .set({ currentNum: issue.queueNo, nextNum: 0 })
+                .where("id = :cid", { cid: issue.counter })
+                .execute();
+        }
+        else {
+            const updateCounter = yield index_1.AppDataSource.getRepository(Counter_1.Counter)
+                .createQueryBuilder()
+                .update(Counter_1.Counter)
+                .set({ currentNum: issue.queueNo, nextNum: getNextIssue === null || getNextIssue === void 0 ? void 0 : getNextIssue.queueNo })
+                .where("id = :cid", { cid: issue.counter })
+                .execute();
+        }
         const issueRepository = yield index_1.AppDataSource.getRepository(Issue_1.Issue)
             .createQueryBuilder()
             .update(Issue_1.Issue)
@@ -172,21 +199,17 @@ const getnextissue = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             .set({ isDone: true })
             .where("id = :id", { id: id })
             .execute();
-        console.log(id);
-        console.log(req.body.userId);
         const counterRepository = yield index_1.AppDataSource.getRepository(Counter_1.Counter)
             .createQueryBuilder("counter")
             .where("counter.user = :user", { user: req.body.userId })
             .getRawOne();
-        console.log(counterRepository.counter_next_num);
-        const doiscalled = yield index_1.AppDataSource.getRepository(Issue_1.Issue)
+        const nextcall = yield index_1.AppDataSource.getRepository(Issue_1.Issue)
             .createQueryBuilder()
             .update(Issue_1.Issue)
             .set({ isCalled: true })
             .where("queueNo = :queueNo", { queueNo: counterRepository.counter_nextNum })
             .andWhere("counter = :counter", { counter: counterRepository.counter_id })
             .execute();
-        console.log(doiscalled);
         const nextissue = yield index_1.AppDataSource.getRepository(Issue_1.Issue)
             .createQueryBuilder("issue")
             .where("issue.queueNo = :queueNo", { queueNo: counterRepository.counter_nextNum })
@@ -221,36 +244,4 @@ const getnextissue = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     }
 });
 exports.getnextissue = getnextissue;
-const nextissuecalled = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const counterRepository = yield index_1.AppDataSource.getRepository(Counter_1.Counter)
-            .createQueryBuilder("counter")
-            .where("counter.cuser = :cuser", { cuser: req.body.userId })
-            .getRawOne();
-        console.log(counterRepository.counter_id);
-        const nextnum = yield index_1.AppDataSource.getRepository(Issue_1.Issue)
-            .createQueryBuilder("issue")
-            .select("MIN(issue.queue_num)", "min")
-            .where("issue.counter = :counter", { counter: counterRepository.counter_id })
-            .andWhere("issue.isCalled = :isCalled", { isCalled: false })
-            .andWhere("issue.isDone = :isDone", { isDone: false })
-            .getRawOne();
-        let nextnum1 = nextnum.min;
-        const current = parseInt(req.params.id);
-        if (nextnum1 == null) {
-            nextnum1 = 0;
-        }
-        const counterassign = yield index_1.AppDataSource.getRepository(Counter_1.Counter)
-            .createQueryBuilder()
-            .update(Counter_1.Counter)
-            .set({ currentNum: current, nextNum: nextnum1 })
-            .where("counter.id = :id", { id: counterRepository.counter_id })
-            .execute();
-        res.json(counterassign);
-    }
-    catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
-exports.nextissuecalled = nextissuecalled;
 //# sourceMappingURL=issueController.js.map

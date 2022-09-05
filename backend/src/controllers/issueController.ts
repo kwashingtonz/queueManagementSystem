@@ -151,7 +151,6 @@ export const getsingleissue =async (req:Request,res:Response) =>{
         const {id}= req.params
         
         const issueRepository = await AppDataSource.getRepository(Issue) 
-     
         .createQueryBuilder("issue")
         .where("issue.id = :id", { id: parseInt(id) })
         .getOne()
@@ -173,10 +172,38 @@ export const issuecalled =async (req:Request,res:Response) =>{
     try {
     
         const {id}= req.params;
-        //req.body.isCalled="true";
-        const user = await Issue.findOneBy({id: parseInt(req.params.id)})
+        
+        const issue = await  AppDataSource.getRepository(Issue)
+        .createQueryBuilder("issue")
+        .loadAllRelationIds()
+        .where("issue.id = :id", { id:  parseInt(req.params.id) })
+        .getOne()
 
-        if(!user)  return res.status(404).json({ message: "issue does not exists"})
+        if(!issue)  return res.status(404).json({ message: "issue does not exists"})
+
+        const getNextIssue = await AppDataSource.getRepository(Issue)
+        .createQueryBuilder("issue")
+        .where("issue.queueNo > :qN", {qN : issue.queueNo})
+        .andWhere("issue.isCalled = :called",{called : false})
+        .andWhere("issue.isDone = :done",{done : false})
+        .andWhere("issue.counterId = :counter",{counter : issue.counter})
+        .getOne()
+
+        if(!getNextIssue){
+            const updateCounter = await AppDataSource.getRepository(Counter)
+            .createQueryBuilder()
+            .update(Counter)
+            .set({currentNum: issue.queueNo, nextNum: 0 })
+            .where("id = :cid",{cid: issue.counter})
+            .execute()
+        }else{
+            const updateCounter = await AppDataSource.getRepository(Counter)
+            .createQueryBuilder()
+            .update(Counter)
+            .set({currentNum: issue.queueNo, nextNum:getNextIssue?.queueNo })
+            .where("id = :cid",{cid: issue.counter})
+            .execute()
+        }
 
         const issueRepository = await AppDataSource.getRepository(Issue)
         .createQueryBuilder()
@@ -232,31 +259,21 @@ export const getnextissue =async (req:Request,res:Response) =>{
     try {
  
         const {id}= req.params;
-        //req.body.isCalled="true"
- 
          
         const issueRepository = await AppDataSource.getRepository(Issue)
-        
         .createQueryBuilder()
         .update(Issue)
         .set({ isDone: true })
         .where("id = :id", { id: id })
         .execute()
  
-        console.log(id)
-        console.log(req.body.userId)
  
-        const counterRepository = await AppDataSource.getRepository(Counter) 
-                
+        const counterRepository = await AppDataSource.getRepository(Counter)            
         .createQueryBuilder("counter")
         .where("counter.user = :user", { user: req.body.userId })       
         .getRawOne()
-                
-        console.log(counterRepository.counter_next_num)
-        //res.json(counterRepository.counter_id)
  
-        const doiscalled = await AppDataSource.getRepository(Issue)
-                 
+        const nextcall = await AppDataSource.getRepository(Issue)             
         .createQueryBuilder()
         .update(Issue)
         .set({ isCalled: true })
@@ -264,7 +281,6 @@ export const getnextissue =async (req:Request,res:Response) =>{
         .andWhere("counter = :counter", { counter:counterRepository.counter_id })
         .execute()
         
-        console.log(doiscalled)
         
         const nextissue = await AppDataSource.getRepository(Issue)
                 
@@ -317,44 +333,4 @@ export const getnextissue =async (req:Request,res:Response) =>{
 
 
 
-export const nextissuecalled =async (req:Request,res:Response) =>{
-    
-    try {
-      
-        const counterRepository = await AppDataSource.getRepository(Counter) 
-        .createQueryBuilder("counter")
-        .where("counter.cuser = :cuser", { cuser: req.body.userId })
-        .getRawOne()
-        console.log(counterRepository.counter_id)
-        //res.json(counterRepository.counter_id)
-        
-        const nextnum = await AppDataSource.getRepository(Issue)
-        .createQueryBuilder("issue")
-        .select("MIN(issue.queue_num)","min")
-        .where("issue.counter = :counter", { counter:counterRepository.counter_id })
-        .andWhere("issue.isCalled = :isCalled", { isCalled: false })
-        .andWhere("issue.isDone = :isDone", { isDone: false }) 
-        .getRawOne()
-        let nextnum1=nextnum.min
-        const current =parseInt(req.params.id)
 
-        if(nextnum1==null){
-            nextnum1=0
-        }
-   
-        const counterassign = await AppDataSource.getRepository(Counter) 
-        .createQueryBuilder()
-        .update(Counter)
-        .set({ currentNum:current, nextNum:nextnum1})
-        .where("counter.id = :id", { id: counterRepository.counter_id })
-        .execute()
-
-        res.json(counterassign)
-
-     } catch (error) {
- 
-        res.status(500).json({message:error.message})
-
-     }
-     
-}

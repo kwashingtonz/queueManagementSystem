@@ -15,7 +15,7 @@ import normalUserRouter from "./routes/normalUserRoutes"
 import { ValidateToken } from "./middleware/verifyJWT"
 import { Server } from 'socket.io'
 import {getcurrentnext2,getcurrentnext3,getcurrentnext4} from './controllers/counterUserController'
-
+const cookieParser = require('cookie-parser')
 
 
 dotenv.config()
@@ -43,6 +43,7 @@ export const AppDataSource = new DataSource({
  app.use(Cors())
  app.use(express.json())
  app.use(express.urlencoded({extended: true}))
+ app.use(cookieParser())
 
  //routes
 

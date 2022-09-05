@@ -21,6 +21,7 @@ const normalUserRoutes_1 = __importDefault(require("./routes/normalUserRoutes"))
 const verifyJWT_1 = require("./middleware/verifyJWT");
 const socket_io_1 = require("socket.io");
 const counterUserController_1 = require("./controllers/counterUserController");
+const cookieParser = require('cookie-parser');
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const server = http_1.default.createServer(app);
@@ -38,6 +39,7 @@ exports.AppDataSource = new typeorm_1.DataSource({
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
+app.use(cookieParser());
 app.use('/', loginRoute_1.default);
 app.use('/cuser', verifyJWT_1.ValidateToken, counterUserRoutes_1.default);
 app.use('/nuser', verifyJWT_1.ValidateToken, normalUserRoutes_1.default);
