@@ -47,10 +47,10 @@ const GenarateQueueNum = (req, res, next) => __awaiter(void 0, void 0, void 0, f
         if ((a == Infinity && b == Infinity && c == Infinity)) {
             return res.status(500).json({ message: 'No counter available' });
         }
-        if (a < b && a < c) {
+        if (a <= b && a <= c) {
             freequeue = 1;
         }
-        else if (b < c) {
+        else if (b <= c) {
             freequeue = 2;
         }
         else {

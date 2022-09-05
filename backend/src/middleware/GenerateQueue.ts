@@ -52,10 +52,10 @@ export const GenarateQueueNum = async (req:Request,res:Response,next:NextFunctio
             return  res.status(500).json({message:'No counter available'})
         }
   
-        if(a<b && a<c)
+        if(a<=b && a<=c)
         {    
             freequeue=1
-        }else if(b<c){
+        }else if(b<=c){
             freequeue=2
         }else{
             freequeue=3
