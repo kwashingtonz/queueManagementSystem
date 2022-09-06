@@ -54,7 +54,7 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 const token = jsonwebtoken_1.default.sign({ id: user.id }, process.env.TOKEN_SECRET || 'tokentest');
                 res.cookie('jwt', token, { httpOnly: true, maxAge: 3 * 24 * 60 * 60 * 1000 });
                 req.body.counterId = newcounter.id;
-                return res.json({ 'accessToken': token, 'counterinfo': newcounter });
+                return res.json({ 'accessToken': token, 'roleType': 'counterUser', 'counterinfo': newcounter });
             }
             else {
                 const updateCounter = yield index_1.AppDataSource
@@ -70,7 +70,7 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 const token = jsonwebtoken_1.default.sign({ id: user.id }, process.env.TOKEN_SECRET || 'tokentest');
                 res.cookie('jwt', token, { httpOnly: true, maxAge: 3 * 24 * 60 * 60 * 1000 });
                 req.body.counterId = counterinfo.id;
-                return res.json({ 'accessToken': token, 'counterinfo': counterinfo });
+                return res.json({ 'accessToken': token, 'roleType': 'counterUser', 'counterinfo': counterinfo });
             }
         }
         else {
@@ -85,10 +85,10 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 const queue_num = issue.issue_counterId;
                 console.log(queue_num);
                 res.cookie('jwt', token, { httpOnly: true, maxAge: 3 * 24 * 60 * 60 * 1000 });
-                return res.json({ 'accessToken': token, 'counter': issue.issue_counterId, 'queue_num': issue.issue_queueNo });
+                return res.json({ 'accessToken': token, 'roleType': 'normalUser', 'counter': issue.issue_counterId, 'queue_num': issue.issue_queueNo });
             }
             res.cookie('jwt', token, { httpOnly: true, maxAge: 3 * 24 * 60 * 60 * 1000 });
-            return res.json({ 'accessToken': token });
+            return res.json({ 'accessToken': token, 'roleType': 'normalUser' });
         }
     }
     catch (error) {

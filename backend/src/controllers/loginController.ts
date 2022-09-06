@@ -56,7 +56,7 @@ export const loginUser =async (req:Request,res:Response) =>{
 
                 req.body.counterId = newcounter.id
 
-                return res.json({'accessToken':token,'counterinfo':newcounter})
+                return res.json({'accessToken':token,'roleType':'counterUser','counterinfo':newcounter})
 
             }else{
 
@@ -78,7 +78,7 @@ export const loginUser =async (req:Request,res:Response) =>{
 
                 req.body.counterId = counterinfo.id
 
-                return res.json({'accessToken':token,'counterinfo':counterinfo})
+                return res.json({'accessToken':token,'roleType':'counterUser','counterinfo':counterinfo})
             
             }
         
@@ -100,11 +100,11 @@ export const loginUser =async (req:Request,res:Response) =>{
                 const queue_num=issue.issue_counterId
                 console.log(queue_num)
                 res.cookie('jwt', token, {httpOnly: true, maxAge: 3 * 24 * 60 * 60 * 1000})
-                return res.json({'accessToken':token,'counter':issue.issue_counterId,'queue_num':issue.issue_queueNo})
+                return res.json({'accessToken':token,'roleType':'normalUser','counter':issue.issue_counterId,'queue_num':issue.issue_queueNo})
             }
 
             res.cookie('jwt', token, {httpOnly: true, maxAge: 3 * 24 * 60 * 60 * 1000})
-            return res.json({'accessToken':token})
+            return res.json({'accessToken':token,'roleType':'normalUser'})
    
         }    
  
