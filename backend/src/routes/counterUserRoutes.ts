@@ -6,17 +6,17 @@ import {counterClose} from "../controllers/counterUserController"
 const router = Router();
 
 
-router.get('/getcounterissues',getCounterIssues)
+router.get('/getCounterIssues',getCounterIssues)
 
-router.put('/issuecalled/:id',issueCalled)
+router.put('/issueCalled/:id',issueCalled)
 
 router.get('/issue/:id',getSingleIssue)
 
-router.get('/issuedone/:id',issueDone)
+router.get('/issueDone/:id',issueDone)
 
-router.put('/getnextissue/:id',getDoneNextIssue)
+router.put('/getDoneNextIssue/:id',getDoneNextIssue)
 
-router.get('/counterclose',counterClose)
+router.get('/counterClose',counterClose)
 
 
 export default router;        

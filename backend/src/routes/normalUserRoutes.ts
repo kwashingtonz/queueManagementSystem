@@ -8,15 +8,15 @@ import { getNotifications } from "../controllers/notificationController"
 const router = Router();
 
 
- router.get('/havingissue',havingIssue)
+ router.get('/havingIssue',havingIssue)
 
- router.post('/createissue',genarateQueueNum,createIssue)
+ router.post('/createIssue',genarateQueueNum,createIssue)
 
- router.get('/getissue',getIssueQueueDetails)
+ router.get('/getQueueDetails',getIssueQueueDetails)
 
- router.delete('/deleteissue',cancelIssue)
+ router.delete('/cancelIssue',cancelIssue)
 
- router.get('/getnotifications',getNotifications)
+ router.get('/getNotifications',getNotifications)
 
  
 export default router;        
