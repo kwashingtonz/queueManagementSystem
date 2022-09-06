@@ -9,11 +9,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getcurrentnext3 = exports.getcurrentnext2 = exports.getcurrentnext1 = exports.counterclose = void 0;
+exports.getcurrentnext3 = exports.getcurrentnext2 = exports.getcurrentnext1 = exports.counterClose = void 0;
 const index_1 = require("../index");
 const Counter_1 = require("../models/Counter");
 const Issue_1 = require("../models/Issue");
-const counterclose = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const counterClose = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const userIdentity = req.body.userId;
         const skipcounter = yield index_1.AppDataSource.getRepository(Counter_1.Counter)
@@ -97,7 +97,7 @@ const counterclose = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         return res.status(500).json({ message: error.message });
     }
 });
-exports.counterclose = counterclose;
+exports.counterClose = counterClose;
 const getcurrentnext1 = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const issueRepository = yield index_1.AppDataSource.getRepository(Counter_1.Counter)

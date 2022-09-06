@@ -4,7 +4,7 @@ import { Counter } from "../models/Counter"
 import { Issue } from "../models/Issue"
 
 
-export const counterclose =async (req:Request,res:Response) =>{
+export const counterClose =async (req:Request,res:Response) =>{
     
     try {
 

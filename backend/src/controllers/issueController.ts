@@ -5,7 +5,7 @@ import { Counter } from "../models/Counter"
 import { Notification } from "../models/Notification"
 
 
-export const createissue =async (req:Request,res:Response) =>{
+export const createIssue =async (req:Request,res:Response) =>{
     
     try {
  
@@ -33,7 +33,7 @@ export const createissue =async (req:Request,res:Response) =>{
 
 
 
- export const getissue =async (req:Request,res:Response) =>{
+ export const getIssueQueueDetails =async (req:Request,res:Response) =>{
     
     try {
     
@@ -75,7 +75,7 @@ export const createissue =async (req:Request,res:Response) =>{
 
 
 
- export const deleteissue =async (req:Request,res:Response) =>{
+ export const cancelIssue =async (req:Request,res:Response) =>{
    
     try {
 
@@ -104,7 +104,7 @@ export const createissue =async (req:Request,res:Response) =>{
 
 
 
-export const getcounterissues =async (req:Request,res:Response) =>{
+export const getCounterIssues =async (req:Request,res:Response) =>{
     
     const page: number = parseInt(req.query.page as any) || 1
     const perPage = 5
@@ -145,7 +145,7 @@ export const getcounterissues =async (req:Request,res:Response) =>{
 
 
 
-export const getsingleissue =async (req:Request,res:Response) =>{
+export const getSingleIssue =async (req:Request,res:Response) =>{
     
     try {
   
@@ -168,7 +168,7 @@ export const getsingleissue =async (req:Request,res:Response) =>{
 
 
 
-export const issuecalled =async (req:Request,res:Response) =>{
+export const issueCalled =async (req:Request,res:Response) =>{
     
     try {
     
@@ -239,7 +239,7 @@ export const issuecalled =async (req:Request,res:Response) =>{
 
 
 
-export const issuedone =async (req:Request,res:Response) =>{
+export const issueDone =async (req:Request,res:Response) =>{
     
     try {
     
@@ -269,7 +269,7 @@ export const issuedone =async (req:Request,res:Response) =>{
 
 
 
-export const getnextissue =async (req:Request,res:Response) =>{
+export const getDoneNextIssue =async (req:Request,res:Response) =>{
     
     try {
  

@@ -3,7 +3,7 @@ import { AppDataSource } from "../index"
 import { Issue } from "../models/Issue"
 
 
-export const havingissue =async (req:Request,res:Response) =>{
+export const havingIssue =async (req:Request,res:Response) =>{
     
     try {
      const {id}= req.body.userId

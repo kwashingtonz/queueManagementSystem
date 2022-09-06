@@ -6,7 +6,7 @@ import { Counter } from '../models/Counter'
 
 
 
-export const GenarateQueueNum = async (req:Request,res:Response,next:NextFunction) =>{
+export const genarateQueueNum = async (req:Request,res:Response,next:NextFunction) =>{
 
     try {
 

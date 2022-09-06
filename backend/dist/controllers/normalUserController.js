@@ -9,10 +9,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.havingissue = void 0;
+exports.havingIssue = void 0;
 const index_1 = require("../index");
 const Issue_1 = require("../models/Issue");
-const havingissue = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const havingIssue = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.body.userId;
         console.log(req.body.userId);
@@ -33,5 +33,5 @@ const havingissue = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         res.status(500).json({ message: error.message });
     }
 });
-exports.havingissue = havingissue;
+exports.havingIssue = havingIssue;
 //# sourceMappingURL=normalUserController.js.map

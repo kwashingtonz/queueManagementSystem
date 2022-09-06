@@ -9,12 +9,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getnextissue = exports.issuedone = exports.issuecalled = exports.getsingleissue = exports.getcounterissues = exports.deleteissue = exports.getissue = exports.createissue = void 0;
+exports.getDoneNextIssue = exports.issueDone = exports.issueCalled = exports.getSingleIssue = exports.getCounterIssues = exports.cancelIssue = exports.getIssueQueueDetails = exports.createIssue = void 0;
 const index_1 = require("../index");
 const Issue_1 = require("../models/Issue");
 const Counter_1 = require("../models/Counter");
 const Notification_1 = require("../models/Notification");
-const createissue = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const createIssue = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         let { name, telephone, email, issue, counter, userId, queueNo } = req.body;
         const issues = new Issue_1.Issue();
@@ -32,8 +32,8 @@ const createissue = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         res.status(500).json({ message: error.message });
     }
 });
-exports.createissue = createissue;
-const getissue = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.createIssue = createIssue;
+const getIssueQueueDetails = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const issueRepository = yield index_1.AppDataSource.getRepository(Issue_1.Issue)
             .createQueryBuilder("issue")
@@ -65,8 +65,8 @@ const getissue = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         res.status(500).json({ message: error.message });
     }
 });
-exports.getissue = getissue;
-const deleteissue = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getIssueQueueDetails = getIssueQueueDetails;
+const cancelIssue = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield Issue_1.Issue.delete({ user: req.body.userId });
         if (result.affected === 0) {
@@ -82,8 +82,8 @@ const deleteissue = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         });
     }
 });
-exports.deleteissue = deleteissue;
-const getcounterissues = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.cancelIssue = cancelIssue;
+const getCounterIssues = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const page = parseInt(req.query.page) || 1;
     const perPage = 5;
     const skip = (page - 1) * perPage;
@@ -111,8 +111,8 @@ const getcounterissues = (req, res) => __awaiter(void 0, void 0, void 0, functio
         res.status(500).json({ message: error.message });
     }
 });
-exports.getcounterissues = getcounterissues;
-const getsingleissue = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getCounterIssues = getCounterIssues;
+const getSingleIssue = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
         const issueRepository = yield index_1.AppDataSource.getRepository(Issue_1.Issue)
@@ -125,8 +125,8 @@ const getsingleissue = (req, res) => __awaiter(void 0, void 0, void 0, function*
         res.status(500).json({ message: error.message });
     }
 });
-exports.getsingleissue = getsingleissue;
-const issuecalled = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getSingleIssue = getSingleIssue;
+const issueCalled = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
         const issue = yield index_1.AppDataSource.getRepository(Issue_1.Issue)
@@ -181,8 +181,8 @@ const issuecalled = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         return res.status(500).json({ message: error.message });
     }
 });
-exports.issuecalled = issuecalled;
-const issuedone = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.issueCalled = issueCalled;
+const issueDone = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
         const user = yield Issue_1.Issue.findOneBy({ id: parseInt(req.params.id) });
@@ -200,8 +200,8 @@ const issuedone = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         return res.status(500).json({ message: error.message });
     }
 });
-exports.issuedone = issuedone;
-const getnextissue = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.issueDone = issueDone;
+const getDoneNextIssue = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
         const issueRepository = yield index_1.AppDataSource.getRepository(Issue_1.Issue)
@@ -254,5 +254,5 @@ const getnextissue = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         res.status(500).json({ message: error.message });
     }
 });
-exports.getnextissue = getnextissue;
+exports.getDoneNextIssue = getDoneNextIssue;
 //# sourceMappingURL=issueController.js.map

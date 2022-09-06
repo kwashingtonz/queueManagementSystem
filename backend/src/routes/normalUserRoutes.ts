@@ -1,20 +1,20 @@
 import {Router}  from "express"
-import {GenarateQueueNum} from "../middleware/GenerateQueue"
-import { createissue,getissue,deleteissue} from "../controllers/issueController"
-import { havingissue } from "../controllers/normalUserController"
+import {genarateQueueNum} from "../middleware/GenerateQueue"
+import { createIssue,cancelIssue, getIssueQueueDetails} from "../controllers/issueController"
+import { havingIssue } from "../controllers/normalUserController"
 import { getNotifications } from "../controllers/notificationController"
 
 
 const router = Router();
 
 
- router.get('/havingissue',havingissue)
+ router.get('/havingissue',havingIssue)
 
- router.post('/createissue',GenarateQueueNum,createissue)
+ router.post('/createissue',genarateQueueNum,createIssue)
 
- router.get('/getissue',getissue)
+ router.get('/getissue',getIssueQueueDetails)
 
- router.delete('/deleteissue',deleteissue)
+ router.delete('/deleteissue',cancelIssue)
 
  router.get('/getnotifications',getNotifications)
 
