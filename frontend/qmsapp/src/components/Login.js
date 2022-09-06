@@ -15,10 +15,6 @@ class Login extends Component {
       }
     }
 
-    changeHandler = e => {
-        this.setState({[e.target.name]: e.target.value})
-    }
-
     submitHandler = e => {
         e.preventDefault()
         console.log(this.state)
@@ -35,8 +31,6 @@ class Login extends Component {
   
     render() {
 
-    const { username , password } = this.state
-
     return (
         <Container id='main-container' className='d-grid h-100'>
             
@@ -52,8 +46,8 @@ class Login extends Component {
                                     size="lg"
                                     placeholder="Username"
                                     id="username"
-                                    value={username}
-                                    onChange={this.changeHandler}
+                                    value={this.state.username}
+                                    onChange={e => this.setState({ username: e.target.value })}
                                     required
                         />
                                 
@@ -67,8 +61,8 @@ class Login extends Component {
                                     size="lg"
                                     placeholder="Password"
                                     id="password"
-                                    value={password}
-                                    onChange={this.changeHandler}
+                                    value={this.state.password}
+                                    onChange={e => this.setState({ password: e.target.value })}
                                     required
                         />
                                 
