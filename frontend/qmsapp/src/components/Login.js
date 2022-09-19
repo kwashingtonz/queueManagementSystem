@@ -1,83 +1,136 @@
-import React, { Component } from 'react'
+import React,{useRef,Section,useState,useEffect} from 'react'
 import axios from '../api/axios'
-import '../styles/custom.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import {Form,Button, Container} from 'react-bootstrap';
+import '../styles/custom.css'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import {Form,Button, Container} from 'react-bootstrap'
+import useAuth from '../hooks/useAuth'
+import { Link,useLocation,useNavigate} from 'react-router-dom'
+import Socket from './Socket'
+const LOGIN_URL = '/'
 
-class Login extends Component {
+export default function Login() {
   
-    constructor(props) {
-      super(props)
+    const { setAuth } = useAuth()
+    const navigate = useNavigate()
+    const location =useLocation()
+    const from = "/issueinput"
+    const from2 = "/counter"
+  
+    const userRef =useRef('')
+    const errRef = useRef()
+  
+    const [username,setUsername] =useState('')
+    const [password,setPassword] =useState('')
+    const [errMsg,setErrMsg] =useState('')
+
+    useEffect(()=> {
+        userRef.current.focus()
+      },[])
+      
+      useEffect(()=>{
+        setErrMsg('')
+      },[username,password])
     
-      this.state = {
-         username: '',
-         password: ''
-      }
-    }
-
-    submitHandler = e => {
+      const handleSubmit = async (e) => {
         e.preventDefault()
-        console.log(this.state)
-       
-        axios
-        .post('/', this.state)
-        .then(response => {
-            console.log(response)
-        })
-        .catch(error => {
-            console.log(error)
-        })
+    
+        try {
+            const response = await axios.post(LOGIN_URL,
+                JSON.stringify({ username:username,password:password }),
+                {
+                    headers: { 'Content-Type': 'application/json' }
+                   // withCredentials: true
+                }
+            );
+            console.log(JSON.stringify(response?.data))
+     
+            const accessToken=(response?.data?.accessToken)
+     
+            if(response?.data?.roleType == "counterUser"){
+                const counterInfo =  response?.data?.counterinfo
+      
+                localStorage.setItem('user',JSON.stringify({ username,accessToken,counterInfo }))
+                console.log(JSON.stringify({ username,accessToken,counterInfo }))
+
+                setAuth({ username,accessToken,counterInfo })
+                setUsername('')
+                setPassword('')
+                navigate(from2,{replace :true})
+      
+            }
+
+            if(response?.data?.roleType == "normalUser"){
+                const   counter=(response?.data?.counter)
+                const  queue_num=(response?.data?.queue_num)
+      
+                localStorage.setItem('user',JSON.stringify({ username,accessToken,counter,queue_num}))
+                console.log(JSON.stringify({ username,accessToken,counter,queue_num}))
+
+                Socket.emit("newUser", username)
+                
+                setAuth({username,accessToken,counter,queue_num})
+                console.log(accessToken)
+      
+                navigate(from)
+      
+            }
+
+        } catch (err) {
+            if (!err?.response) {
+                setErrMsg('No Server Response')
+            } else if (err.response?.status === 400) {
+                setErrMsg('Invalid Username or Password')
+            } else if (err.response?.status === 401) {
+                setErrMsg('Unauthorized')
+            } else if (err.response?.status === 501) {
+                setErrMsg('No counters available')
+            }else {
+                setErrMsg('Login Failed')
+            }
+            errRef.current.focus()
+        }
+      
+    
     }
-  
-    render() {
 
     return (
-        <Container id='main-container' className='d-grid h-100'>
-            
-            <Form id='log-in-form' className='text-center w-100' onSubmit={this.submitHandler}>
-                
-                <h1 className='mb-3 fs-3'>Login</h1>
-
-                <Form.Group>
-             
-                        <Form.Control
-                                    className="position-relative"
-                                    type="text"
-                                    size="lg"
-                                    placeholder="Username"
-                                    id="username"
-                                    value={this.state.username}
-                                    onChange={e => this.setState({ username: e.target.value })}
-                                    required
+        <section>
+                  <div Id="main"  className=" col-md-6 offset-md-3 ">
+                    <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+                    <h1 className='col-md- offset-md-4 justify content'>Login</h1>
+                    <form onSubmit={handleSubmit}>
+                    <Form.Group role="form" className="col-md-6 offset-md-2 my-3 " id="formBasicEmail">
+                      
+                    <Form.Label>Username</Form.Label>
+                        <Form.Control  className="form-control"
+                            type="text"
+                            id="username"
+                            ref={userRef}
+                           
+                            onChange={(e) => setUsername(e.target.value)}
+                            value={username}
+                            required
                         />
-                                
-                </Form.Group>
-
-                <Form.Group>
-                                
-                        <Form.Control
-                                    className="position-relative mt-1"
-                                    type="password"
-                                    size="lg"
-                                    placeholder="Password"
-                                    id="password"
-                                    value={this.state.password}
-                                    onChange={e => this.setState({ password: e.target.value })}
-                                    required
+                         </Form.Group>
+                  <Form.Group className="col-md-6 offset-md-2 my-3 " id="formBasicPassword">
+                        <label htmlFor="password">Password:</label>
+                        <Form.Control  className="form-control"
+                            type="password"
+                            id="password"
+                            onChange={(e) => setPassword(e.target.value)}
+                            value={password}
+                            required
                         />
-                                
-                </Form.Group>
 
-                <div className='mt-3 d-grid'>
-
-                   <Button variant="primary" size="lg" type="submit">Login</Button>
-
-                </div>
-            </Form>
-                       
-        </Container>
+                        <Button className='col-md-6 offset-md-3 mt-3' variant="primary" type="submit">Login</Button>
+                        </Form.Group>
+                        
+                    </form>
+                    </div>
+                </section>
     )
-  }
-}
 
-export default Login
+
+
+
+}  

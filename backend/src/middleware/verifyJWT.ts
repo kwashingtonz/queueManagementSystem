@@ -11,8 +11,6 @@ export const ValidateToken =(req:Request,res:Response,next:NextFunction) =>{
     const authHeader =req.headers['authorization']
     const token =authHeader && authHeader.split(' ')[1]
 
-    if(acctoken != token) return res.status(403).send({ message : 'Invalid Access Token'})
-
     if(!token) return res.status(401).json('Access denied')
 
     const payload = jwt.verify(token,process.env.TOKEN_SECRET || 'tokentest') as IPayload

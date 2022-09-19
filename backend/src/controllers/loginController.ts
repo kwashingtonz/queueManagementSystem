@@ -36,7 +36,7 @@ export const loginUser =async (req:Request,res:Response) =>{
                 .where("counter.isOnline = :online", { online: 0 })
                 .getOne()
 
-                if(!newcounter) return res.json({'message': 'no counters available'})
+                if(!newcounter) return res.status(501).json({'message': 'no counters available'})
 
                 const updateCounter = await AppDataSource
                 .createQueryBuilder()

@@ -15,12 +15,12 @@ export const havingIssue =async (req:Request,res:Response) =>{
      .getOne()
      
     if(havingissue){
-        haveIssue = true
+        haveIssue = 1
     }else{
-        haveIssue = false
+        haveIssue = 0
     }
 
-     res.json({'havingIssue': haveIssue})  
+     res.json({havingIssue:haveIssue})  
  
      } catch (error) {
  
