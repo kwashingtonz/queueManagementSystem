@@ -87,7 +87,7 @@ export default function IssueInput() {
       console.log(name,telephone,issue,email)
 
       const res = await authAxios.post('nuser/createIssue',
-          JSON.stringify({ name:name,tel:telephone,email:email,issue:issue }),
+          JSON.stringify({ name:name,telephone:telephone,email:email,issue:issue }),
           {
             headers: { 'Content-Type': 'application/json' }
            // withCredentials: true
