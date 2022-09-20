@@ -8,8 +8,8 @@ import Socket from './Socket';
 export default function Queuedisplay(props) {
     const { auth } = useAuth();
     const { setAuth } = useAuth();
-    const [current,setCurrent]=useState('')
-    const [next,setNext]=useState('')
+    const [currentNum,setCurrent]=useState('')
+    const [nextNum,setNext]=useState('')
     const [counter,setCounter]=useState('')
     const [queue_num,setQueuenum]=useState('')
     const [username,setUser]=useState('')
@@ -36,13 +36,13 @@ export default function Queuedisplay(props) {
         
        
         const id=props.counter||auth?.counter
-        // console.log(id)
+         //console.log(id)
 
         if(id==1){
 
           Socket.on('getqueuenum1',(m)=>{
-             setNext(m.counter_next_num)
-             setCurrent(m.counter_current_num)
+             setNext(m.counter_nextNum)
+             setCurrent(m.counter_currentNum)
            })
            
             
@@ -52,10 +52,8 @@ export default function Queuedisplay(props) {
       if(id==2){
 
           Socket.on('getqueuenum2',(m)=>{
-            // console.log(m.counter_current_num)
-             //console.log(m.counter_next_num)
-             setNext(m.counter_next_num)
-             setCurrent(m.counter_current_num)
+             setNext(m.counter_nextNum)
+             setCurrent(m.counter_currentNum)
            })
            
 
@@ -63,10 +61,8 @@ export default function Queuedisplay(props) {
        if(id==3){
 
           Socket.on('getqueuenum3',(m)=>{
-            // console.log(m.counter_current_num)
-             //console.log(m.counter_next_num)
-             setNext(m.counter_next_num)
-             setCurrent(m.counter_current_num)
+             setNext(m.counter_nextNum)
+             setCurrent(m.counter_currentNum)
            })
            
 
@@ -88,7 +84,7 @@ export default function Queuedisplay(props) {
 
   return (
     <div>
-      <>{next === queue_num ? (
+      <>{queue_num === nextNum ? (
         <section>
         <Container>
 <Row>
@@ -169,11 +165,11 @@ export default function Queuedisplay(props) {
         <div id='currenttxt'>Current Number</div>
         </div>
         <div class=" d-flex align-items-center justify-content-center">
-         <h1 id='currentnum'>0{current}</h1>
+         <h1 id='currentnum'>0{currentNum}</h1>
          </div>
          <div class=" d-flex align-items-center justify-content-center">
          <h1 id='nexttxt'>Next Number</h1>
-         <h1 id='nextnum'>0{next}</h1>
+         <h1 id='nextnum'>0{nextNum}</h1>
          </div>
 
      

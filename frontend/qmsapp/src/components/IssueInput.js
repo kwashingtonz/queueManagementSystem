@@ -11,9 +11,9 @@ import { useNavigate} from 'react-router-dom';
 export default function IssueInput() {
  
   const { auth,setAuth } = useAuth();
-  const [user,setUsername] = useState('')
+  const [username,setUsername] = useState('')
   const [name,setName]=useState('')
-  const [tel,setTel]=useState('')
+  const [telephone,setTelephone]=useState('')
   const [email,setEmail]=useState('')
   const [issue,setIssue]=useState('')
   const [sendissue,SetSendissue]=useState(false)
@@ -84,10 +84,10 @@ export default function IssueInput() {
     e.preventDefault();
    
     try {
-      console.log(name,tel,issue,email)
+      console.log(name,telephone,issue,email)
 
-      const res = await authAxios.post('nuser/createissue',
-          JSON.stringify({ name:name,tel:tel,email:email,issue:issue }),
+      const res = await authAxios.post('nuser/createIssue',
+          JSON.stringify({ name:name,tel:telephone,email:email,issue:issue }),
           {
             headers: { 'Content-Type': 'application/json' }
            // withCredentials: true
@@ -98,7 +98,7 @@ export default function IssueInput() {
           setEmail('')
           setIssue('')
           setName('')
-          setTel('')
+          setTelephone('')
          
           setCounter(res.data.counter)
           setQueuenum(res.data.queueNo)
@@ -124,19 +124,17 @@ export default function IssueInput() {
    <Col>
   
    <Card.Body id="profilename"  border="primary" style={{ width: '13rem' }}>
-   <h6>{user}</h6>
+   <h6>{username}</h6>
    <Button id='logoutbtn' variant="outline-danger"
       onClick={() => logout()}
     >Logout</Button>
    </Card.Body>
-   <Button id='submitbtn' variant="primary" type="submit">
-  <FaBell /> 
-  </Button>
    </Col>
  </Row>
          <Row>
          <Col md={{ span: 8, offset: 2 }}>
          <form onSubmit={handleSubmit}>
+           
            <Form.Group role="form" className="" controlId="formName">
              <Form.Label>Name</Form.Label>
              <Form.Control type="text" placeholder="Enter Name"
@@ -150,8 +148,8 @@ export default function IssueInput() {
             <Form.Group className="mx-auto" controlId="formTelephone">
            <Form.Label>Telephone</Form.Label>
            <Form.Control type="text" placeholder="Telephone" 
-              onChange={(e) => setTel(e.target.value)}
-              value={tel}
+              onChange={(e) => setTelephone(e.target.value)}
+              value={telephone}
               required           
            />
            </Form.Group>
