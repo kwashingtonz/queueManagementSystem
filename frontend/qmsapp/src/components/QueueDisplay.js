@@ -1,11 +1,12 @@
 import React,{useEffect,useState} from 'react'
 import {io} from 'socket.io-client'
-import { Col, Container,Row,Badge,Card,Button,Alert} from 'react-bootstrap'
+import { Col, Container,Row,Badge,Card,Button,Alert,Modal} from 'react-bootstrap'
 import { FaBell } from "react-icons/fa";
 import useAuth from '../hooks/useAuth';
 import { Link } from 'react-router-dom';
 import axios ,{BASE_URL}from '../api/axios';
 import Socket from './Socket';
+
 export default function Queuedisplay(props) {
     const { auth } = useAuth();
     const { setAuth } = useAuth();
@@ -14,6 +15,7 @@ export default function Queuedisplay(props) {
     const [counter,setCounter]=useState('')
     const [queue_num,setQueuenum]=useState('')
     const [username,setUsername]=useState('')
+    const [show,setShow]=useState(false)
 
 
   const Token=auth?.accessToken
@@ -25,7 +27,9 @@ export default function Queuedisplay(props) {
     }
   })
 
-
+  const handleClose = () =>{
+    setShow(false)
+  }
 
 
     useEffect(() =>{
@@ -98,15 +102,13 @@ export default function Queuedisplay(props) {
       const cancel = async () =>{
         try {
           
-          
+
           
           const res = await authAxios.delete(`nuser/cancelIssue`)
          
           if(res.data.message==="deleted")
           {
-            
-            localStorage.clear();
-            setAuth();
+            window.location.reload()
           }
          
          } catch (error) {
@@ -137,8 +139,8 @@ export default function Queuedisplay(props) {
   </Button></Link>
        </Col> </Row>
             <Row>
-                <Col md={{ span: 4, offset: 4 }}>
-                <Card id="id"  md={{ span: 6, offset: 3 }} border="primary" style={{ width: '26rem', height: '26rem' }}>
+                <Col md={{ span: 4, offset: 3 }}>
+                <Card id="id"  md={{ span: 6, offset: 3 }} border="primary" style={{ width: '32rem', height: '26rem' }}>
     
     <Card.Title >
     <div class=" d-flex align-items-center justify-content-center">
@@ -220,12 +222,26 @@ export default function Queuedisplay(props) {
     <Card.Body id="profilename"  border="primary" style={{ width: '6rem' }}>
     
     <Button id='cancelbtn' variant="danger"
-      onClick={() => cancel()}
+      onClick={() => setShow(true)}
     >Cancel</Button>
     </Card.Body>
        </Col> 
        </Row>
         </Container>
+         <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Cancel Issue</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Do you want to cancel the issue?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            No
+          </Button>
+          <Button variant="primary" onClick={cancel}>
+            Yes
+          </Button>
+        </Modal.Footer>
+      </Modal> 
         </section>
       )}
       </>
