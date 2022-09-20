@@ -14,11 +14,11 @@ export default function Notifications() {
     const { auth,setAuth } = useAuth();
     const navigate = useNavigate();
     const [notifications, setNotifications] = useState([]);
-    const [user,setUser]=useState('')
+    const [username,setUsername]=useState('')
 
    
     useEffect(() => {
-      setUser(auth?.user)
+      setUsername(auth?.username)
       Socket.on("getNotification", (data) => {
         console.log(data.type)
         toast.success(data.type)
@@ -108,7 +108,7 @@ export default function Notifications() {
     <Col>
       
         <Card.Body id="profilename"  border="primary" style={{ width: '13rem' }}>
-        <Badge pill bg="primary"><h6>{user}</h6></Badge>
+        <Badge pill bg="primary"><h6>{username}</h6></Badge>
         <Button id='logoutbtn' variant="outline-danger"
           onClick={() => logout()}
         >Logout</Button>
