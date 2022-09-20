@@ -89,7 +89,7 @@ export const createIssue =async (req:Request,res:Response) =>{
 
         req.body.userId = null
 
-       return  res.json({message:"successfully deleted and logged out"})
+       return  res.json({message:"deleted"})
     
  
     } catch (error) {

@@ -4,6 +4,7 @@ import { Col, Container,Row,Badge,Card,Button,Alert} from 'react-bootstrap'
 import { FaBell } from "react-icons/fa";
 import useAuth from '../hooks/useAuth';
 import { Link } from 'react-router-dom';
+import axios ,{BASE_URL}from '../api/axios';
 import Socket from './Socket';
 export default function Queuedisplay(props) {
     const { auth } = useAuth();
@@ -12,12 +13,23 @@ export default function Queuedisplay(props) {
     const [nextNum,setNext]=useState('')
     const [counter,setCounter]=useState('')
     const [queue_num,setQueuenum]=useState('')
-    const [username,setUser]=useState('')
+    const [username,setUsername]=useState('')
 
-  
+
+  const Token=auth?.accessToken
+
+  const authAxios = axios.create({
+    baseURL: BASE_URL,
+    headers: {
+      Authorization :`Bearer ${Token}`
+    }
+  })
+
+
+
 
     useEffect(() =>{
-      setUser(auth?.username)
+      setUsername(auth?.username)
      
      if(auth?.counter==undefined ||auth?.queue_num==undefined)
      {
@@ -81,6 +93,27 @@ export default function Queuedisplay(props) {
               console.log(error);         
        }
       }
+
+
+      const cancel = async () =>{
+        try {
+          
+          
+          
+          const res = await authAxios.delete(`nuser/cancelIssue`)
+         
+          if(res.data.message==="deleted")
+          {
+            
+            localStorage.clear();
+            setAuth();
+          }
+         
+         } catch (error) {
+                console.log(error)     
+         }
+      }
+
 
   return (
     <div>
@@ -181,6 +214,17 @@ export default function Queuedisplay(props) {
      </Card>
                 </Col>
             </Row>
+            <Row>
+<Col>
+  
+    <Card.Body id="profilename"  border="primary" style={{ width: '6rem' }}>
+    
+    <Button id='cancelbtn' variant="danger"
+      onClick={() => cancel()}
+    >Cancel</Button>
+    </Card.Body>
+       </Col> 
+       </Row>
         </Container>
         </section>
       )}
