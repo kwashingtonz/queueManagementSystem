@@ -89,7 +89,7 @@ export default function Queuedisplay(props) {
 
       const logout = async () => {
         try {
-
+          
           localStorage.clear();
           setAuth();
         } 

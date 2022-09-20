@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 
 const Issuecard = (props) => {
 
-    const { id, queueNo, name, telephone, user } = props.issue;
+    const { id, queueNo, name, telephone, user ,isCalled} = props.issue;
+
     return (
      <Card id="id"  border="primary" style={{ width: '35rem' }}
      key={id}>
@@ -28,10 +29,25 @@ const Issuecard = (props) => {
           to={{ pathname: `/CounterCall/${id}`,
             }}
         >
+      <>
+      
+      {isCalled === true ?(
+      <section>   
+      <Button id='viewbtn'  variant="outline-primary"
+      onClick={() => props.clickHander(id,queueNo,user)}
+      >Recall</Button>
+
+      <Button id='viewbtn'  variant="outline-primary">View</Button>
+      
+      </section>
+      )
+   :(
       <Button id='viewbtn'  variant="outline-primary"
       onClick={() => props.clickHander(id,queueNo,user)}
       >Call</Button>
-
+   )
+   }
+      </>
       </Link>
    {/* </Link> */}
    

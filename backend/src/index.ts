@@ -68,7 +68,7 @@ export const io = new Server(server,{cors: {origin:"http://localhost:3000"}})
 let onlineUsers:any = []
 
 const addNewUser = (receiverId:any, socketId:any) => {
-  !onlineUsers.some((user:any) => user.uid === receiverId) &&
+  !onlineUsers.some((user:any) => user.receiverId === receiverId) &&
     onlineUsers.push({ receiverId, socketId })
     console.log('online users',onlineUsers)
 }

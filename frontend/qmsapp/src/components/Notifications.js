@@ -21,36 +21,26 @@ export default function Notifications() {
       setUsername(auth?.username)
 
       Socket.on("getNotification", (data) => {
-        console.log(data.type)
-        toast.success(data.type)
-        setNotifications([...notifications,data]);
         console.log(data)
+        //toast.success(data.type)
+        setNotifications((prev) => [...prev,data]);
+
         console.log(notifications)
-        localStorage.setItem('notifications',JSON.stringify([data]))
+        localStorage.setItem('notifications',JSON.stringify(notifications))
 
-       /*  const nw =  JSON.parse(localStorage.getItem('notifications'))
-        setNotifications([...notifications,nw]); 
-
-     if(notifications==undefined)
-      { }
-      else{
-        localStorage.setItem('notifications',JSON.stringify([data]))
-      } */
-        
-       //console.log(nw)
-       toast.success('🦄 Wow so easy!', {
-        position: "top-left",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        });
+      //  toast.success(notifications, {
+      //   position: "top-left",
+      //   autoClose: 5000,
+      //   hideProgressBar: false,
+      //   closeOnClick: true,
+      //   pauseOnHover: true,
+      //   draggable: true,
+      //   progress: undefined,
+      //   })
 
        
-      });
-    }, [Socket]);
+      })
+    }, [Socket])
 
     
  
@@ -59,16 +49,16 @@ export default function Notifications() {
 
    
     
-    const rendernotifylist = notifications.map((notification) =>(
-      <NotifyCard
-      notification={notification}
-      key={notification.id}
+    // const rendernotifylist = notifications.map((notification) =>(
+    //   <NotifyCard
+    //   notification={notification}
+    //   key={notification.id}
     
-      />
-    )) 
+    //   />
+    // )) 
 
     
-    console.log(notifications)
+    //console.log(notifications)
     const logout = async () => {
         try {
 
@@ -79,30 +69,30 @@ export default function Notifications() {
               console.log(error);         
        }
       }
-      console.log(notifications)
+      //console.log(notifications)
       
-      const displayNotification = ({ type,id }) => {
+      // const displayNotification = ({ type,id }) => {
       
-        return (
-          <Card id="id"  border="primary" style={{ width: '45rem' }} key={id}>
+      //   return (
+      //     <Card id="id"  border="primary" style={{ width: '45rem' }} key={id}>
         
-        <Card.Title>
-            <Badge pill bg="primary">
-            message:
-            </Badge>
-        </Card.Title>
-      <Card.Body>
-      <p id='issuename'>{type}</p>
-      </Card.Body>
-         </Card>
-        );
-      };
+      //   <Card.Title>
+      //       <Badge pill bg="primary">
+      //       message:
+      //       </Badge>
+      //   </Card.Title>
+      // <Card.Body>
+      // <p id='issuename'>{type}</p>
+      // </Card.Body>
+      //    </Card>
+      //   );
+      // };
 
 
-      const notify = () => {
+      // const notify = () => {
         
-        toast("Wow so easy!");
-      }
+      //   toast("Wow so easy!");
+      // }
   return (
     <Container>
     <Row>

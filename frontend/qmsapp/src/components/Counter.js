@@ -38,7 +38,7 @@ export default function Counter(props) {
        //const res1 = await authAxios.put(`api/cuser/nextissuecalled/${queue_num}`);
        Socket.emit("sendNotification", {
         receiverId:uid,
-        type:'You are called .Please come to the counter '+countnum,
+        type:'Please proceed to the counter '+countnum+' now',
         id:id
       });
        } 

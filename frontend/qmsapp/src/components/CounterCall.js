@@ -5,7 +5,7 @@ import {Badge,Button,Row,Col,Card,Container} from 'react-bootstrap';
 import useAuth from '../hooks/useAuth';
 import { useLocation,useParams } from 'react-router-dom';
 import axios,{BASE_URL} from '../api/axios';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 
 
 
@@ -13,6 +13,7 @@ import { Link } from 'react-router-dom';
 
   const id=(useParams().id)
   const [issue,setIssue]=useState({})
+  const navigate = useNavigate();
   const [countname,setCountname]=useState('')
   const [countnum,setCountnum]=useState('')
   const [nulla,setNulla]=useState(false)
@@ -107,6 +108,11 @@ import { Link } from 'react-router-dom';
          <Badge pill bg="secondary" >
            <h6>Counter:0{countnum}</h6>   
        </Badge>
+       <Button id='submitbtn' variant="primary" type="submit" 
+        onClick={() => navigate(-1)}>
+          
+     Back
+      </Button>
         </Col>
         <Col>
        
@@ -124,7 +130,7 @@ import { Link } from 'react-router-dom';
                 <>
             {nulla ? (
                 <section>
-                    <h3>No issues to display</h3>
+                    <h3>No issue to display</h3>
                    
                 </section>
             ) : (  
