@@ -102,8 +102,6 @@ export default function Queuedisplay(props) {
       const cancel = async () =>{
         try {
           
-
-          
           const res = await authAxios.delete(`nuser/cancelIssue`)
          
           if(res.data.message==="deleted")
@@ -222,13 +220,13 @@ export default function Queuedisplay(props) {
     <Card.Body id="profilename"  border="primary" style={{ width: '6rem' }}>
     
     <Button id='cancelbtn' variant="danger"
-      onClick={() => setShow(true)}
+      onClick={() => setShow(true)} 
     >Cancel</Button>
     </Card.Body>
        </Col> 
        </Row>
         </Container>
-         <Modal show={show} onHide={handleClose}>
+          <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Cancel Issue</Modal.Title>
         </Modal.Header>
@@ -241,7 +239,7 @@ export default function Queuedisplay(props) {
             Yes
           </Button>
         </Modal.Footer>
-      </Modal> 
+      </Modal>  
         </section>
       )}
       </>

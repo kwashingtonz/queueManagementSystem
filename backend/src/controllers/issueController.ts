@@ -85,9 +85,8 @@ export const createIssue =async (req:Request,res:Response) =>{
             return res.status(404).json({ message: "user does not exists"})
         } 
         
-        res.cookie('jwt','',{ maxAge: 1 })
-
-        req.body.userId = null
+        // res.cookie('jwt','',{ maxAge: 1 })
+        // req.body.userId = null
 
        return  res.json({message:"deleted"})
     
@@ -120,6 +119,7 @@ export const getCounterIssues =async (req:Request,res:Response) =>{
           
         const issueRepository = await AppDataSource.getRepository(Issue)
         .createQueryBuilder("issue")
+        .loadAllRelationIds()
         .where("issue.counter = :counter", { counter: counterRepository.counter_id })
         .andWhere("issue.isDone = :isDone", { isDone: false })
         .orderBy("issue.queueNo", "ASC")
@@ -153,6 +153,7 @@ export const getSingleIssue =async (req:Request,res:Response) =>{
         
         const issueRepository = await AppDataSource.getRepository(Issue) 
         .createQueryBuilder("issue")
+        .loadAllRelationIds()
         .where("issue.id = :id", { id: parseInt(id) })
         .getOne()
  

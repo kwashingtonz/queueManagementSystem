@@ -4,19 +4,19 @@ import { Link } from 'react-router-dom';
 
 const Issuecard = (props) => {
 
-    const { id, queue_num, name } = props.issue;
+    const { id, queueNo, name, telephone, user } = props.issue;
     return (
-     <Card id="id"  border="primary" style={{ width: '40rem' }}
+     <Card id="id"  border="primary" style={{ width: '35rem' }}
      key={id}>
     
     <Card.Title>
         <Badge pill bg="primary">
-        {queue_num}
+        {queueNo}
         </Badge>
     </Card.Title>
   <Card.Body>
-     <h6 id='issuename'>{name}</h6>
-   
+     <h7 id='issuename'>{name}</h7>
+     <h6>0{telephone}</h6>
    {/* <Link to ={{
       pathname:'/countercall',
       state:{
@@ -25,11 +25,11 @@ const Issuecard = (props) => {
    }}> */}
 
       <Link
-          to={{ pathname: `/countercall/${id}`,
+          to={{ pathname: `/CounterCall/${id}`,
             }}
         >
       <Button id='viewbtn'  variant="outline-primary"
-      onClick={() => props.clickHander(id,queue_num,name)}
+      onClick={() => props.clickHander(id,queueNo,user)}
       >Call</Button>
 
       </Link>

@@ -7,7 +7,6 @@ interface IPayload {
 
 export const ValidateToken =(req:Request,res:Response,next:NextFunction) =>{
 
-    const acctoken = req.cookies.jwt
     const authHeader =req.headers['authorization']
     const token =authHeader && authHeader.split(' ')[1]
 

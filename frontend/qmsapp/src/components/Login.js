@@ -62,11 +62,13 @@ export default function Login() {
             if(response?.data?.roleType == "normalUser"){
                 const   counter=(response?.data?.counter)
                 const  queue_num=(response?.data?.queue_num)
+                const receiverId =(response?.data?.userID) 
       
                 localStorage.setItem('user',JSON.stringify({ username,accessToken,counter,queue_num}))
                 console.log(JSON.stringify({ username,accessToken,counter,queue_num}))
 
-                Socket.emit("newUser", username)
+                Socket.emit("newUser", receiverId)
+                console.log(Socket)
                 
                 setAuth({username,accessToken,counter,queue_num})
                 console.log(accessToken)

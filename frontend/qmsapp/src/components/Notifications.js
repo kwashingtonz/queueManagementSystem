@@ -19,6 +19,7 @@ export default function Notifications() {
    
     useEffect(() => {
       setUsername(auth?.username)
+
       Socket.on("getNotification", (data) => {
         console.log(data.type)
         toast.success(data.type)
@@ -79,6 +80,7 @@ export default function Notifications() {
        }
       }
       console.log(notifications)
+      
       const displayNotification = ({ type,id }) => {
       
         return (

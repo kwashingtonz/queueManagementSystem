@@ -67,9 +67,10 @@ export const io = new Server(server,{cors: {origin:"http://localhost:3000"}})
 
 let onlineUsers:any = []
 
-const addNewUser = (username:any, socketId:any) => {
-  !onlineUsers.some((user:any) => user.username === username) &&
-    onlineUsers.push({ username, socketId })
+const addNewUser = (receiverId:any, socketId:any) => {
+  !onlineUsers.some((user:any) => user.uid === receiverId) &&
+    onlineUsers.push({ receiverId, socketId })
+    console.log('online users',onlineUsers)
 }
 
 //remove user
@@ -77,29 +78,32 @@ const removeUser = (socketId:any) => {
     onlineUsers = onlineUsers.filter((user:any) => user.socketId !== socketId)
 }
 
-const getUser = (username:any) => {
- return onlineUsers.find((user:any) => user.username === username)
+
+const getUser = (receiverId:any) => {
+ return onlineUsers.find((user:any) => user.receiverId === receiverId)
 }
 
     io.on("connection",(socket)=>{
      
+        
+
         //add new user
-        socket.on("newUser", (username) => {
-            addNewUser(username, socket.id)
+        socket.on("newUser", (receiverId) => {
+            addNewUser(receiverId, socket.id)
         })
 
-        console.log('online users',onlineUsers)
-
         //send notifications
-        socket.on("sendNotification", ({ receiverName, type, id }) => {
-            const receiver = getUser(receiverName)
-            console.log(getUser(receiverName))
+        socket.on("sendNotification", ({ receiverId, type, id }) => {
+            const receiver = getUser(receiverId)
+            console.log('Id of the receiver',receiverId)
+            console.log(getUser(receiverId))
       
             io.to(receiver.socketId).emit("getNotification", {
                 id,
                 type
             })
         })
+
 
 
         //setInterval
@@ -126,7 +130,7 @@ const getUser = (username:any) => {
     })
 
 
-//running server
-server.listen(8000, ()=>{
-    console.log('app runing on server 8000')
-})
+    //running server
+    server.listen(8000, ()=>{
+        console.log('app runing on server 8000')
+    })
