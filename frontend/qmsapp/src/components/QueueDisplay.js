@@ -160,6 +160,49 @@ export default function Queuedisplay(props) {
         </Container>
         </section>
 
+      ):queue_num === currentNum ?(
+        <section>
+        <Container>
+<Row>
+  <Col></Col>
+<Col>
+  
+    <Card.Body id="profilename"  border="primary" style={{ width: '13rem' }}>
+    <Badge pill bg="primary"><h6>{username}</h6></Badge>
+    <Button id='logoutbtn' variant="outline-danger"
+      onClick={() => logout()}
+    >Logout</Button>
+    </Card.Body>
+    <Link to="/notifications">
+    <Button id='submitbtn' variant="primary" type="submit">
+      
+  <FaBell /> 
+  </Button></Link>
+       </Col> </Row>
+            <Row>
+                <Col md={{ span: 4, offset: 2 }}>
+                <Card id="id"  md={{ span: 6, offset: 3 }} border="primary" style={{ width: '42rem', height: '32rem' }}>
+    
+    <Card.Title >
+    <div class=" d-flex align-items-center justify-content-center">
+        <Badge pill bg="info" >
+        <h4>Counter 0{counter}</h4>
+        </Badge>
+        </div>
+    </Card.Title>
+  <Card.Body>
+            
+        <div class=" d-flex align-items-center justify-content-center">
+         <h1 id='currentnum'>Proceed to the counter</h1>
+         </div>  
+   
+  </Card.Body>
+     </Card>
+                </Col>
+            </Row>
+        </Container>
+        </section> 
+
       ):(
       <section>
         <Container>
