@@ -17,6 +17,8 @@ export default function Counter(props) {
    const [issueid,setIssueid]=useState('')
    const [nullvalue,setNull]=useState(false)
    const [counter,setCounter]=useState(true)
+   const [page,setPage]=useState(1)
+   const [lp,setLP]=useState()
   
   
 
@@ -54,18 +56,20 @@ export default function Counter(props) {
 
   useEffect(() => {
 
-    const fetchIssues = async () => {
+    const fetchIssues = async (page) => {
        try {
         
-        const response = await authAxios.get('cuser/getCounterIssues');
+        const response = await authAxios.get('cuser/getCounterIssues?page='+page);
         if(!response.data.issues.length==0)
         {
-          setIssues(response.data.issues)}
+          setIssues(response.data.issues)
+          setLP(response.data.lastPage)  
+        }
         else{
           setNull(true)
         }
        
-       console.log(response.data)
+       //console.log(response.data)
     
         setCountname(auth?.username)
         setCountnum(auth?.counterInfo.id)
@@ -75,12 +79,41 @@ export default function Counter(props) {
        }
     }  
      
-  
-
-
-
-    fetchIssues();
+    fetchIssues(page);
   },[])
+
+
+  const fetchIssuesPage = async (page) => {
+    try {
+     
+     const response = await authAxios.get('cuser/getCounterIssues?page='+page);
+     if(!response.data.issues.length==0)
+     {
+       setIssues(response.data.issues)
+       setLP(response.data.lastPage) }
+     else{
+       setNull(true)
+     }
+    
+    console.log(response)
+    
+    } catch (error) {
+           console.log(error);         
+    }
+ }   
+
+
+  const nextpage = async ()=>{
+
+    fetchIssuesPage(page+1)
+    setPage(page+1)
+  }
+
+  const prevpage = async ()=>{
+
+    fetchIssuesPage(page-1)
+    setPage(page-1)
+  }
 
 
   const closecounter = async () => {
@@ -136,6 +169,26 @@ export default function Counter(props) {
             ) : (  
               <section>
               {renderissuelist}
+               
+               <>
+               {page === 1 ?
+               (
+                <Button onClick={() => prevpage()} disabled>Prev</Button>
+               ):(
+                <Button onClick={() => prevpage()}>Prev</Button>
+                )}
+               </>
+               {page}/{lp} 
+               <>
+               {page ===  lp?
+               (
+                <Button onClick={() => nextpage()} disabled>Next</Button>
+               ):(
+                <Button onClick={() => nextpage()}>Next</Button>
+                )}
+               </>
+                
+               
                </section> )}
     </>
          </div>
