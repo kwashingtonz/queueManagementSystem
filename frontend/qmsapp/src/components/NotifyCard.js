@@ -5,16 +5,17 @@ import { Link } from 'react-router-dom';
 const Notifycard = (props) => {
 
     const { id, message } = props.notification;
+    
     return (
      <Card id="id"  border="primary" style={{ width: '45rem' }} key={id}>
     
     <Card.Title>
         <Badge pill bg="primary">
-        message
+        Notification
         </Badge>
     </Card.Title>
   <Card.Body>
-     <h6 id='issuename'>{message}</h6>
+     <h7 id='issuename'>{message}</h7>
   </Card.Body>
      </Card>
     );

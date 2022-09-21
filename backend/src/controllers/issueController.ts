@@ -319,6 +319,16 @@ export const getDoneNextIssue =async (req:Request,res:Response) =>{
         .where("issue.queueNo = :queueNo", { queueNo:counterRepository?.nextNum })
         .andWhere("issue.counterId = :counter", { counter:counterRepository?.id })
         .getOne()
+
+        if(nextissue){
+            const notifyNext = new Notification()
+            notifyNext.message = "Please proceed to the Counter "+nextissue.counter+" now"
+            notifyNext.issue = nextissue
+            notifyNext.user = nextissue.user
+
+            const savedissue = await notifyNext.save()
+        
+       
                 
                 
         const nextnum = await AppDataSource.getRepository(Issue)
@@ -349,7 +359,10 @@ export const getDoneNextIssue =async (req:Request,res:Response) =>{
         console.log(counterassign)
              
         res.json(nextissue)
-        
+        }
+        else{
+            res.json({message: 'No issue'})
+        }
      } catch (error) {
  
         res.status(500).json({message:error.message})

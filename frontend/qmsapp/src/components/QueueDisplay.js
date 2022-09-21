@@ -47,12 +47,12 @@ export default function Queuedisplay(props) {
       setQueuenum(auth?.queue_num)
      }
       
-      Socket.on("getNotification", (data) => {
-        console.log(data)
-     
-        if(data){
+      Socket.off("getNotification").on("getNotification", (data) => {
+    
+          console.log(data)
+
           toast(data.type, {
-            position: "top-left",
+            position: "bottom-right",
             autoClose: 5000,
             hideProgressBar: false,
             closeOnClick: true,
@@ -60,7 +60,7 @@ export default function Queuedisplay(props) {
             draggable: true,
             progress: undefined,
             })
-        }
+        
 
        
       })
@@ -323,7 +323,18 @@ export default function Queuedisplay(props) {
             Yes
           </Button>
         </Modal.Footer>
-      </Modal>  
+      </Modal> 
+      <ToastContainer
+          position="bottom-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={true}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          /> 
         </section>
       )}
       </>

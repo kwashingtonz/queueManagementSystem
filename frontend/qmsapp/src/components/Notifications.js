@@ -35,9 +35,10 @@ export default function Notifications() {
         try {
          
          const response = await authAxios.get('nuser/getNotifications');
-         if(!response.data.length==0)
+
+         if(!response.data[0].length==0)
          {  
-          setNotifications(response.data);
+          setNotifications(response.data[0]);
         }
          else{
            setNull(true)
@@ -54,9 +55,6 @@ export default function Notifications() {
       fetchNotification();
     }, [])
 
-    
- 
-      const nw =  JSON.parse(localStorage.getItem('notifications'))
   
 
    
@@ -81,10 +79,6 @@ export default function Notifications() {
        }
       }
 
-      // const notify = () => {
-        
-      //   toast("Wow so easy!");
-      // }
   return (
     <Container>
     <Row>
