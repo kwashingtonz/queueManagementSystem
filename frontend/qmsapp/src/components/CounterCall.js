@@ -62,7 +62,7 @@ import Socket from './Socket';
     try {
     const res = await authAxios.get(`cuser/issueDone/${id}`);
    console.log(res.data)
-  
+   window.location.reload()
    } 
    catch (error) {
           console.log(error);         

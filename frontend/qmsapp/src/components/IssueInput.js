@@ -102,7 +102,6 @@ export default function IssueInput() {
          
           setCounter(res.data.counter)
           setQueuenum(res.data.queueNo)
-          //navigate("/queuedisplay")
           SetSendissue(true)
 
       

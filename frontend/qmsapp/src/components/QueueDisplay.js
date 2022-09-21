@@ -59,6 +59,7 @@ export default function Queuedisplay(props) {
           Socket.on('getqueuenum1',(m)=>{
              setNext(m.counter_nextNum)
              setCurrent(m.counter_currentNum)
+             
            })
            
             
@@ -70,6 +71,7 @@ export default function Queuedisplay(props) {
           Socket.on('getqueuenum2',(m)=>{
              setNext(m.counter_nextNum)
              setCurrent(m.counter_currentNum)
+             
            })
            
 
@@ -79,6 +81,7 @@ export default function Queuedisplay(props) {
           Socket.on('getqueuenum3',(m)=>{
              setNext(m.counter_nextNum)
              setCurrent(m.counter_currentNum)
+           
            })
            
 
