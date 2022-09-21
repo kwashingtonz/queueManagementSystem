@@ -79,6 +79,8 @@ export const createIssue =async (req:Request,res:Response) =>{
    
     try {
 
+        const remNoti = await Notification.delete({user: req.body.userId})
+
         const result = await Issue.delete({user: req.body.userId})
 
         if(result.affected ===0){
