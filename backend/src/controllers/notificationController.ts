@@ -10,19 +10,19 @@ export const getNotifications =async (req:Request,res:Response) =>{
         const currentIssue = await AppDataSource.getRepository(Issue)
         .createQueryBuilder("issue")
         .where("issue.userId = :user", {user: req.body.userId})
-        .andWhere("issue.isDone = :done", {done : 0})
+        .andWhere("issue.isCalled = :called", {called : true})
+        .andWhere("issue.isDone = :done", {done : false})
         .getOne()
 
         const notificationRepository = await AppDataSource.getRepository(Notification)
         .createQueryBuilder("notification")
+        .loadAllRelationIds()
         .where("notification.userId = :user", { user: req.body.userId })
         .where("notification.issueId = :issue", { issue: currentIssue?.id})
         .orderBy("notification.id", "DESC")
         .getManyAndCount()
         
-        res.json({
-            notifications: notificationRepository
-        })
+        res.json(notificationRepository)
  
 
     } catch (error) {

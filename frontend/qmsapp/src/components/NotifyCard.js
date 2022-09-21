@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const Notifycard = (props) => {
 
-    const { id, type } = props.notification;
+    const { id, message } = props.notification;
     return (
      <Card id="id"  border="primary" style={{ width: '45rem' }} key={id}>
     
@@ -14,11 +14,7 @@ const Notifycard = (props) => {
         </Badge>
     </Card.Title>
   <Card.Body>
-     <h6 id='issuename'>{type}</h6>
-   
-
-    
-    
+     <h6 id='issuename'>{message}</h6>
   </Card.Body>
      </Card>
     );

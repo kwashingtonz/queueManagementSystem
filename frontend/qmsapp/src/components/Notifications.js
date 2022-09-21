@@ -6,6 +6,7 @@ import {io} from 'socket.io-client'
 import Socket from './Socket';
 import NotifyCard from './NotifyCard';
 import { ToastContainer, toast } from 'react-toastify';
+import axios,{BASE_URL} from '../api/axios';
 import 'react-toastify/dist/ReactToastify.css';
 
 
@@ -15,18 +16,47 @@ export default function Notifications() {
     const navigate = useNavigate();
     const [notifications, setNotifications] = useState([]);
     const [username,setUsername]=useState('')
+    const [nullvalue,setNull]=useState(false)
 
+    const Token=auth?.accessToken
+
+  const authAxios = axios.create({
+    baseURL: BASE_URL,
+    headers: {
+      Authorization :`Bearer ${Token}`
+    }
+  })
    
     useEffect(() => {
+
       setUsername(auth?.username)
 
-      Socket.on("getNotification", (data) => {
-        console.log(data)
-        //toast.success(data.type)
-        setNotifications((prev) => [...prev,data]);
+      const fetchNotification = async (page) => {
+        try {
+         
+         const response = await authAxios.get('nuser/getNotifications');
+         if(!response.data.length==0)
+         {  
+          setNotifications(response.data);
+        }
+         else{
+           setNull(true)
+         }
+        } catch (error) {
+               console.log(error);         
+        }
+      }
 
-        console.log(notifications)
-        localStorage.setItem('notifications',JSON.stringify(notifications))
+
+      
+
+      // Socket.on("getNotification", (data) => {
+      //   console.log(data)
+      //   //toast.success(data.type)
+      //   setNotifications((prev) => [...prev,data]);
+
+      //   console.log(notifications)
+      //   localStorage.setItem('notifications',JSON.stringify(notifications))
 
       //  toast.success(notifications, {
       //   position: "top-left",
@@ -39,8 +69,9 @@ export default function Notifications() {
       //   })
 
        
-      })
-    }, [Socket])
+      // })
+      fetchNotification();
+    }, [])
 
     
  
@@ -49,13 +80,13 @@ export default function Notifications() {
 
    
     
-    // const rendernotifylist = notifications.map((notification) =>(
-    //   <NotifyCard
-    //   notification={notification}
-    //   key={notification.id}
+    const rendernotifylist = notifications.map((notification) =>(
+      <NotifyCard
+      notification={notification}
+      key={notification.id}
     
-    //   />
-    // )) 
+      />
+    )) 
 
     
     //console.log(notifications)
@@ -114,60 +145,19 @@ export default function Notifications() {
            </Col> </Row>
                 <Row>
                     <Col md={{ span: 6, offset: 3 }}>
-                    <>{!nw==null? (  <section>
-             {nw.map((data,index)=>{
-              return(
-                <Card id="id"  border="primary" style={{ width: '45rem' }} key={index} >
-
-                <Card.Title>
-                    <Badge pill bg="primary">
-                    message
-                    </Badge>
-                </Card.Title>
-              <Card.Body>
-                 <h6 id='issuename'>{data.type}</h6>
-               
-            
-                
-                
-              </Card.Body>
-                 </Card>
-
-              )
-
-              })}</section>
-            ) : (
+                    <div className='issues'>
+    <>
+            {nullvalue ? (
                 <section>
-                  <div>
-      
-    
-      </div>
-                    {notifications.map((data,index)=>{
-                    return(
-                      <Card id="id"  border="primary" style={{ width: '45rem' }} key={index}>
-    
-                      <Card.Title>
-                          <Badge pill bg="primary">
-                          message
-                          </Badge>
-                      </Card.Title>
-                    <Card.Body>
-                 
-                       <h6 id='issuename'>{data.type}</h6>
-                     
-                  
-                      
-                      
-                    </Card.Body>
-                       </Card>
-
-                    )
-
-                    })}</section>
-            )}
-            </>
-
+                    <h3>No issues to display</h3>
                    
+                </section>
+            ) : (  
+              <section>
+              {rendernotifylist}
+              </section> )}
+    </>
+    </div>
                    
                     </Col>
                 </Row>
