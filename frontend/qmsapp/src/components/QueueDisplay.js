@@ -6,6 +6,8 @@ import useAuth from '../hooks/useAuth';
 import { Link } from 'react-router-dom';
 import axios ,{BASE_URL}from '../api/axios';
 import Socket from './Socket';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Queuedisplay(props) {
     const { auth } = useAuth();
@@ -45,9 +47,23 @@ export default function Queuedisplay(props) {
       setQueuenum(auth?.queue_num)
      }
       
-      
-      // console.log(auth?.queue_num)
-      // console.log(auth?.counter)
+      Socket.on("getNotification", (data) => {
+        console.log(data)
+     
+        if(data){
+          toast(data.type, {
+            position: "top-left",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            })
+        }
+
+       
+      })
 
         
        
@@ -161,6 +177,17 @@ export default function Queuedisplay(props) {
                 </Col>
             </Row>
         </Container>
+        <ToastContainer
+          position="bottom-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={true}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          />
         </section>
 
       ):queue_num === currentNum ?(
@@ -204,6 +231,17 @@ export default function Queuedisplay(props) {
                 </Col>
             </Row>
         </Container>
+        <ToastContainer
+          position="bottom-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={true}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          />
         </section> 
 
       ):(

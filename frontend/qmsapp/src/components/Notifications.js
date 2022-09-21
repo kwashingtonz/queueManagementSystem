@@ -50,26 +50,7 @@ export default function Notifications() {
 
       
 
-      // Socket.on("getNotification", (data) => {
-      //   console.log(data)
-      //   //toast.success(data.type)
-      //   setNotifications((prev) => [...prev,data]);
-
-      //   console.log(notifications)
-      //   localStorage.setItem('notifications',JSON.stringify(notifications))
-
-      //  toast.success(notifications, {
-      //   position: "top-left",
-      //   autoClose: 5000,
-      //   hideProgressBar: false,
-      //   closeOnClick: true,
-      //   pauseOnHover: true,
-      //   draggable: true,
-      //   progress: undefined,
-      //   })
-
-       
-      // })
+     
       fetchNotification();
     }, [])
 
@@ -88,37 +69,17 @@ export default function Notifications() {
       />
     )) 
 
-    
-    //console.log(notifications)
+  
     const logout = async () => {
         try {
 
-          //localStorage.clear();
+          localStorage.clear();
           setAuth();
         } 
        catch (error) {
               console.log(error);         
        }
       }
-      //console.log(notifications)
-      
-      // const displayNotification = ({ type,id }) => {
-      
-      //   return (
-      //     <Card id="id"  border="primary" style={{ width: '45rem' }} key={id}>
-        
-      //   <Card.Title>
-      //       <Badge pill bg="primary">
-      //       message:
-      //       </Badge>
-      //   </Card.Title>
-      // <Card.Body>
-      // <p id='issuename'>{type}</p>
-      // </Card.Body>
-      //    </Card>
-      //   );
-      // };
-
 
       // const notify = () => {
         
