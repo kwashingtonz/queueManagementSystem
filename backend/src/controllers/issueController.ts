@@ -252,6 +252,12 @@ export const issueDone =async (req:Request,res:Response) =>{
 
         if(!user)  return res.status(404).json({ message: "issue does not exists"})
 
+        const remNoti = await AppDataSource.getRepository(Notification)
+        .createQueryBuilder()
+        .delete()
+        .from(Notification)
+        .where("issue = :id", {id: id})
+        .execute()
         
         const issueRepository = await AppDataSource.getRepository(Issue)
         .createQueryBuilder()
@@ -283,6 +289,13 @@ export const getDoneNextIssue =async (req:Request,res:Response) =>{
         .update(Issue)
         .set({ isDone: true })
         .where("id = :id", { id: id })
+        .execute()
+
+        const remNoti = await AppDataSource.getRepository(Notification)
+        .createQueryBuilder()
+        .delete()
+        .from(Notification)
+        .where("issue = :id", {id: id})
         .execute()
  
         const counterRepository = await AppDataSource.getRepository(Counter)            

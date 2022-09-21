@@ -12,6 +12,7 @@ export const havingIssue =async (req:Request,res:Response) =>{
      const havingissue = await AppDataSource.getRepository(Issue) 
      .createQueryBuilder("issue")
      .where("userId = :id", { id: req.body.userId })
+     .andWhere("isDone = 0")
      .getOne()
      
     if(havingissue){

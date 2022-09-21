@@ -6,6 +6,7 @@ import useAuth from '../hooks/useAuth';
 import { useLocation,useParams } from 'react-router-dom';
 import axios,{BASE_URL} from '../api/axios';
 import { Link,useNavigate } from 'react-router-dom';
+import Socket from './Socket';
 
 
 
@@ -75,6 +76,13 @@ import { Link,useNavigate } from 'react-router-dom';
     if(res1.data==null)
     {setNulla(true)}
     else{
+
+      Socket.emit("sendNotification", {
+        receiverId:res1.data.user,
+        type:'Please proceed to the counter '+res1.data.counter+' now',
+        id:res1.data.id
+      });
+
       setIssue(res1.data);
     } 
     
@@ -84,8 +92,10 @@ import { Link,useNavigate } from 'react-router-dom';
           console.log(error);         
    }
   }
-  const logout = async () => {
+  const closecounter = async () => {
     try {
+
+      //call close counter api
       localStorage.clear();
       setAuth();
     } 
@@ -113,16 +123,18 @@ import { Link,useNavigate } from 'react-router-dom';
           
      Back
       </Button>
+        
+        
         </Col>
         <Col>
        
         <Card.Body id="profilename"  border="primary" style={{ width: '13rem' }}>
         <Badge pill bg="primary"><h6>{countname}</h6></Badge>
-    <Button id='logoutbtn' variant="outline-danger"
-      onClick={() => logout()}
-    >Logout</Button>
+        
         </Card.Body>
-      {/*   <Button id='closebtn' variant="danger">Close Counter</Button> */}
+        <Button id='closebtn' variant="danger"
+      onClick={() => closecounter()}
+    >Close Counter</Button>
         </Col>
       </Row>
                 <Row>

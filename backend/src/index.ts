@@ -98,10 +98,13 @@ const getUser = (receiverId:any) => {
             console.log('Id of the receiver',receiverId)
             console.log(getUser(receiverId))
       
-            io.to(receiver.socketId).emit("getNotification", {
-                id,
-                type
-            })
+            if(receiver){
+
+                io.to(receiver.socketId).emit("getNotification", {
+                    id,
+                    type
+                })
+            }
         })
 
 
