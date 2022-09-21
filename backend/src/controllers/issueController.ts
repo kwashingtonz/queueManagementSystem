@@ -316,6 +316,7 @@ export const getDoneNextIssue =async (req:Request,res:Response) =>{
         
         const nextissue = await AppDataSource.getRepository(Issue)
         .createQueryBuilder("issue")
+        .loadAllRelationIds()
         .where("issue.queueNo = :queueNo", { queueNo:counterRepository?.nextNum })
         .andWhere("issue.counterId = :counter", { counter:counterRepository?.id })
         .getOne()

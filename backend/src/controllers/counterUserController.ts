@@ -107,7 +107,7 @@ export const counterClose =async (req:Request,res:Response) =>{
         }
                
 
-        return res.json({message:"Counter closed"})
+        return res.json({message:"closed"})
      
     
     } catch (error) {

@@ -92,20 +92,7 @@ import Socket from './Socket';
           console.log(error);         
    }
   }
-  const closecounter = async () => {
-    try {
-
-      //call close counter api
-      localStorage.clear();
-      setAuth();
-    } 
-   catch (error) {
-          console.log(error);         
-   }
-  }
-
-
-
+  
 
     return (
         <div>
@@ -132,9 +119,6 @@ import Socket from './Socket';
         <Badge pill bg="primary"><h6>{countname}</h6></Badge>
         
         </Card.Body>
-        <Button id='closebtn' variant="danger"
-      onClick={() => closecounter()}
-    >Close Counter</Button>
         </Col>
       </Row>
                 <Row>

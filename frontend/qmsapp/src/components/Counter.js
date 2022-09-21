@@ -120,9 +120,12 @@ export default function Counter(props) {
   const closecounter = async () => {
     try {
 
-      //call close counter api
-      localStorage.clear();
-      setAuth();
+      const response = await authAxios.get('cuser/counterClose');
+      if(response.data.message === "closed"){
+        localStorage.clear();
+        setAuth();
+      }
+      
     } 
    catch (error) {
           console.log(error);         
