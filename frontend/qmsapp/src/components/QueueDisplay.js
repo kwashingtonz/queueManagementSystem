@@ -1,6 +1,5 @@
 import React,{useEffect,useState} from 'react'
-import {io} from 'socket.io-client'
-import { Col, Container,Row,Badge,Card,Button,Alert,Modal} from 'react-bootstrap'
+import { Col, Container,Row,Badge,Card,Button,Modal} from 'react-bootstrap'
 import { FaBell } from "react-icons/fa";
 import useAuth from '../hooks/useAuth';
 import { Link } from 'react-router-dom';
@@ -68,7 +67,7 @@ export default function Queuedisplay(props) {
         
        
         const id=props.counter||auth?.counter
-         //console.log(id)
+         
 
         if(id==1){
 

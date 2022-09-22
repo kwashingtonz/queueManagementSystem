@@ -95,10 +95,10 @@ export const loginUser =async (req:Request,res:Response) =>{
             .andWhere("issue.isDone = :isDone", { isDone: false })
             .getRawOne()
 
-            //console.log(issue)
+           
             if(issue){
                 const queue_num=issue.issue_counterId
-                //console.log(queue_num)
+                
                 res.cookie('jwt', token, {httpOnly: true, maxAge: 3 * 24 * 60 * 60 * 1000})
                 return res.json({'accessToken':token,'roleType':'normalUser','counter':issue.issue_counterId,'queue_num':issue.issue_queueNo,'userID':user.id})
             }

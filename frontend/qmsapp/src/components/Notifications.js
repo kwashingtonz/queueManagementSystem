@@ -1,13 +1,9 @@
 import React,{useEffect,useState} from 'react'
 import { Col, Container,Row,Badge,Card,Button} from 'react-bootstrap'
-import { Link,useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
-import {io} from 'socket.io-client'
-import Socket from './Socket';
 import NotifyCard from './NotifyCard';
-import { ToastContainer, toast } from 'react-toastify';
 import axios,{BASE_URL} from '../api/axios';
-import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function Notifications() {

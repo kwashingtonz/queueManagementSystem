@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/custom.css';
-import {Form,Badge,Button,Row,Col,Card} from 'react-bootstrap';
-import { FaBell } from "react-icons/fa";
+import {Form,Button,Row,Col,Card} from 'react-bootstrap';
 import useAuth from "../hooks/useAuth";
 import axios ,{BASE_URL}from '../api/axios';
 import QueueDisplay from './QueueDisplay';
@@ -89,8 +88,7 @@ export default function IssueInput() {
       const res = await authAxios.post('nuser/createIssue',
           JSON.stringify({ name:name,telephone:telephone,email:email,issue:issue }),
           {
-            headers: { 'Content-Type': 'application/json' }
-           // withCredentials: true
+            headers: { 'Content-Type': 'application/json' }        
         }
           
           );

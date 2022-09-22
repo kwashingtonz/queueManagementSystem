@@ -61,7 +61,6 @@ export const genarateQueueNum = async (req:Request,res:Response,next:NextFunctio
             freequeue=3
         } 
         
-        //console.log(freequeue)
     
         const issueRepository = await AppDataSource.getRepository(Issue) 
         .createQueryBuilder("issue")
@@ -76,7 +75,7 @@ export const genarateQueueNum = async (req:Request,res:Response,next:NextFunctio
             issueRepository.max+=1;
         }
     
-        //res.json(issueRepository.max)
+
         req.body.queueNo=issueRepository.max
         req.body.counter= freequeue
     

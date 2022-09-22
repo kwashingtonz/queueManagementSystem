@@ -1,10 +1,10 @@
-import React,{useRef,Section,useState,useEffect} from 'react'
+import React,{useRef,useState,useEffect} from 'react'
 import axios from '../api/axios'
 import '../styles/custom.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import {Form,Button, Container} from 'react-bootstrap'
+import {Form,Button} from 'react-bootstrap'
 import useAuth from '../hooks/useAuth'
-import { Link,useLocation,useNavigate} from 'react-router-dom'
+import { useLocation,useNavigate} from 'react-router-dom'
 import Socket from './Socket'
 const LOGIN_URL = '/'
 
@@ -38,8 +38,7 @@ export default function Login() {
             const response = await axios.post(LOGIN_URL,
                 JSON.stringify({ username:username,password:password }),
                 {
-                    headers: { 'Content-Type': 'application/json' }
-                   // withCredentials: true
+                    headers: { 'Content-Type': 'application/json' }                  
                 }
             );
             console.log(JSON.stringify(response?.data))

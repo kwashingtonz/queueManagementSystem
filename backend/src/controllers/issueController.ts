@@ -87,9 +87,6 @@ export const createIssue =async (req:Request,res:Response) =>{
             return res.status(404).json({ message: "user does not exists"})
         } 
         
-        // res.cookie('jwt','',{ maxAge: 1 })
-        // req.body.userId = null
-
        return  res.json({message:"deleted"})
     
  
@@ -247,7 +244,7 @@ export const issueDone =async (req:Request,res:Response) =>{
     try {
     
         const {id}= req.params
-        //req.body.isCalled="true";
+        
         const user = await Issue.findOneBy({id: parseInt(req.params.id)})
 
         if(!user)  return res.status(404).json({ message: "issue does not exists"})

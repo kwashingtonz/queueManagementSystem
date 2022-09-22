@@ -1,5 +1,5 @@
 import React from "react";
-import {Badge,Button,Row,Col,Card,Container} from 'react-bootstrap';
+import {Badge,Button,Card} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 const Issuecard = (props) => {
@@ -18,12 +18,7 @@ const Issuecard = (props) => {
   <Card.Body>
      <h7 id='issuename'>{name}</h7>
      <h6>0{telephone}</h6>
-   {/* <Link to ={{
-      pathname:'/countercall',
-      state:{
-         issueid:3
-      }
-   }}> */}
+   
 
       <Link
           to={{ pathname: `/CounterCall/${id}`,
@@ -48,9 +43,7 @@ const Issuecard = (props) => {
    )
    }
       </>
-      </Link>
-   {/* </Link> */}
-   
+      </Link>  
     
   </Card.Body>
      </Card>

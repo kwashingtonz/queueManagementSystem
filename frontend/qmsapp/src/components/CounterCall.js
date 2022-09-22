@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/custom.css';
 import {Badge,Button,Row,Col,Card,Container} from 'react-bootstrap';
 import useAuth from '../hooks/useAuth';
-import { useLocation,useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axios,{BASE_URL} from '../api/axios';
 import { Link,useNavigate } from 'react-router-dom';
 import Socket from './Socket';

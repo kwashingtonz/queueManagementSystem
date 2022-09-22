@@ -1,19 +1,11 @@
-import { useContext ,useDebugValue,useEffect} from "react";
+import { useContext ,useDebugValue} from "react";
 import AuthContext from "../context/AuthProvider";
 
 
 const useAuth = () => {
-    const { auth,setAuth} = useContext(AuthContext)
-
-    /* useEffect(()=>{
-
-     const data =JSON.parse(localStorage.getItem('user'))
-         
-      setAuth(data)
-    console.log(data)
-      },[]) */
+    const { auth } = useContext(AuthContext) //setAuth
     
-    useDebugValue(auth, auth => auth?.user ? "Logged In" : "Logged Out")
+    useDebugValue(auth, auth => auth?.username ? "Logged In" : "Logged Out") //auth?.user
     return useContext(AuthContext);
 }
 

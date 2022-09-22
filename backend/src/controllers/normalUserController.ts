@@ -7,7 +7,7 @@ export const havingIssue =async (req:Request,res:Response) =>{
     
     try {
      const {id}= req.body.userId
-     //console.log(req.body.userId)
+    
      let haveIssue
      const havingissue = await AppDataSource.getRepository(Issue) 
      .createQueryBuilder("issue")

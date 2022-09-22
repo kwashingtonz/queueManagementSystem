@@ -1,6 +1,6 @@
 import React from "react";
-import {Badge,Button,Row,Col,Card,Container} from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import {Badge,Card} from 'react-bootstrap';
+
 
 const Notifycard = (props) => {
 

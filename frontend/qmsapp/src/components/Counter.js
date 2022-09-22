@@ -38,7 +38,7 @@ export default function Counter(props) {
       try {
         const res = await authAxios.put(`cuser/issueCalled/${id}`);
        console.log(res)
-       //const res1 = await authAxios.put(`api/cuser/nextissuecalled/${queue_num}`);
+       
        Socket.emit("sendNotification", {
         receiverId:uid,
         type:'Please proceed to the counter '+countnum+' now. Check your notifications!',
@@ -70,7 +70,6 @@ export default function Counter(props) {
           setNull(true)
         }
        
-       //console.log(response.data)
     
         setCountname(auth?.username)
         setCountnum(auth?.counterInfo.id)

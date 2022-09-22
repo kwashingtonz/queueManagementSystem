@@ -1,10 +1,4 @@
-import { useEffect,useRef,useState } from 'react'
-
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-} from "react-router-dom";
+import { BrowserRouter,Routes,Route,} from "react-router-dom";
 
 import  Login  from './components/Login'
 import RequireAuth from './components/RequireAuth';
@@ -15,18 +9,8 @@ import Counter from './components/Counter';
 import CounterCall from './components/CounterCall';
 
 function App() {
-  const [username, setUsername] = useState("");
-  const [user, setUser] = useState("");
-  const [socket, setSocket] = useState(null);
+
   
-
-
-   /*  useEffect(() => {
-    Socket=(io("http://localhost:8000"))
-    Object.freeze(Socket)
-    //console.log(Socket.socketio)
-  }, []); */
-
 
   return (
     <BrowserRouter>
