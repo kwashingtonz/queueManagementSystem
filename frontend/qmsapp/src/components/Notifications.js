@@ -100,7 +100,7 @@ export default function Notifications() {
     <>
             {nullvalue ? (
                 <section>
-                    <h3>No issues to display</h3>
+                    <h3>No Notifications</h3>
                    
                 </section>
             ) : (  
