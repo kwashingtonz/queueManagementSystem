@@ -10,7 +10,7 @@ const LOGIN_URL = '/'
 
 export default function Login() {
   
-    const { setAuth } = useAuth()
+    const { auth,setAuth } = useAuth()
     const navigate = useNavigate()
     const location =useLocation()
     const from = "/issueinput"
@@ -25,6 +25,14 @@ export default function Login() {
 
     useEffect(()=> {
         userRef.current.focus()
+        console.log(auth)
+        if(auth){
+            if(auth.userType=="counterUser"){
+                navigate(from2)
+            }else{
+                navigate(from)
+            }
+        }
       },[])
       
       useEffect(()=>{
@@ -69,11 +77,11 @@ export default function Login() {
                 const receiverId =(response?.data?.userID) 
       
                 sessionStorage.setItem('user',JSON.stringify({ username,accessToken,counter,queue_num,userType }))
-                localStorage.setItem(username,JSON.stringify({ username,accessToken,counter,queue_num}))
+                localStorage.setItem(username,JSON.stringify({ username,accessToken,counter,queue_num,userType}))
                 console.log(JSON.stringify({ username,accessToken,counter,queue_num}))
 
                 Socket.emit("newUser", receiverId)
-                console.log(Socket)
+                console.log(userType)
                 
                 setAuth({username,accessToken,counter,queue_num,userType})
                 console.log(accessToken)
