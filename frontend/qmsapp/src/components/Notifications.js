@@ -66,9 +66,9 @@ export default function Notifications() {
   
     const logout = async () => {
         try {
-
-          sessionStorage.clear();
-          setAuth();
+          localStorage.removeItem(auth?.username)
+          sessionStorage.clear()
+          setAuth()
         } 
        catch (error) {
               console.log(error);         

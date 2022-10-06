@@ -107,11 +107,12 @@ export default function Queuedisplay(props) {
       const logout = async () => {
         try {
           
-          localStorage.clear();
+          localStorage.removeItem(auth?.username)
+          sessionStorage.clear()
           setAuth();
         } 
        catch (error) {
-              console.log(error);         
+              console.log(error)     
        }
       }
 

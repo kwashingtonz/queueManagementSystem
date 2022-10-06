@@ -73,8 +73,8 @@ export default function IssueInput() {
 
   const logout = async () => {
     try {
-
-      localStorage.clear();
+      sessionStorage.clear();
+      localStorage.removeItem(auth?.username);
       setAuth();
     } 
    catch (error) {

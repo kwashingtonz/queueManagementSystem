@@ -44,37 +44,38 @@ export default function Login() {
             console.log(JSON.stringify(response?.data))
      
             const accessToken=(response?.data?.accessToken)
-     
-            if(response?.data?.roleType == "counterUser"){
+            const userType = (response?.data?.roleType)
+
+            if(userType == "counterUser"){
                 const counterInfo =  response?.data?.counterinfo
                 const receiverId =(response?.data?.userID) 
       
-                sessionStorage.setItem('user',JSON.stringify({ username,accessToken,counterInfo }))
+                sessionStorage.setItem('user',JSON.stringify({ username,accessToken,counterInfo,userType}))
                 console.log(JSON.stringify({ username,accessToken,counterInfo }))
 
                 Socket.emit("newUser", receiverId)
                 console.log(Socket)
 
-                setAuth({ username,accessToken,counterInfo })
+                setAuth({ username,accessToken,counterInfo,userType })
                 setUsername('')
                 setPassword('')
                 navigate(from2,{replace :true})
       
             }
 
-            if(response?.data?.roleType == "normalUser"){
+            if(userType == "normalUser"){
                 const   counter=(response?.data?.counter)
                 const  queue_num=(response?.data?.queue_num)
                 const receiverId =(response?.data?.userID) 
       
-                sessionStorage.setItem('user',JSON.stringify({ username,accessToken,counter,queue_num}))
+                sessionStorage.setItem('user',JSON.stringify({ username,accessToken,counter,queue_num,userType }))
                 localStorage.setItem(username,JSON.stringify({ username,accessToken,counter,queue_num}))
                 console.log(JSON.stringify({ username,accessToken,counter,queue_num}))
 
                 Socket.emit("newUser", receiverId)
                 console.log(Socket)
                 
-                setAuth({username,accessToken,counter,queue_num})
+                setAuth({username,accessToken,counter,queue_num,userType})
                 console.log(accessToken)
       
                 navigate(from)
