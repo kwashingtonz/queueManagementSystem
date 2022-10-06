@@ -103,6 +103,15 @@ export default function Counter(props) {
  }   
 
 
+ Socket.off("refresh").on("refresh", (data) => {
+    const refresh = data.ref
+    if(refresh==1)
+    {
+      window.location.reload()
+    }
+})
+
+
   const nextpage = async ()=>{
 
     fetchIssuesPage(page+1)
@@ -121,7 +130,7 @@ export default function Counter(props) {
 
       const response = await authAxios.get('cuser/counterClose');
       if(response.data.message === "closed"){
-        localStorage.clear();
+        sessionStorage.clear();
         setAuth();
       }
       

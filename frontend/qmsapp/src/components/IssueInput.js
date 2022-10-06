@@ -6,6 +6,7 @@ import useAuth from "../hooks/useAuth";
 import axios ,{BASE_URL}from '../api/axios';
 import QueueDisplay from './QueueDisplay';
 import { useNavigate} from 'react-router-dom';
+import Socket from './Socket';
 
 export default function IssueInput() {
  
@@ -43,6 +44,9 @@ export default function IssueInput() {
         }
         else{
           SetSendissue(true)
+          setCounter(res.data.issue.counter)
+          setQueuenum(res.data.issue.queueNo)
+          console.log(queuenum)
         }
         
        setUsername(auth?.username)
@@ -73,7 +77,7 @@ export default function IssueInput() {
 
   useEffect(()=>{
 
-    const data =JSON.parse(localStorage.getItem('user'))
+    const data =JSON.parse(localStorage.getItem(auth?.username))
          
     setAuth(data)
   },[])
@@ -97,10 +101,15 @@ export default function IssueInput() {
           setIssue('')
           setName('')
           setTelephone('')
-         
+          
           setCounter(res.data.counter)
           setQueuenum(res.data.queueNo)
+
           SetSendissue(true)
+
+          Socket.emit("refreshIssues", {
+            ref:1
+          });
 
       
 

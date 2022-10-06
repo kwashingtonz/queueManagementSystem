@@ -67,7 +67,7 @@ export default function Notifications() {
     const logout = async () => {
         try {
 
-          localStorage.clear();
+          sessionStorage.clear();
           setAuth();
         } 
        catch (error) {

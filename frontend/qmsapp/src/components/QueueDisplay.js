@@ -38,8 +38,8 @@ export default function Queuedisplay(props) {
      
      if(auth?.counter==undefined ||auth?.queue_num==undefined)
      {
-      setCounter(props.counter)
-      setQueuenum(props.queue_num)
+        setCounter(props.counter)
+        setQueuenum(props.queuenum)
      }
      else{
       setCounter(auth?.counter)
@@ -73,8 +73,7 @@ export default function Queuedisplay(props) {
 
           Socket.on('getqueuenum1',(m)=>{
              setNext(m.counter_nextNum)
-             setCurrent(m.counter_currentNum)
-             
+             setCurrent(m.counter_currentNum)             
            })
            
             
@@ -124,6 +123,9 @@ export default function Queuedisplay(props) {
          
           if(res.data.message==="deleted")
           {
+            Socket.emit("refreshIssues", {
+              ref:1
+            });
             window.location.reload()
           }
          

@@ -11,6 +11,7 @@ export const havingIssue =async (req:Request,res:Response) =>{
      let haveIssue
      const havingissue = await AppDataSource.getRepository(Issue) 
      .createQueryBuilder("issue")
+     .loadAllRelationIds()
      .where("userId = :id", { id: req.body.userId })
      .andWhere("isDone = 0")
      .getOne()
@@ -21,7 +22,7 @@ export const havingIssue =async (req:Request,res:Response) =>{
         haveIssue = 0
     }
 
-     res.json({havingIssue:haveIssue})  
+     res.json({havingIssue:haveIssue,issue:havingissue})  
  
      } catch (error) {
  

@@ -47,9 +47,13 @@ export default function Login() {
      
             if(response?.data?.roleType == "counterUser"){
                 const counterInfo =  response?.data?.counterinfo
+                const receiverId =(response?.data?.userID) 
       
-                localStorage.setItem('user',JSON.stringify({ username,accessToken,counterInfo }))
+                sessionStorage.setItem('user',JSON.stringify({ username,accessToken,counterInfo }))
                 console.log(JSON.stringify({ username,accessToken,counterInfo }))
+
+                Socket.emit("newUser", receiverId)
+                console.log(Socket)
 
                 setAuth({ username,accessToken,counterInfo })
                 setUsername('')
@@ -63,7 +67,8 @@ export default function Login() {
                 const  queue_num=(response?.data?.queue_num)
                 const receiverId =(response?.data?.userID) 
       
-                localStorage.setItem('user',JSON.stringify({ username,accessToken,counter,queue_num}))
+                sessionStorage.setItem('user',JSON.stringify({ username,accessToken,counter,queue_num}))
+                localStorage.setItem(username,JSON.stringify({ username,accessToken,counter,queue_num}))
                 console.log(JSON.stringify({ username,accessToken,counter,queue_num}))
 
                 Socket.emit("newUser", receiverId)
