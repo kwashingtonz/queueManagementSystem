@@ -132,6 +132,12 @@ export default function Counter(props) {
       if(response.data.message === "closed"){
         sessionStorage.clear();
         setAuth();
+        Socket.emit("refreshIssues", {
+          ref:1
+        });
+        Socket.emit("refreshDisplay", {
+          ref:1
+        });
       }
       
     } 

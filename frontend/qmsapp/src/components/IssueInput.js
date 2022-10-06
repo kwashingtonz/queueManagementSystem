@@ -61,6 +61,14 @@ export default function IssueInput() {
     
     fetchuser();
   },[])
+
+  Socket.off("refreshDis").on("refreshDis", (data) => {
+    const refresh = data.ref
+    if(refresh==1)
+    {
+      window.location.reload()
+    }
+})
  
 
   const logout = async () => {
