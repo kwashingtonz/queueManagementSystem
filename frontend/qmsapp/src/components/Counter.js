@@ -5,6 +5,7 @@ import {Badge,Button,Row,Col,Card,Container,Modal} from 'react-bootstrap';
 import useAuth from '../hooks/useAuth';
 import axios,{BASE_URL} from '../api/axios';
 import Issuecard from './IssueCard';
+import { useNavigate} from 'react-router-dom';
 import Socket from './Socket';
 
 export default function Counter(props) {
@@ -21,6 +22,7 @@ export default function Counter(props) {
    const [page,setPage]=useState(1)
    const [lp,setLP]=useState()
    const [show,setShow]=useState(false)
+   const navigate = useNavigate();
   
   
 
@@ -51,6 +53,14 @@ export default function Counter(props) {
        }
     };
     
+    useEffect(()=> {
+  
+      if(auth){
+          if(auth.userType!="counterUser"){
+              navigate("/issueinput")
+          }
+      }
+    },[])
   
 
     

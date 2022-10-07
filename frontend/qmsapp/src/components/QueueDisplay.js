@@ -2,7 +2,7 @@ import React,{useEffect,useState} from 'react'
 import { Col, Container,Row,Badge,Card,Button,Modal} from 'react-bootstrap'
 import { FaBell } from "react-icons/fa";
 import useAuth from '../hooks/useAuth';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios ,{BASE_URL}from '../api/axios';
 import Socket from './Socket';
 import { ToastContainer, toast } from 'react-toastify';
@@ -17,6 +17,7 @@ export default function Queuedisplay(props) {
     const [queue_num,setQueuenum]=useState('')
     const [username,setUsername]=useState('')
     const [show,setShow]=useState(false)
+    const navigate = useNavigate()
 
 
   const Token=auth?.accessToken
@@ -32,6 +33,14 @@ export default function Queuedisplay(props) {
     setShow(false)
   }
 
+  useEffect(()=> {
+  
+    if(auth){
+        if(auth.userType!="normalUser"){
+            navigate("/counter")
+        }
+    }
+  },[])
 
     useEffect(() =>{
       setUsername(auth?.username)

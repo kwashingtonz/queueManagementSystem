@@ -23,6 +23,15 @@ export default function Notifications() {
     }
   })
    
+  useEffect(()=> {
+  
+    if(auth){
+        if(auth.userType!="normalUser"){
+            navigate("/counter")
+        }
+    }
+  },[])
+
     useEffect(() => {
 
       setUsername(auth?.username)
