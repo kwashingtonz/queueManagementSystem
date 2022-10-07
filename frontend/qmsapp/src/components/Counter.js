@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/custom.css';
-import {Badge,Button,Row,Col,Card,Container} from 'react-bootstrap';
+import {Badge,Button,Row,Col,Card,Container,Modal} from 'react-bootstrap';
 import useAuth from '../hooks/useAuth';
 import axios,{BASE_URL} from '../api/axios';
 import Issuecard from './IssueCard';
@@ -20,6 +20,7 @@ export default function Counter(props) {
    const [counter,setCounter]=useState(true)
    const [page,setPage]=useState(1)
    const [lp,setLP]=useState()
+   const [show,setShow]=useState(false)
   
   
 
@@ -124,6 +125,9 @@ export default function Counter(props) {
     setPage(page-1)
   }
 
+  const handleClose = () =>{
+    setShow(false)
+  }
 
   const closecounter = async () => {
     try {
@@ -137,12 +141,13 @@ export default function Counter(props) {
         });
         Socket.emit("refreshDisplay", {
           ref:1
-        });
+        });      
       }
       
     } 
    catch (error) {
-          console.log(error);         
+          console.log(error);
+          setShow(true)         
    }
   }
   
@@ -172,6 +177,17 @@ export default function Counter(props) {
     <Button id='closebtn' variant="danger"
       onClick={() => closecounter()}
     >Close Counter</Button>
+    <Modal show={show}>
+        <Modal.Header closeButton>
+          <Modal.Title>Can't Close Counter</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>No Online Counters Available (Finish the issues or wait for a counter to be online)</Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={handleClose}>
+            OK
+          </Button>
+        </Modal.Footer>
+      </Modal> 
     </Col>
   </Row>
     <Row>

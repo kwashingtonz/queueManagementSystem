@@ -16,13 +16,24 @@ export const counterClose =async (req:Request,res:Response) =>{
         .getOne()
 
 
-        const counterRepository = await AppDataSource.getRepository(Counter)     
+        const onlineavail = await AppDataSource.getRepository(Counter) 
         .createQueryBuilder("counter")
-        .update(Counter)
-        .set({ isOnline: false })
-        .where("counter.userId = :user", { user: userIdentity })
-        .execute()
+        .select("COUNT(counter.id)","count")
+        .where("isOnline = :online", { online: true })
+        .getRawOne()
 
+        console.log(onlineavail.count)
+
+        if(onlineavail.count>1){
+            const counterRepository = await AppDataSource.getRepository(Counter)     
+            .createQueryBuilder("counter")
+            .update(Counter)
+            .set({ isOnline: false })
+            .where("counter.userId = :user", { user: userIdentity })
+            .execute()
+        }else{
+            return  res.status(500).json({message:'No counter available'})
+        }
 
         let countissue:number[]=[]
    
