@@ -42,8 +42,14 @@ export default function Queuedisplay(props) {
         setQueuenum(props.queuenum)
      }
      else{
-      setCounter(auth?.counter)
-      setQueuenum(auth?.queue_num)
+        if(props.counter==undefined || props.queuenum==undefined){
+          setCounter(auth?.counter)
+          setQueuenum(auth?.queue_num)
+        }else{
+          setCounter(props.counter)
+          setQueuenum(props.queuenum)
+        }
+        
      }
       
       Socket.off("getNotification").on("getNotification", (data) => {
