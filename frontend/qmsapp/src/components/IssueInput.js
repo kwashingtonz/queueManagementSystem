@@ -82,12 +82,21 @@ export default function IssueInput() {
    }
   }
 
+  useEffect(()=> {
+  
+    if(auth){
+        if(auth.userType!="normalUser"){
+            navigate("/counter")
+        }
+    }
+  },[])
 
   useEffect(()=>{
 
     const data =JSON.parse(localStorage.getItem(auth?.username))
-         
-    setAuth(data)
+    if(data){
+      setAuth(data)
+    }
   },[])
   
   
