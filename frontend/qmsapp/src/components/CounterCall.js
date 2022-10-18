@@ -101,7 +101,7 @@ import Socket from './Socket';
       
       Socket.emit("sendNotification", {
         receiverId:res1.data.nextissue.user,
-        type:'Please proceed to the counter '+res1.data.counter+' now. Check you Notifications!',
+        type:'Please proceed to the counter '+res1.data.nextissue.counter+' now. Check you Notifications!',
         id:res1.data.nextissue.id
       });
 
