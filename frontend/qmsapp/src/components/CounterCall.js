@@ -93,9 +93,11 @@ import Socket from './Socket';
       ref:1
     });
 
-    if(res1.data.nextissue==null)
-    {setNulla(true)}
-    else{
+    if(res1.data.nextissue==null){
+      
+      setNulla(true)
+
+    }else{
       
       Socket.emit("sendNotification", {
         receiverId:res1.data.nextissue.user,
