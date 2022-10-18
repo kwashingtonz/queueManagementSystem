@@ -21,15 +21,15 @@ export const loginUser =async (req:Request,res:Response) =>{
        const role = user.role.id
   
         if(role == 1){
-             //counter info
-            const counterinfo = await AppDataSource.getRepository(Counter) 
-            .createQueryBuilder("counter")
-            .where("counter.user = :user", { user: user.id })
-            .andWhere("counter.isOnline = :online", { online: 0 })
-            .getOne()
+            //  //counter info
+            // const counterinfo = await AppDataSource.getRepository(Counter) 
+            // .createQueryBuilder("counter")
+            // .where("counter.user = :user", { user: user.id })
+            // .andWhere("counter.isOnline = :online", { online: 0 })
+            // .getOne()
             
 
-            if(!counterinfo){
+            // if(!counterinfo){
 
                 const newcounter = await AppDataSource.getRepository(Counter) 
                 .createQueryBuilder("counter")
@@ -58,29 +58,29 @@ export const loginUser =async (req:Request,res:Response) =>{
 
                 return res.json({'accessToken':token,'roleType':'counterUser','counterinfo':newcounter,'userID':user.id})
 
-            }else{
+            // }else{
 
-                 const updateCounter = await AppDataSource
-                .createQueryBuilder()
-                .update(Counter)
-                .set({
-                     user:user,
-                     isOnline : true
-                    })
-                .where("id = :counter", {counter: counterinfo.id})
-                .execute()
+            //      const updateCounter = await AppDataSource
+            //     .createQueryBuilder()
+            //     .update(Counter)
+            //     .set({
+            //          user:user,
+            //          isOnline : true
+            //         })
+            //     .where("id = :counter", {counter: counterinfo.id})
+            //     .execute()
 
-                counterinfo.isOnline=true
+            //     counterinfo.isOnline=true
  
-                const token= jwt.sign({id :user.id }, process.env.TOKEN_SECRET|| 'tokentest')
+            //     const token= jwt.sign({id :user.id }, process.env.TOKEN_SECRET|| 'tokentest')
 
-                res.cookie('jwt', token, {httpOnly: true, maxAge: 3 * 24 * 60 * 60 * 1000})
+            //     res.cookie('jwt', token, {httpOnly: true, maxAge: 3 * 24 * 60 * 60 * 1000})
 
-                req.body.counterId = counterinfo.id
+            //     req.body.counterId = counterinfo.id
 
-                return res.json({'accessToken':token,'roleType':'counterUser','counterinfo':counterinfo,'userID':user.id})
+            //     return res.json({'accessToken':token,'roleType':'counterUser','counterinfo':counterinfo,'userID':user.id})
             
-            }
+            // }
         
         }else{
             
