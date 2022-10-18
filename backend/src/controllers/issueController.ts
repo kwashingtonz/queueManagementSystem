@@ -249,6 +249,12 @@ export const issueDone =async (req:Request,res:Response) =>{
 
         if(!user)  return res.status(404).json({ message: "issue does not exists"})
 
+        const userid = await AppDataSource.getRepository(Issue)
+        .createQueryBuilder("issue")
+        .loadAllRelationIds()
+        .where("id = :uid",{uid: user.id})
+        .getOne()
+
         const remNoti = await AppDataSource.getRepository(Notification)
         .createQueryBuilder()
         .delete()
@@ -263,7 +269,7 @@ export const issueDone =async (req:Request,res:Response) =>{
         .where("id = :id", { id: id })
         .execute()
 
-        return res.json({message:"successfully updated"})
+        return res.json({userid})
 
     } catch (error) {
  
@@ -280,6 +286,12 @@ export const getDoneNextIssue =async (req:Request,res:Response) =>{
     try {
  
         const {id}= req.params;
+
+        const userid = await AppDataSource.getRepository(Issue)
+        .createQueryBuilder("issue")
+        .loadAllRelationIds()
+        .where("id = :id",{id: id})
+        .getOne()
          
         const issueRepository = await AppDataSource.getRepository(Issue)
         .createQueryBuilder()
@@ -326,7 +338,7 @@ export const getDoneNextIssue =async (req:Request,res:Response) =>{
 
             const savedissue = await notifyNext.save()
         
-       
+    
                 
                 
         const nextnum = await AppDataSource.getRepository(Issue)
@@ -356,7 +368,7 @@ export const getDoneNextIssue =async (req:Request,res:Response) =>{
                 
         console.log(counterassign)
              
-        res.json(nextissue)
+        res.json({nextissue,userid})
         }
         else{
             res.json({message: 'No issue'})

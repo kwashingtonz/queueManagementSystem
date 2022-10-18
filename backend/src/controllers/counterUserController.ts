@@ -28,7 +28,7 @@ export const counterClose =async (req:Request,res:Response) =>{
             const counterRepository = await AppDataSource.getRepository(Counter)     
             .createQueryBuilder("counter")
             .update(Counter)
-            .set({ isOnline: false })
+            .set({ isOnline: false, currentNum: 0, nextNum: 1 })
             .where("counter.userId = :user", { user: userIdentity })
             .execute()
 
@@ -129,7 +129,7 @@ export const counterClose =async (req:Request,res:Response) =>{
                 const counterRepository = await AppDataSource.getRepository(Counter)     
                 .createQueryBuilder("counter")
                 .update(Counter)
-                .set({ isOnline: false })
+                .set({ isOnline: false, currentNum: 0, nextNum: 1 })
                 .where("counter.userId = :user", { user: userIdentity })
                 .execute()
 

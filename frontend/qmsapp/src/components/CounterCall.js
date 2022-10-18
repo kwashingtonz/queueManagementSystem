@@ -70,7 +70,13 @@ import Socket from './Socket';
   const issuedone = async (id) => {
     try {
     const res = await authAxios.get(`cuser/issueDone/${id}`);
-   console.log(res.data)
+    console.log(res.data.userid.user)
+
+    Socket.emit("resetUser", {
+      receiverId:res.data.userid.user,
+      ref:1
+    });
+
    window.location.reload()
    } 
    catch (error) {
@@ -82,17 +88,22 @@ import Socket from './Socket';
     try {
     const res1 = await authAxios.put(`cuser/getDoneNextissue/${id}`);
    
-    if(res1.data==null)
+    Socket.emit("resetUser", {
+      receiverId:res1.data.userid.user,
+      ref:1
+    });
+
+    if(res1.data.nextissue==null)
     {setNulla(true)}
     else{
-
+      
       Socket.emit("sendNotification", {
-        receiverId:res1.data.user,
+        receiverId:res1.data.nextissue.user,
         type:'Please proceed to the counter '+res1.data.counter+' now. Check you Notifications!',
-        id:res1.data.id
+        id:res1.data.nextissue.id
       });
 
-      setIssue(res1.data);
+      setIssue(res1.data.nextissue);
     } 
     
   

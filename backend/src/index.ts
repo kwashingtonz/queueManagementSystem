@@ -107,6 +107,17 @@ const getUser = (receiverId:any) => {
             }
         })
 
+        socket.on("resetUser",({receiverId,ref}) =>{
+            const receiver = getUser(receiverId)
+
+            if(receiver){
+
+                io.to(receiver.socketId).emit("refreshUser", {
+                    ref
+                })
+            }
+        })
+
 
         socket.on("refreshIssues",({ref})=>{
             io.emit("refresh",{

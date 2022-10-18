@@ -79,6 +79,15 @@ export default function Queuedisplay(props) {
        
       })
 
+
+      Socket.off("refreshUser").on("refreshUser", (data) => {
+        const refresh = data.ref
+        if(refresh==1)
+        {
+          window.location.reload()
+        }
+    })
+
         
        
         const id=props.counter||auth?.counter
