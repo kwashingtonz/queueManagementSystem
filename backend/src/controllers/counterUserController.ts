@@ -113,6 +113,14 @@ export const counterClose =async (req:Request,res:Response) =>{
                 .execute()
 
             }
+
+            const remDoneIssues = await AppDataSource.getRepository(Issue)
+            .createQueryBuilder()
+            .delete()
+            .from(Issue)
+            .where("issue.counterId = :id", {id: skipcounter?.id})
+            .andWhere("issue.isDone = :done", {done: true})
+            .execute()
                 
             return res.json({message:"closed"})
 
@@ -131,6 +139,14 @@ export const counterClose =async (req:Request,res:Response) =>{
                 .update(Counter)
                 .set({ isOnline: false, currentNum: 0, nextNum: 1 })
                 .where("counter.userId = :user", { user: userIdentity })
+                .execute()
+
+                const remDoneIssues = await AppDataSource.getRepository(Issue)
+                .createQueryBuilder()
+                .delete()
+                .from(Issue)
+                .where("issue.counterId = :id", {id: skipcounter?.id})
+                .andWhere("issue.isDone = :done", {done: true})
                 .execute()
 
                 return res.json({message:"closed"})
