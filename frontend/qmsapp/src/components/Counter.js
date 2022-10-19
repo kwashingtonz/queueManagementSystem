@@ -68,6 +68,8 @@ export default function Counter(props) {
 
   useEffect(() => {
 
+    Socket.emit("newUser", auth?.receiverId)
+
     const fetchIssues = async (page) => {
        try {
         
