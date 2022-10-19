@@ -58,13 +58,13 @@ export default function Login() {
                 const counterInfo =  response?.data?.counterinfo
                 const receiverId =(response?.data?.userID) 
       
-                sessionStorage.setItem('user',JSON.stringify({ username,accessToken,counterInfo,userType}))
+                sessionStorage.setItem('user',JSON.stringify({ username,accessToken,counterInfo,userType,receiverId }))
                 console.log(JSON.stringify({ username,accessToken,counterInfo }))
 
                 Socket.emit("newUser", receiverId)
                 console.log(Socket)
 
-                setAuth({ username,accessToken,counterInfo,userType })
+                setAuth({ username,accessToken,counterInfo,userType,receiverId })
                 setUsername('')
                 setPassword('')
                 navigate(from2,{replace :true})
@@ -76,14 +76,14 @@ export default function Login() {
                 const  queue_num=(response?.data?.queue_num)
                 const receiverId =(response?.data?.userID) 
       
-                sessionStorage.setItem('user',JSON.stringify({ username,accessToken,counter,queue_num,userType }))
-                localStorage.setItem(username,JSON.stringify({ username,accessToken,counter,queue_num,userType}))
+                sessionStorage.setItem('user',JSON.stringify({ username,accessToken,counter,queue_num,userType,receiverId }))
+                localStorage.setItem(username,JSON.stringify({ username,accessToken,counter,queue_num,userType,receiverId}))
                 console.log(JSON.stringify({ username,accessToken,counter,queue_num}))
 
                 Socket.emit("newUser", receiverId)
                 console.log(userType)
                 
-                setAuth({username,accessToken,counter,queue_num,userType})
+                setAuth({username,accessToken,counter,queue_num,userType,receiverId})
                 console.log(accessToken)
       
                 navigate(from)

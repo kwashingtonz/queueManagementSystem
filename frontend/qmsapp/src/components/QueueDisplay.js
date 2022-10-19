@@ -43,6 +43,9 @@ export default function Queuedisplay(props) {
   },[])
 
     useEffect(() =>{
+
+      Socket.emit("newUser", auth?.receiverId)
+
       setUsername(auth?.username)
      
      if(auth?.counter==undefined ||auth?.queue_num==undefined)
